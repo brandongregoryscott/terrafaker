@@ -1,20 +1,21 @@
-terrafaker
-=================
+# terrafaker
 
 CLI for easily generating terraform files and repos
-
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/terrafaker.svg)](https://npmjs.org/package/terrafaker)
 [![Downloads/week](https://img.shields.io/npm/dw/terrafaker.svg)](https://npmjs.org/package/terrafaker)
 
-
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
+
 # Usage
+
 <!-- usage -->
+
 ```sh-session
 $ npm install -g terrafaker
 $ terrafaker COMMAND
@@ -26,22 +27,26 @@ USAGE
   $ terrafaker COMMAND
 ...
 ```
+
 <!-- usagestop -->
+
 # Commands
+
 <!-- commands -->
-* [`terrafaker hello PERSON`](#terrafaker-hello-person)
-* [`terrafaker hello world`](#terrafaker-hello-world)
-* [`terrafaker help [COMMAND]`](#terrafaker-help-command)
-* [`terrafaker plugins`](#terrafaker-plugins)
-* [`terrafaker plugins add PLUGIN`](#terrafaker-plugins-add-plugin)
-* [`terrafaker plugins:inspect PLUGIN...`](#terrafaker-pluginsinspect-plugin)
-* [`terrafaker plugins install PLUGIN`](#terrafaker-plugins-install-plugin)
-* [`terrafaker plugins link PATH`](#terrafaker-plugins-link-path)
-* [`terrafaker plugins remove [PLUGIN]`](#terrafaker-plugins-remove-plugin)
-* [`terrafaker plugins reset`](#terrafaker-plugins-reset)
-* [`terrafaker plugins uninstall [PLUGIN]`](#terrafaker-plugins-uninstall-plugin)
-* [`terrafaker plugins unlink [PLUGIN]`](#terrafaker-plugins-unlink-plugin)
-* [`terrafaker plugins update`](#terrafaker-plugins-update)
+
+- [`terrafaker hello PERSON`](#terrafaker-hello-person)
+- [`terrafaker hello world`](#terrafaker-hello-world)
+- [`terrafaker help [COMMAND]`](#terrafaker-help-command)
+- [`terrafaker plugins`](#terrafaker-plugins)
+- [`terrafaker plugins add PLUGIN`](#terrafaker-plugins-add-plugin)
+- [`terrafaker plugins:inspect PLUGIN...`](#terrafaker-pluginsinspect-plugin)
+- [`terrafaker plugins install PLUGIN`](#terrafaker-plugins-install-plugin)
+- [`terrafaker plugins link PATH`](#terrafaker-plugins-link-path)
+- [`terrafaker plugins remove [PLUGIN]`](#terrafaker-plugins-remove-plugin)
+- [`terrafaker plugins reset`](#terrafaker-plugins-reset)
+- [`terrafaker plugins uninstall [PLUGIN]`](#terrafaker-plugins-uninstall-plugin)
+- [`terrafaker plugins unlink [PLUGIN]`](#terrafaker-plugins-unlink-plugin)
+- [`terrafaker plugins update`](#terrafaker-plugins-update)
 
 ## `terrafaker hello PERSON`
 
@@ -394,4 +399,5 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v5.4.54/src/commands/plugins/update.ts)_
+
 <!-- commandsstop -->
