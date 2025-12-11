@@ -1,73 +1,77 @@
 {
-  "author": "Brandon Scott",
-  "bin": {
-    "terrafaker": "./bin/run.js"
-  },
-  "bugs": "https://github.com/brandongregoryscott/terrafaker/issues",
-  "dependencies": {
-    "@oclif/core": "4.8.0",
-    "@oclif/plugin-help": "6.2.36",
-    "@oclif/plugin-plugins": "5.4.54"
-  },
-  "description": "CLI for easily generating terraform files and repos",
-  "devDependencies": {
-    "@eslint/compat": "1.4.1",
-    "@oclif/prettier-config": "0.2.1",
-    "@oclif/test": "4.1.15",
-    "@types/chai": "4.3.20",
-    "@types/mocha": "10.0.10",
-    "@types/node": "18.19.130",
-    "chai": "4.5.0",
-    "eslint": "9.39.1",
-    "eslint-config-oclif": "6.0.124",
-    "eslint-config-prettier": "10.1.8",
-    "mocha": "10.8.2",
-    "oclif": "4.22.54",
-    "shx": "0.3.4",
-    "ts-node": "10.9.2",
-    "typescript": "5.9.3"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "files": [
-    "./bin",
-    "./dist",
-    "./oclif.manifest.json"
-  ],
-  "homepage": "https://github.com/brandongregoryscott/terrafaker",
-  "keywords": [
-    "oclif"
-  ],
-  "license": "Apache-2.0",
-  "main": "dist/index.js",
-  "name": "terrafaker",
-  "oclif": {
-    "bin": "terrafaker",
-    "commands": "./dist/commands",
-    "dirname": "terrafaker",
-    "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
-    ],
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
+    "author": "Brandon Scott",
+    "bin": {
+        "terrafaker": "./bin/run.js"
     },
-    "topicSeparator": " "
-  },
-  "repository": "brandongregoryscott/terrafaker",
-  "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint",
-    "postpack": "shx rm -f oclif.manifest.json",
-    "posttest": "npm run lint",
-    "prepack": "oclif manifest && oclif readme",
-    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
-  },
-  "type": "module",
-  "types": "dist/index.d.ts",
-  "version": "0.0.0"
+    "bugs": "https://github.com/brandongregoryscott/terrafaker/issues",
+    "dependencies": {
+        "@oclif/core": "4.8.0",
+        "@oclif/plugin-help": "6.2.36",
+        "@oclif/plugin-plugins": "5.4.54"
+    },
+    "description": "CLI for easily generating terraform files and repos",
+    "devDependencies": {
+        "@eslint/compat": "1.4.1",
+        "@oclif/test": "4.1.15",
+        "@types/chai": "4.3.20",
+        "@types/mocha": "10.0.10",
+        "@types/node": "18.19.130",
+        "chai": "4.5.0",
+        "eslint": "9.39.1",
+        "eslint-config-oclif": "6.0.124",
+        "prettier": "3.6.1",
+        "mocha": "10.8.2",
+        "oclif": "4.22.54",
+        "shx": "0.3.4",
+        "ts-node": "10.9.2",
+        "typescript": "5.9.3"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "files": [
+        "./bin",
+        "./dist",
+        "./oclif.manifest.json"
+    ],
+    "homepage": "https://github.com/brandongregoryscott/terrafaker",
+    "keywords": [
+        "oclif"
+    ],
+    "license": "Apache-2.0",
+    "main": "dist/index.js",
+    "name": "terrafaker",
+    "oclif": {
+        "bin": "terrafaker",
+        "commands": "./dist/commands",
+        "dirname": "terrafaker",
+        "plugins": [
+            "@oclif/plugin-help",
+            "@oclif/plugin-plugins"
+        ],
+        "topics": {
+            "hello": {
+                "description": "Say hello to the world and others"
+            }
+        },
+        "topicSeparator": " "
+    },
+    "repository": "brandongregoryscott/terrafaker",
+    "scripts": {
+        "clean": "shx rm -rf dist tsconfig.tsbuildinfo",
+        "build": "npm run clean && tsc -b",
+        "build:watch": "npm run clean && tsc --watch",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "format": "prettier . --check",
+        "format:fix": "prettier . --write",
+        "postpack": "shx rm -f oclif.manifest.json",
+        "posttest": "npm run lint",
+        "prepack": "oclif manifest && oclif readme",
+        "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+        "version": "oclif readme && git add README.md"
+    },
+    "type": "module",
+    "types": "dist/index.d.ts",
+    "version": "0.0.0"
 }
