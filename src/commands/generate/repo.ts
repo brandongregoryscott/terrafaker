@@ -1,11 +1,9 @@
 import { Flags } from "@oclif/core";
-import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import path from "node:path";
-import { randomMemorableSlug } from "../../utilities/generators/generator-utils.js";
-import fs from "node:fs";
-import { execSync } from "node:child_process";
+import { generateRepo } from "../../utilities/generators/generator-utils.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import { formatFlag } from "../../utilities/flags.js";
+import $ from "dax-sh";
 
 class Repo extends BaseCommand {
     static flags = {
@@ -63,30 +61,18 @@ class Repo extends BaseCommand {
         const directory = path.resolve(process.cwd(), flags.directory);
 
         for (let i = 0; i < count; i++) {
-            const repoName = `${prefix}${randomMemorableSlug()}`;
-            const repoPath = path.join(directory, repoName);
-            fs.mkdirSync(repoPath);
-            execSync(`cd ${repoPath} && git init`);
-            this.log(`✅ Successfully generated repo ${repoPath}`);
-
-            for (let j = 0; j < fileCount; j++) {
-                const tfFilename = `${randomMemorableSlug()}.tf`;
-                const tfg = generateAwsFile({ resourceCount });
-
-                tfg.write({ format, dir: repoPath, tfFilename });
-
-                this.log(`✅ Successfully generated ${tfFilename}`);
-            }
-
-            execSync(
-                `cd ${repoPath} && git add . && git commit -m "initial commit"`
-            );
+            const { name, path } = await generateRepo({
+                directory,
+                fileCount,
+                format,
+                prefix,
+                provider: "aws",
+                resourceCount,
+                log: this.log.bind(this),
+            });
 
             if (createRemote) {
-                const remoteRepoUrl = execSync(
-                    `gh repo create ${repoName} --source ${repoName} ${isPublic ? "--public" : "--private"} --push`
-                );
-                this.log(`✅ Successfully pushed to ${remoteRepoUrl}`);
+                await $`gh repo create ${name} --source ${path} ${isPublic ? "--public" : "--private"} --push`;
             }
         }
     }

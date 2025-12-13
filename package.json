@@ -9,6 +9,7 @@
         "@inquirer/prompts": "8.0.2",
         "@oclif/core": "4.8.0",
         "@oclif/plugin-help": "6.2.36",
+        "dax-sh": "0.44.1",
         "lodash-es": "4.17.21",
         "terraform-generator": "6.4.4"
     },
