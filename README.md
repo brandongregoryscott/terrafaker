@@ -7,14 +7,16 @@ CLI for easily generating terraform files and repos
 [![Downloads/week](https://img.shields.io/npm/dw/terrafaker.svg)](https://npmjs.org/package/terrafaker)
 
 <!-- toc -->
-* [terrafaker](#terrafaker)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+
+- [terrafaker](#terrafaker)
+- [Usage](#usage)
+- [Commands](#commands)
+  <!-- tocstop -->
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g terrafaker
 $ terrafaker COMMAND
@@ -26,16 +28,18 @@ USAGE
   $ terrafaker COMMAND
 ...
 ```
+
 <!-- usagestop -->
 
 # Commands
 
 <!-- commands -->
-* [`terrafaker generate file`](#terrafaker-generate-file)
-* [`terrafaker generate repo`](#terrafaker-generate-repo)
-* [`terrafaker gh clone-repos`](#terrafaker-gh-clone-repos)
-* [`terrafaker gh delete-repos`](#terrafaker-gh-delete-repos)
-* [`terrafaker help [COMMAND]`](#terrafaker-help-command)
+
+- [`terrafaker generate file`](#terrafaker-generate-file)
+- [`terrafaker generate repo`](#terrafaker-generate-repo)
+- [`terrafaker gh clone-repos`](#terrafaker-gh-clone-repos)
+- [`terrafaker gh delete-repos`](#terrafaker-gh-delete-repos)
+- [`terrafaker help [COMMAND]`](#terrafaker-help-command)
 
 ## `terrafaker generate file`
 
@@ -131,4 +135,5 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
+
 <!-- commandsstop -->
