@@ -1,8 +1,8 @@
 import { Flags } from "@oclif/core";
-import { generateAwsFile } from "../utilities/generators/aws-generators.js";
-import { BaseCommand } from "../utilities/base-command.js";
+import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
+import { BaseCommand } from "../../utilities/base-command.js";
 
-class GenerateFile extends BaseCommand {
+class File extends BaseCommand {
     static flags = {
         name: Flags.string({
             description: "Name for the generated file, which must end in .tf",
@@ -17,7 +17,7 @@ class GenerateFile extends BaseCommand {
     };
 
     async run(): Promise<void> {
-        const { flags } = await this.parse(GenerateFile);
+        const { flags } = await this.parse(File);
 
         let tfFilename = flags.name ?? "main.tf";
         if (!tfFilename.endsWith(".tf")) {
@@ -32,4 +32,4 @@ class GenerateFile extends BaseCommand {
     }
 }
 
-export { GenerateFile };
+export { File };

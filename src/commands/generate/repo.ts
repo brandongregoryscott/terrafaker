@@ -1,12 +1,12 @@
 import { Flags } from "@oclif/core";
-import { generateAwsFile } from "../utilities/generators/aws-generators.js";
+import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import path from "node:path";
-import { randomMemorableSlug } from "../utilities/generators/generator-utils.js";
+import { randomMemorableSlug } from "../../utilities/generators/generator-utils.js";
 import fs from "node:fs";
 import { execSync } from "node:child_process";
-import { BaseCommand } from "../utilities/base-command.js";
+import { BaseCommand } from "../../utilities/base-command.js";
 
-class GenerateRepos extends BaseCommand {
+class Repo extends BaseCommand {
     static flags = {
         directory: Flags.string({
             description: "Directory to generate the repo(s) in",
@@ -54,7 +54,7 @@ class GenerateRepos extends BaseCommand {
     };
 
     async run(): Promise<void> {
-        const { flags } = await this.parse(GenerateRepos);
+        const { flags } = await this.parse(Repo);
         const {
             format,
             prefix,
@@ -97,4 +97,4 @@ class GenerateRepos extends BaseCommand {
     }
 }
 
-export { GenerateRepos };
+export { Repo };
