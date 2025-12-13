@@ -1,0 +1,24 @@
+name: Format
+
+on:
+  pull_request:
+    branches: ['*']
+  workflow_dispatch:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+          node-version: 24.8.0
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Format
+        run: npm run format
