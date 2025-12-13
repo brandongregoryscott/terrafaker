@@ -1,27 +1,33 @@
 {
     "author": "Brandon Scott",
     "bin": {
-        "terrafaker": "./bin/run.js"
+        "terrafaker": "./bin/run.js",
+        "tf": "./bin/run.js"
     },
     "bugs": "https://github.com/brandongregoryscott/terrafaker/issues",
     "dependencies": {
+        "@faker-js/faker": "10.1.0",
+        "@inquirer/prompts": "8.0.2",
         "@oclif/core": "4.8.0",
         "@oclif/plugin-help": "6.2.36",
-        "@oclif/plugin-plugins": "5.4.54"
+        "@oclif/plugin-plugins": "5.4.54",
+        "lodash-es": "4.17.21",
+        "terraform-generator": "6.4.4"
     },
-    "description": "CLI for easily generating terraform files and repos",
+    "description": "CLI for easily generating fake terraform files and repos",
     "devDependencies": {
         "@eslint/compat": "1.4.1",
         "@oclif/test": "4.1.15",
         "@types/chai": "4.3.20",
+        "@types/lodash-es": "4.17.12",
         "@types/mocha": "10.0.10",
         "@types/node": "18.19.130",
         "chai": "4.5.0",
         "eslint": "9.39.1",
         "eslint-config-oclif": "6.0.124",
-        "prettier": "3.6.1",
         "mocha": "10.8.2",
         "oclif": "4.22.54",
+        "prettier": "3.6.1",
         "shx": "0.3.4",
         "ts-node": "10.9.2",
         "typescript": "5.9.3"
