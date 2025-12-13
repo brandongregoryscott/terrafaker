@@ -24,12 +24,14 @@ This tool mostly exists to quickly seed data for testing out infrastructure-as-c
 - TODO: GCP
 - TODO: Azure
 
+<!-- prettier-ignore-start -->
 <!-- toc -->
 
 - [terrafaker](#terrafaker)
 - [Usage](#usage)
 - [Commands](#commands)
-  <!-- tocstop -->
+
+<!-- tocstop -->
 
 # Usage
 
@@ -155,3 +157,4 @@ DESCRIPTION
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
 
 <!-- commandsstop -->
+<!-- prettier-ignore-end -->
