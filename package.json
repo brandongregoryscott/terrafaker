@@ -1,8 +1,7 @@
 {
     "author": "Brandon Scott",
     "bin": {
-        "terrafaker": "./bin/run.js",
-        "tf": "./bin/run.js"
+        "terrafaker": "./bin/run.js"
     },
     "bugs": "https://github.com/brandongregoryscott/terrafaker/issues",
     "dependencies": {

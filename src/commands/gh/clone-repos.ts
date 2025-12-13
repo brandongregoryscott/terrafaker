@@ -3,10 +3,11 @@ import { execSync } from "node:child_process";
 import { confirm } from "@inquirer/prompts";
 import { isEmpty } from "lodash-es";
 import path from "node:path";
-import { listRepos, stringifyRepos } from "../utilities/github.js";
+import { listRepos, stringifyRepos } from "../../utilities/github.js";
+import { HELP_MESSAGES } from "../../constants/help-messages.js";
 
 class CloneRepos extends Command {
-    static description = `Clones repos from your Github account, useful for pulling down generated repos for manual modifications. Requires the \`gh\` CLI to be installed.`;
+    static description = `Clones repos from your Github account, useful for pulling down generated repos for manual modifications. ${HELP_MESSAGES.RequiresGhCli}`;
 
     static flags = {
         directory: Flags.string({
