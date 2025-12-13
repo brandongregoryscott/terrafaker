@@ -1,7 +1,7 @@
 import { Flags } from "@oclif/core";
 import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import { BaseCommand } from "../../utilities/base-command.js";
-import { formatFlag } from "../../utilities/flags.js";
+import { formatFlag, quietFlag } from "../../utilities/flags.js";
 import { success } from "../../utilities/string-utils.js";
 
 class File extends BaseCommand {
@@ -11,12 +11,15 @@ class File extends BaseCommand {
         }),
 
         format: formatFlag,
+
+        quiet: quietFlag,
     };
 
     async run(): Promise<void> {
         const { flags } = await this.parse(File);
+        const { name, quiet } = flags;
 
-        let tfFilename = flags.name ?? "main.tf";
+        let tfFilename = name ?? "main.tf";
         if (!tfFilename.endsWith(".tf")) {
             tfFilename = `${tfFilename}.tf`;
         }
@@ -25,7 +28,9 @@ class File extends BaseCommand {
 
         tfg.write({ format: flags.format, tfFilename });
 
-        this.log(success(`Successfully generated ${tfFilename}`));
+        if (!quiet) {
+            this.log(success(`Successfully generated ${tfFilename}`));
+        }
     }
 }
 

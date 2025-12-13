@@ -2,8 +2,9 @@ import { Flags } from "@oclif/core";
 import path from "node:path";
 import { generateRepo } from "../../utilities/generators/generator-utils.js";
 import { BaseCommand } from "../../utilities/base-command.js";
-import { formatFlag } from "../../utilities/flags.js";
+import { formatFlag, quietFlag } from "../../utilities/flags.js";
 import { $ } from "zx";
+import { HELP_MESSAGES } from "../../constants/help-messages.js";
 
 class Repo extends BaseCommand {
     static flags = {
@@ -36,14 +37,15 @@ class Repo extends BaseCommand {
         format: formatFlag,
 
         "create-remote": Flags.boolean({
-            description:
-                "Create and push a remote GitHub repo. Requires the `gh` CLI to be installed and authenticated.",
+            description: `Create and push a remote GitHub repo. ${HELP_MESSAGES.RequiresGhCli}`,
         }),
 
         public: Flags.boolean({
             description: "Whether the remote repo(s) created are public.",
             default: false,
         }),
+
+        quiet: quietFlag,
     };
 
     async run(): Promise<void> {
@@ -53,6 +55,7 @@ class Repo extends BaseCommand {
             prefix,
             count,
             public: isPublic,
+            quiet,
             "resource-count": resourceCount,
             "file-count": fileCount,
             "create-remote": createRemote,
@@ -68,7 +71,7 @@ class Repo extends BaseCommand {
                 prefix,
                 provider: "aws",
                 resourceCount,
-                quiet: true,
+                quiet,
             });
 
             if (createRemote) {

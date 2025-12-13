@@ -8,4 +8,9 @@ const formatFlag = Flags.boolean({
     allowNo: true,
 });
 
-export { formatFlag };
+const quietFlag = Flags.boolean({
+    char: "q",
+    description: "Suppress the logging output.",
+});
+
+export { formatFlag, quietFlag };
