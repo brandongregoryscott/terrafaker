@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { ux } from "@oclif/core";
 
 const slugify = (value: string): string =>
     faker.helpers.slugify(value).toLowerCase();
@@ -6,4 +7,6 @@ const slugify = (value: string): string =>
 const snakeSlugify = (value: string): string =>
     slugify(value).replaceAll("-", "_");
 
-export { slugify, snakeSlugify };
+const success = (message: string) => `${ux.colorize("green", "✓")} ${message}`;
+
+export { slugify, snakeSlugify, success };
