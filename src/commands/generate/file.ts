@@ -1,6 +1,7 @@
 import { Flags } from "@oclif/core";
 import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import { BaseCommand } from "../../utilities/base-command.js";
+import { formatFlag } from "../../utilities/flags.js";
 
 class File extends BaseCommand {
     static flags = {
@@ -8,12 +9,7 @@ class File extends BaseCommand {
             description: "Name for the generated file, which must end in .tf",
         }),
 
-        format: Flags.boolean({
-            description:
-                "Format the output terraform files. Requires `terraform` to be in your $PATH.",
-            default: true,
-            allowNo: true,
-        }),
+        format: formatFlag,
     };
 
     async run(): Promise<void> {

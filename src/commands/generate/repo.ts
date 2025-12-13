@@ -5,6 +5,7 @@ import { randomMemorableSlug } from "../../utilities/generators/generator-utils.
 import fs from "node:fs";
 import { execSync } from "node:child_process";
 import { BaseCommand } from "../../utilities/base-command.js";
+import { formatFlag } from "../../utilities/flags.js";
 
 class Repo extends BaseCommand {
     static flags = {
@@ -34,13 +35,7 @@ class Repo extends BaseCommand {
             default: "tf_",
         }),
 
-        format: Flags.boolean({
-            char: "f",
-            description:
-                "Format the output terraform files. Requires `terraform` to be in your $PATH.",
-            default: true,
-            allowNo: true,
-        }),
+        format: formatFlag,
 
         "create-remote": Flags.boolean({
             description:
