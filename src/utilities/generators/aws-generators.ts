@@ -1,11 +1,11 @@
 import { TerraformGenerator } from "terraform-generator";
+import type { ResourceGeneratorOptions } from "./generator-utils.js";
 import {
     randomEnvironmentTag,
     randomId,
     randomItem,
     randomMemorableSlug,
     randomServiceTag,
-    ResourceGeneratorOptions,
     unique,
 } from "./generator-utils.js";
 import {
