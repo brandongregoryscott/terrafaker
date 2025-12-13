@@ -17,6 +17,7 @@
     "devDependencies": {
         "@eslint/compat": "1.4.1",
         "@oclif/test": "4.1.15",
+        "@stylistic/eslint-plugin": "5.6.1",
         "@types/chai": "4.3.20",
         "@types/fs-extra": "11.0.4",
         "@types/lodash-es": "4.17.12",
@@ -24,13 +25,14 @@
         "@types/node": "24.10.3",
         "chai": "4.5.0",
         "eslint": "9.39.1",
-        "eslint-config-oclif": "6.0.124",
+        "eslint-plugin-collation": "1.5.0",
         "mocha": "10.8.2",
         "oclif": "4.22.54",
         "prettier": "3.6.1",
         "shx": "0.3.4",
         "ts-node": "10.9.2",
-        "typescript": "5.9.3"
+        "typescript": "5.9.3",
+        "typescript-eslint": "8.49.0"
     },
     "engines": {
         "node": ">=18.0.0"
