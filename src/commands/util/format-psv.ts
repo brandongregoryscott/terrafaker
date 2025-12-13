@@ -1,11 +1,15 @@
 import { Args } from "@oclif/core";
 import { first } from "lodash-es";
 import { BaseCommand } from "../../utilities/base-command.js";
+import { stringifySingleLineArray } from "../../utilities/string-utils.js";
 
 const EXAMPLE_INSTANCE_TYPES = ["m5.large", "m5.xlarge", "m5.2xlarge"];
 
 class FormatPsv extends BaseCommand {
     static hidden = true;
+
+    static description =
+        "Utility command for formatting a PSV (pipe-separated value) into an array or object with array values. Primarily used for parsing data from the AWS docs.";
 
     static args = {
         psv: Args.string({
@@ -42,9 +46,6 @@ If the string is multiple lines, it will be formatted into an object where the k
 
 const splitPsv = (psv: string): string[] =>
     psv.split("|").map((value) => value.trim());
-
-const stringifySingleLineArray = (values: string[]): string =>
-    `[${values.map((value) => `"${value}"`).join(", ")}]`;
 
 /**
  * In an effort to reduce the size of the AWS constants file, we're custom stringifying the object
