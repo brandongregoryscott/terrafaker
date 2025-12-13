@@ -1,7 +1,8 @@
-import { Command, Flags } from "@oclif/core";
+import { Flags } from "@oclif/core";
 import { generateAwsFile } from "../utilities/generators/aws-generators.js";
+import { BaseCommand } from "../utilities/base-command.js";
 
-class GenerateFile extends Command {
+class GenerateFile extends BaseCommand {
     static flags = {
         name: Flags.string({
             description: "Name for the generated file, which must end in .tf",

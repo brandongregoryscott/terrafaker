@@ -1,11 +1,12 @@
-import { Command, Flags } from "@oclif/core";
+import { Flags } from "@oclif/core";
 import { generateAwsFile } from "../utilities/generators/aws-generators.js";
 import path from "node:path";
 import { randomMemorableSlug } from "../utilities/generators/generator-utils.js";
 import fs from "node:fs";
 import { execSync } from "node:child_process";
+import { BaseCommand } from "../utilities/base-command.js";
 
-class GenerateRepos extends Command {
+class GenerateRepos extends BaseCommand {
     static flags = {
         directory: Flags.string({
             description: "Directory to generate the repo(s) in",

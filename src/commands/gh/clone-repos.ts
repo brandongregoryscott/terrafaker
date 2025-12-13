@@ -1,12 +1,13 @@
-import { Command, Flags } from "@oclif/core";
+import { Flags } from "@oclif/core";
 import { execSync } from "node:child_process";
 import { confirm } from "@inquirer/prompts";
 import { isEmpty } from "lodash-es";
 import path from "node:path";
 import { listRepos, stringifyRepos } from "../../utilities/github.js";
 import { HELP_MESSAGES } from "../../constants/help-messages.js";
+import { BaseCommand } from "../../utilities/base-command.js";
 
-class CloneRepos extends Command {
+class CloneRepos extends BaseCommand {
     static description = `Clones repos from your Github account, useful for pulling down generated repos for manual modifications. ${HELP_MESSAGES.RequiresGhCli}`;
 
     static flags = {
