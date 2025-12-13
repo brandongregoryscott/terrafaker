@@ -5,6 +5,8 @@ import { BaseCommand } from "../../utilities/base-command.js";
 const EXAMPLE_INSTANCE_TYPES = ["m5.large", "m5.xlarge", "m5.2xlarge"];
 
 class FormatPsv extends BaseCommand {
+    static hidden = true;
+
     static args = {
         psv: Args.string({
             required: true,

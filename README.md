@@ -31,38 +31,21 @@ USAGE
 # Commands
 
 <!-- commands -->
-* [`terrafaker generate`](#terrafaker-generate)
 * [`terrafaker generate file`](#terrafaker-generate-file)
 * [`terrafaker generate repo`](#terrafaker-generate-repo)
-* [`terrafaker gh`](#terrafaker-gh)
 * [`terrafaker gh clone-repos`](#terrafaker-gh-clone-repos)
 * [`terrafaker gh delete-repos`](#terrafaker-gh-delete-repos)
 * [`terrafaker help [COMMAND]`](#terrafaker-help-command)
-* [`terrafaker util`](#terrafaker-util)
-* [`terrafaker util format-psv PSV`](#terrafaker-util-format-psv-psv)
-
-## `terrafaker generate`
-
-Commands for generating terraform files.
-
-```
-USAGE
-  $ terrafaker generate
-
-DESCRIPTION
-  Commands for generating terraform files.
-```
-
-_See code: [src/commands/generate/index.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/generate/index.ts)_
 
 ## `terrafaker generate file`
 
 ```
 USAGE
-  $ terrafaker generate file [--name <value>] [-f]
+  $ terrafaker generate file [--name <value>] [-f] [-q]
 
 FLAGS
   -f, --[no-]format   Format the output terraform files. Requires `terraform` to be in your $PATH.
+  -q, --quiet         Suppress the logging output.
       --name=<value>  Name for the generated file, which must end in .tf
 ```
 
@@ -73,13 +56,14 @@ _See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscot
 ```
 USAGE
   $ terrafaker generate repo [--directory <value>] [--count <value>] [--file-count <value>] [--resource-count
-    <value>] [--prefix <value>] [-f] [--create-remote] [--public]
+    <value>] [--prefix <value>] [-f] [--create-remote] [--public] [-q]
 
 FLAGS
   -f, --[no-]format             Format the output terraform files. Requires `terraform` to be in your $PATH.
+  -q, --quiet                   Suppress the logging output.
       --count=<value>           [default: 1] Number of repos to generate
-      --create-remote           Create and push a remote GitHub repo. Requires the `gh` CLI to be installed and
-                                authenticated.
+      --create-remote           Create and push a remote GitHub repo. Requires the `gh` CLI to be installed. To install,
+                                run `brew install gh`.
       --directory=<value>       [default: .] Directory to generate the repo(s) in
       --file-count=<value>      [default: 3] Number of files per repo to generate
       --prefix=<value>          [default: tf_] Prefix for repo names, useful for quickly identifying generated content
@@ -88,20 +72,6 @@ FLAGS
 ```
 
 _See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/generate/repo.ts)_
-
-## `terrafaker gh`
-
-Utility commands that wrap the `gh` CLI. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
-
-```
-USAGE
-  $ terrafaker gh
-
-DESCRIPTION
-  Utility commands that wrap the `gh` CLI. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
-```
-
-_See code: [src/commands/gh/index.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/gh/index.ts)_
 
 ## `terrafaker gh clone-repos`
 
@@ -161,32 +131,4 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
-
-## `terrafaker util`
-
-Miscellaneous utility commands.
-
-```
-USAGE
-  $ terrafaker util
-
-DESCRIPTION
-  Miscellaneous utility commands.
-```
-
-_See code: [src/commands/util/index.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/util/index.ts)_
-
-## `terrafaker util format-psv PSV`
-
-```
-USAGE
-  $ terrafaker util format-psv PSV
-
-ARGUMENTS
-  PSV  Pipe-separated value to format into a string array, i.e. 'm5.large | m5.xlarge | m5.2xlarge'.
-       If the string is multiple lines, it will be formatted into an object where the key is the first column before a
-       tab, i.e. 'M5	m5.large | m5.xlarge | m5.2xlarge'
-```
-
-_See code: [src/commands/util/format-psv.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/util/format-psv.ts)_
 <!-- commandsstop -->
