@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { snakeSlugify } from "../string-utils.js";
-import { TerraformGenerator } from "terraform-generator";
+import type { TerraformGenerator } from "terraform-generator";
 import { ENVIRONMENT_TAGS, SERVICE_TAGS } from "../../constants/tags.js";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
@@ -108,10 +108,10 @@ interface GenerateRepoOptions {
     quiet?: boolean;
 }
 
-type GenerateRepoResult = {
+interface GenerateRepoResult {
     name: string;
     path: string;
-};
+}
 
 const generateRepo = async (
     options: GenerateRepoOptions
@@ -147,13 +147,13 @@ const generateRepo = async (
     return { name: repoName, path: repoPath };
 };
 
-export type { StringGenerator, ResourceGeneratorOptions };
+export type { ResourceGeneratorOptions, StringGenerator };
 export {
+    generateRepo,
+    randomEnvironmentTag,
     randomId,
     randomItem,
     randomMemorableSlug,
-    randomEnvironmentTag,
     randomServiceTag,
     unique,
-    generateRepo,
 };

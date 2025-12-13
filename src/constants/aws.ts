@@ -238,9 +238,9 @@ const AWS_INSTANCE_TYPES = flatten(
 const AWS_LAMBDA_RUNTIMES = ["nodejs24.x", "nodejs22.x", "nodejs20.x", "python3.14", "python3.13", "python3.12", "python3.11", "python3.10", "python3.9", "java25", "java21", "java17", "java11", "java8.al2", "dotnet9", "dotnet8", "ruby3.4", "ruby3.3", "ruby3.2", "provided.al2023", "provided.al2"];
 
 export {
-    AWS_REGIONS,
-    AWS_LAMBDA_RUNTIMES,
-    AWS_INSTANCE_TYPES_BY_FAMILY,
-    AWS_PREVIOUS_GENERATION_INSTANCE_TYPES_BY_FAMILY,
     AWS_INSTANCE_TYPES,
+    AWS_INSTANCE_TYPES_BY_FAMILY,
+    AWS_LAMBDA_RUNTIMES,
+    AWS_PREVIOUS_GENERATION_INSTANCE_TYPES_BY_FAMILY,
+    AWS_REGIONS,
 };

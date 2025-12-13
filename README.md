@@ -10,7 +10,7 @@ CLI for easily generating terraform files and repos
 
 - [Usage](#usage)
 - [Commands](#commands)
-  <!-- tocstop -->
+    <!-- tocstop -->
 
 # Usage
 
