@@ -2,6 +2,7 @@ import { Flags } from "@oclif/core";
 import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import { formatFlag } from "../../utilities/flags.js";
+import { success } from "../../utilities/string-utils.js";
 
 class File extends BaseCommand {
     static flags = {
@@ -24,7 +25,7 @@ class File extends BaseCommand {
 
         tfg.write({ format: flags.format, tfFilename });
 
-        this.log(`✅ Successfully generated ${tfFilename}`);
+        this.log(success(`Successfully generated ${tfFilename}`));
     }
 }
 

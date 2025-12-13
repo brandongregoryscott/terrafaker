@@ -4,8 +4,8 @@ import { TerraformGenerator } from "terraform-generator";
 import { ENVIRONMENT_TAGS, SERVICE_TAGS } from "../../constants/tags.js";
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
-import $ from "dax-sh";
 import { generateAwsFile } from "./aws-generators.js";
+import { $ } from "zx";
 
 const PROVIDERS = ["aws"] as const;
 
@@ -103,9 +103,9 @@ interface GenerateRepoOptions {
     resourceCount: number;
 
     /**
-     * Logger function. Optional if you don't want any output.
+     * Whether output from the commands should be silenced
      */
-    log?: (message: string, ...args: unknown[]) => void;
+    quiet?: boolean;
 }
 
 type GenerateRepoResult = {
@@ -116,15 +116,23 @@ type GenerateRepoResult = {
 const generateRepo = async (
     options: GenerateRepoOptions
 ): Promise<GenerateRepoResult> => {
-    const { provider, format, prefix, fileCount, resourceCount, log } = options;
+    const {
+        provider,
+        format,
+        prefix,
+        fileCount,
+        resourceCount,
+        quiet = false,
+    } = options;
     const directory = path.resolve(process.cwd(), options.directory);
 
     const repoName = `${prefix}${randomMemorableSlug()}`;
     const repoPath = path.join(directory, repoName);
+    const sh = $({ cwd: repoPath, quiet });
 
     await mkdir(repoPath);
-    await $`git init`.cwd(repoPath);
-    log?.(`Initialized repo '${repoPath}'`);
+
+    await sh`git init`;
 
     for (let i = 0; i < fileCount; i++) {
         const tfFilename = `${randomMemorableSlug()}.tf`;
@@ -132,11 +140,9 @@ const generateRepo = async (
         const tfg = generateFileByProvider({ provider, resourceCount });
 
         tfg.write({ format, dir: repoPath, tfFilename });
-
-        log?.(`✅ Successfully generated ${tfFilename}`);
     }
 
-    await $`git add . && git commit -m "initial commit"`.cwd(repoPath);
+    await sh`git add . && git commit -m "initial commit"`;
 
     return { name: repoName, path: repoPath };
 };

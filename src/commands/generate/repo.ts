@@ -3,7 +3,7 @@ import path from "node:path";
 import { generateRepo } from "../../utilities/generators/generator-utils.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import { formatFlag } from "../../utilities/flags.js";
-import $ from "dax-sh";
+import { $ } from "zx";
 
 class Repo extends BaseCommand {
     static flags = {
@@ -68,7 +68,7 @@ class Repo extends BaseCommand {
                 prefix,
                 provider: "aws",
                 resourceCount,
-                log: this.log.bind(this),
+                quiet: true,
             });
 
             if (createRemote) {
