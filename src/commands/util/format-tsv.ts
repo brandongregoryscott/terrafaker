@@ -1,6 +1,7 @@
 import { Args, Flags } from "@oclif/core";
 import { BaseCommand } from "../../utilities/base-command.js";
 import { stringifySingleLineArray } from "../../utilities/string-utils.js";
+import { compact } from "lodash-es";
 
 const EXAMPLE = `c4d-standard-2	2	7	No	Up to 10	N/A`;
 
@@ -38,6 +39,6 @@ If the string is multiple lines (which it generally is), the specified column in
 }
 
 const splitTsv = (tsv: string): string[] =>
-    tsv.split("\t").map((value) => value.trim());
+    compact(tsv.split("\t").map((value) => value.trim()));
 
 export { FormatTsv };

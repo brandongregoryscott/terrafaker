@@ -1,5 +1,5 @@
 import { Args } from "@oclif/core";
-import { first } from "lodash-es";
+import { compact, first } from "lodash-es";
 import { BaseCommand } from "../../utilities/base-command.js";
 import { stringifySingleLineArray } from "../../utilities/string-utils.js";
 
@@ -45,7 +45,7 @@ If the string is multiple lines, it will be formatted into an object where the k
 }
 
 const splitPsv = (psv: string): string[] =>
-    psv.split("|").map((value) => value.trim());
+    compact(psv.split("|").map((value) => value.trim()));
 
 /**
  * In an effort to reduce the size of the AWS constants file, we're custom stringifying the object
