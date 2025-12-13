@@ -1,10 +1,28 @@
 # terrafaker
 
-CLI for easily generating terraform files and repos
+CLI for easily generating fake terraform files and repos
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/terrafaker.svg)](https://npmjs.org/package/terrafaker)
 [![Downloads/week](https://img.shields.io/npm/dw/terrafaker.svg)](https://npmjs.org/package/terrafaker)
+
+## Why this exists
+
+This tool mostly exists to quickly seed data for testing out infrastructure-as-code platforms, like [Infracost](https://www.infracost.io/). If you find it useful, or there's a feature you'd like to see, feel free to open up an [issue](https://github.com/brandongregoryscott/terrafaker/issues).
+
+## Features
+
+- Generate individual files
+- Generate git repos with multiple files (and optionally push them to GitHub)
+- Bulk clone and delete generated repos by prefix
+
+### Supported providers and resources
+
+- AWS
+    - EC2 instances
+    - Lambda functions
+- TODO: GCP
+- TODO: Azure
 
 <!-- toc -->
 
