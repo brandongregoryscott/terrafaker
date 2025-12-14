@@ -1,4 +1,5 @@
 import { Flags } from "@oclif/core";
+import { Providers } from "../enums/providers.js";
 
 const formatFlag = Flags.boolean({
     char: "f",
@@ -13,4 +14,14 @@ const quietFlag = Flags.boolean({
     description: "Suppress the logging output.",
 });
 
-export { formatFlag, quietFlag };
+const resourceCountFlag = Flags.integer({
+    description: "Number of resources per file to generate",
+    default: 3,
+});
+
+const providerFlag = Flags.string({
+    description: "Cloud provider to generate resources for",
+    options: Object.values(Providers),
+});
+
+export { formatFlag, providerFlag, quietFlag, resourceCountFlag };

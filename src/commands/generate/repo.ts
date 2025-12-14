@@ -1,10 +1,19 @@
 import { Flags } from "@oclif/core";
 import path from "node:path";
-import { generateRepo } from "../../utilities/generators/generator-utils.js";
+import {
+    generateRepo,
+    randomProvider,
+} from "../../utilities/generators/generator-utils.js";
 import { BaseCommand } from "../../utilities/base-command.js";
-import { formatFlag, quietFlag } from "../../utilities/flags.js";
+import {
+    formatFlag,
+    providerFlag,
+    quietFlag,
+    resourceCountFlag,
+} from "../../utilities/flags.js";
 import { $ } from "zx";
-import { HELP_MESSAGES } from "../../constants/help-messages.js";
+import { HelpMessages } from "../../enums/help-messages.js";
+import type { Provider } from "../../enums/providers.js";
 
 class Repo extends BaseCommand {
     static flags = {
@@ -23,10 +32,7 @@ class Repo extends BaseCommand {
             default: 3,
         }),
 
-        "resource-count": Flags.integer({
-            description: "Number of resources per file to generate",
-            default: 3,
-        }),
+        "resource-count": resourceCountFlag,
 
         prefix: Flags.string({
             description:
@@ -34,10 +40,12 @@ class Repo extends BaseCommand {
             default: "tf_",
         }),
 
+        provider: providerFlag,
+
         format: formatFlag,
 
         "create-remote": Flags.boolean({
-            description: `Create and push a remote GitHub repo. ${HELP_MESSAGES.RequiresGhCli}`,
+            description: `Create and push a remote GitHub repo. ${HelpMessages.RequiresGhCli}`,
         }),
 
         public: Flags.boolean({
@@ -60,6 +68,7 @@ class Repo extends BaseCommand {
             "file-count": fileCount,
             "create-remote": createRemote,
         } = flags;
+        const provider = flags.provider as Provider | undefined;
 
         const directory = path.resolve(process.cwd(), flags.directory);
 
@@ -69,7 +78,7 @@ class Repo extends BaseCommand {
                 fileCount,
                 format,
                 prefix,
-                provider: "aws",
+                provider: provider ?? randomProvider(),
                 resourceCount,
                 quiet,
             });

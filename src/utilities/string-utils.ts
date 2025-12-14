@@ -9,4 +9,7 @@ const snakeSlugify = (value: string): string =>
 
 const success = (message: string) => `${ux.colorize("green", "✓")} ${message}`;
 
-export { slugify, snakeSlugify, success };
+const stringifySingleLineArray = (values: string[]): string =>
+    `[${values.map((value) => `"${value}"`).join(", ")}]`;
+
+export { slugify, snakeSlugify, stringifySingleLineArray, success };

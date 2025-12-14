@@ -3,42 +3,8 @@ import { flatten } from "lodash-es";
 /**
  * @see https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-regions.html
  */
-const AWS_REGIONS = [
-    "us-east-1",
-    "us-east-2",
-    "us-west-1",
-    "us-west-2",
-    "af-south-1",
-    "ap-east-1",
-    "ap-south-2",
-    "ap-southeast-3",
-    "ap-southeast-5",
-    "ap-southeast-4",
-    "ap-south-1",
-    "ap-southeast-6",
-    "ap-northeast-3",
-    "ap-northeast-2",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "ap-east-2",
-    "ap-southeast-7",
-    "ap-northeast-1",
-    "ca-central-1",
-    "ca-west-1",
-    "eu-central-1",
-    "eu-west-1",
-    "eu-west-2",
-    "eu-south-1",
-    "eu-west-3",
-    "eu-south-2",
-    "eu-north-1",
-    "eu-central-2",
-    "il-central-1",
-    "mx-central-1",
-    "me-south-1",
-    "me-central-1",
-    "sa-east-1",
-];
+// prettier-ignore
+const AWS_REGIONS = ["us-east-1", "us-east-2", "us-west-1", "us-west-2", "af-south-1", "ap-east-1", "ap-south-2", "ap-southeast-3", "ap-southeast-5", "ap-southeast-4", "ap-south-1", "ap-southeast-6", "ap-northeast-3", "ap-northeast-2", "ap-southeast-1", "ap-southeast-2", "ap-east-2", "ap-southeast-7", "ap-northeast-1", "ca-central-1", "ca-west-1", "eu-central-1", "eu-west-1", "eu-west-2", "eu-south-1", "eu-west-3", "eu-south-2", "eu-north-1", "eu-central-2", "il-central-1", "mx-central-1", "me-south-1", "me-central-1", "sa-east-1"];
 
 /**
  * @see https://docs.aws.amazon.com/ec2/latest/instancetypes/gp.html
@@ -237,7 +203,12 @@ const AWS_INSTANCE_TYPES = flatten(
 // prettier-ignore
 const AWS_LAMBDA_RUNTIMES = ["nodejs24.x", "nodejs22.x", "nodejs20.x", "python3.14", "python3.13", "python3.12", "python3.11", "python3.10", "python3.9", "java25", "java21", "java17", "java11", "java8.al2", "dotnet9", "dotnet8", "ruby3.4", "ruby3.3", "ruby3.2", "provided.al2023", "provided.al2"];
 
+/** @see https://docs.aws.amazon.com/ebs/latest/userguide/general-purpose.html */
+// prettier-ignore
+const AWS_EBS_VOLUME_TYPES = ["gp2", "gp3", "io1", "io2", "st1", "sc1"];
+
 export {
+    AWS_EBS_VOLUME_TYPES,
     AWS_INSTANCE_TYPES,
     AWS_INSTANCE_TYPES_BY_FAMILY,
     AWS_LAMBDA_RUNTIMES,

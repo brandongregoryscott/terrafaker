@@ -3,10 +3,10 @@ import { execSync } from "node:child_process";
 import { confirm } from "@inquirer/prompts";
 import { isEmpty } from "lodash-es";
 import { listRepos, stringifyRepos } from "../../utilities/github.js";
-import { HELP_MESSAGES } from "../../constants/help-messages.js";
+import { HelpMessages } from "../../enums/help-messages.js";
 
 class DeleteRepos extends Command {
-    static description = `Deletes repos from your Github account, useful for cleaning up generated test data. ${HELP_MESSAGES.RequiresGhCli}
+    static description = `Deletes repos from your Github account, useful for cleaning up generated test data. ${HelpMessages.RequiresGhCli}
 
 If the deletion fails, you may need to refresh your CLI permissions with \`gh auth refresh -s delete_repo\``;
 

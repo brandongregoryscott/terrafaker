@@ -6,10 +6,10 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { generateAwsFile } from "./aws-generators.js";
 import { $ } from "zx";
-
-const PROVIDERS = ["aws"] as const;
-
-type Provider = (typeof PROVIDERS)[number];
+import { generateGcpFile } from "./gcp-generators.js";
+import type { Provider } from "../../enums/providers.js";
+import { Providers } from "../../enums/providers.js";
+import { range } from "lodash-es";
 
 type StringGenerator = () => string;
 
@@ -19,10 +19,15 @@ interface ResourceGeneratorOptions {
     service?: string;
 }
 
+interface FileGeneratorOptions {
+    resourceCount?: number;
+    environment?: string;
+}
+
 /**
  * Wraps a generator function to ensure the values it returns are not reused within the program runtime
  */
-const unique = (generator: StringGenerator): StringGenerator => {
+function unique(generator: StringGenerator): StringGenerator {
     const used = new Set();
     return () => {
         let value = generator();
@@ -33,7 +38,7 @@ const unique = (generator: StringGenerator): StringGenerator => {
         used.add(value);
         return value;
     };
-};
+}
 
 const randomMemorableSlug = unique(() =>
     snakeSlugify(
@@ -43,16 +48,44 @@ const randomMemorableSlug = unique(() =>
 
 const randomItem = <T>(values: T[]): T => faker.helpers.arrayElement(values);
 
+const randomProvider = () => randomItem(Object.values(Providers));
+
 const randomId = unique(() => faker.internet.mac({ separator: "" }));
 
 const randomEnvironmentTag = () => randomItem(ENVIRONMENT_TAGS);
 
 const randomServiceTag = () => randomItem(SERVICE_TAGS);
 
-interface GenerateFileByProviderOptions {
+interface RandomMemorySizeOptions extends Required<RandomIntOptions> {
+    step: number;
+}
+
+const randomMemorySize = (options: RandomMemorySizeOptions): number => {
+    const { min, max, step } = options;
+    const values = range(min, max, step);
+    return randomItem(values);
+};
+
+interface RandomIntOptions {
+    min?: number;
+    max?: number;
+}
+
+const randomInt = (options: RandomIntOptions): number => {
+    let { min = 0, max = 100 } = options;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+/**
+ * Returns true/false depending on the provided probability (0 to 1)
+ */
+const maybe = (probability: number): boolean => Math.random() < probability;
+
+interface GenerateFileByProviderOptions extends FileGeneratorOptions {
     provider: Provider;
-    resourceCount?: number;
-    environment?: string;
 }
 
 const generateFileByProvider = (
@@ -60,8 +93,10 @@ const generateFileByProvider = (
 ): TerraformGenerator => {
     const { provider, ...rest } = options;
     switch (provider) {
+        case Providers.GCP:
+            return generateGcpFile(rest);
         default:
-        case "aws":
+        case Providers.AWS:
             return generateAwsFile(rest);
     }
 };
@@ -116,19 +151,13 @@ interface GenerateRepoResult {
 const generateRepo = async (
     options: GenerateRepoOptions
 ): Promise<GenerateRepoResult> => {
-    const {
-        provider,
-        format,
-        prefix,
-        fileCount,
-        resourceCount,
-        quiet = false,
-    } = options;
+    const { provider, format, prefix, fileCount, resourceCount, quiet } =
+        options;
     const directory = path.resolve(process.cwd(), options.directory);
 
     const repoName = `${prefix}${randomMemorableSlug()}`;
     const repoPath = path.join(directory, repoName);
-    const sh = $({ cwd: repoPath, quiet });
+    const sh = $({ cwd: repoPath, stdio: quiet ? "ignore" : "inherit" });
 
     await mkdir(repoPath);
 
@@ -147,13 +176,18 @@ const generateRepo = async (
     return { name: repoName, path: repoPath };
 };
 
-export type { ResourceGeneratorOptions, StringGenerator };
+export type { FileGeneratorOptions, ResourceGeneratorOptions, StringGenerator };
 export {
+    generateFileByProvider,
     generateRepo,
+    maybe,
     randomEnvironmentTag,
     randomId,
+    randomInt,
     randomItem,
     randomMemorableSlug,
+    randomMemorySize,
+    randomProvider,
     randomServiceTag,
     unique,
 };

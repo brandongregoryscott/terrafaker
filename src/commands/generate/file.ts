@@ -1,14 +1,30 @@
 import { Flags } from "@oclif/core";
 import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import { BaseCommand } from "../../utilities/base-command.js";
-import { formatFlag, quietFlag } from "../../utilities/flags.js";
+import {
+    formatFlag,
+    providerFlag,
+    quietFlag,
+    resourceCountFlag,
+} from "../../utilities/flags.js";
 import { success } from "../../utilities/string-utils.js";
+import type { Provider } from "../../enums/providers.js";
+import { Providers } from "../../enums/providers.js";
+import {
+    generateFileByProvider,
+    randomItem,
+    randomProvider,
+} from "../../utilities/generators/generator-utils.js";
 
 class File extends BaseCommand {
     static flags = {
         name: Flags.string({
             description: "Name for the generated file, which must end in .tf",
         }),
+
+        provider: providerFlag,
+
+        "resource-count": resourceCountFlag,
 
         format: formatFlag,
 
@@ -17,16 +33,18 @@ class File extends BaseCommand {
 
     async run(): Promise<void> {
         const { flags } = await this.parse(File);
-        const { name, quiet } = flags;
+        const { name, quiet, format, "resource-count": resourceCount } = flags;
+        const provider =
+            (flags.provider as Provider | undefined) ?? randomProvider();
 
         let tfFilename = name ?? "main.tf";
         if (!tfFilename.endsWith(".tf")) {
             tfFilename = `${tfFilename}.tf`;
         }
 
-        const tfg = generateAwsFile();
+        const tfg = generateFileByProvider({ provider, resourceCount });
 
-        tfg.write({ format: flags.format, tfFilename });
+        tfg.write({ format, tfFilename });
 
         if (!quiet) {
             this.log(success(`Successfully generated ${tfFilename}`));
