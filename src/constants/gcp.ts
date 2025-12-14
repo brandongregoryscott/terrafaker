@@ -109,9 +109,16 @@ const GCP_GPU_MACHINE_TYPES = flatten(
     Object.values(GCP_GPU_MACHINE_TYPES_BY_FAMILY)
 );
 
+/**
+ * @see https://docs.cloud.google.com/run/docs/runtimes/function-runtimes
+ */
+// prettier-ignore
+const GCP_LAMBDA_RUNTIMES = ["nodejs24", "nodejs22", "nodejs20", "nodejs18", "nodejs16", "nodejs14", "nodejs12", "nodejs10", "nodejs8", "nodejs6", "python314", "python313", "python312", "python311", "python310", "python39", "python38", "python37", "go125", "go124", "go122", "go121", "go120", "go119", "go118", "go116", "go113", "go111", "java25", "java21", "java17", "java11", "ruby34", "ruby33", "ruby32", "ruby30", "ruby27", "ruby26", "php84", "php83", "php82", "php81", "php74", "dotnet8", "dotnet6", "dotnet3"]
+
 export {
     GCP_GPU_MACHINE_TYPES,
     GCP_INSTANCE_TYPES,
     GCP_INSTANCE_TYPES_BY_FAMILY,
+    GCP_LAMBDA_RUNTIMES,
     GCP_REGIONS,
 };
