@@ -8,7 +8,7 @@ CLI for easily generating fake terraform files and repos
 
 ## Why this exists
 
-This tool mostly exists to quickly seed data for testing out infrastructure-as-code platforms, like [Infracost](https://www.infracost.io/). If you find it useful, or there's a feature you'd like to see, feel free to open up an [issue](https://github.com/brandongregoryscott/terrafaker/issues).
+This tool mostly exists to quickly seed data for testing out platforms that rely on infrastructure-as-code, like [Infracost](https://www.infracost.io/). If you find it useful, or there's a feature you'd like to see, feel free to open up an [issue](https://github.com/brandongregoryscott/terrafaker/issues).
 
 ## Features
 
@@ -21,7 +21,9 @@ This tool mostly exists to quickly seed data for testing out infrastructure-as-c
 - AWS
     - EC2 instances
     - Lambda functions
-- TODO: GCP
+- GCP
+    - Compute instances
+    - Functions
 - TODO: Azure
 
 <!-- prettier-ignore-start -->
