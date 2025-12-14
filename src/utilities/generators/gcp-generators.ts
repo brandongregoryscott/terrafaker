@@ -19,7 +19,6 @@ import {
     randomMemorySize,
     randomServiceTag,
 } from "./generator-utils.js";
-import { range } from "lodash-es";
 
 const GcpResourceType = {
     Instance: "google_compute_instance",

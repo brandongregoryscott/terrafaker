@@ -1,7 +1,7 @@
 import { flatten } from "lodash-es";
 
 // prettier-ignore
-const AZURE_REGIONS = [];
+const AZURE_REGIONS = ["australiaeast", "austriaeast", "belgiumcentral", "brazilsouth", "canadacentral", "centralindia", "centralus", "chilecentral", "eastasia", "eastus", "eastus2", "francecentral", "germanywestcentral", "indonesiacentral", "israelcentral", "italynorth", "japaneast", "japanwest", "koreacentral", "malaysiawest", "mexicocentral", "newzealandnorth", "northeurope", "norwayeast", "polandcentral", "qatarcentral", "southafricanorth", "southcentralus", "southeastasia", "spaincentral", "swedencentral", "switzerlandnorth", "uaenorth", "uksouth", "westeurope", "westus2", "westus3"];
 
 /**
  * @see https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose
