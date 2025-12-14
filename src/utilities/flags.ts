@@ -24,4 +24,4 @@ const providerFlag = Flags.string({
     options: Object.values(Providers),
 });
 
-export { formatFlag, quietFlag, resourceCountFlag, providerFlag };
+export { formatFlag, providerFlag, quietFlag, resourceCountFlag };

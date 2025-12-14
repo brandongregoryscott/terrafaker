@@ -150,19 +150,13 @@ interface GenerateRepoResult {
 const generateRepo = async (
     options: GenerateRepoOptions
 ): Promise<GenerateRepoResult> => {
-    const {
-        provider,
-        format,
-        prefix,
-        fileCount,
-        resourceCount,
-        quiet = false,
-    } = options;
+    const { provider, format, prefix, fileCount, resourceCount, quiet } =
+        options;
     const directory = path.resolve(process.cwd(), options.directory);
 
     const repoName = `${prefix}${randomMemorableSlug()}`;
     const repoPath = path.join(directory, repoName);
-    const sh = $({ cwd: repoPath, quiet });
+    const sh = $({ cwd: repoPath, stdio: quiet ? "ignore" : "inherit" });
 
     await mkdir(repoPath);
 
