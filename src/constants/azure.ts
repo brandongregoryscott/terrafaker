@@ -136,8 +136,60 @@ const AZURE_INSTANCE_TYPES = flatten(
     Object.values(AZURE_INSTANCE_TYPES_BY_FAMILY)
 );
 
-// prettier-ignore
-const AZURE_LAMBDA_RUNTIMES = [];
+/**
+ * @see https://aka.ms/flexfxversions
+ * @see https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-first-function-terraform
+ */
+const AZURE_LAMBDA_RUNTIMES = [
+    {
+        runtime_name: "dotnet-isolated",
+        runtime_verison: "8",
+    },
+    {
+        runtime_name: "dotnet-isolated",
+        runtime_verison: "9",
+    },
+    {
+        runtime_name: "dotnet-isolated",
+        runtime_verison: "10",
+    },
+    {
+        runtime_name: "java",
+        runtime_verison: "11",
+    },
+    {
+        runtime_name: "java",
+        runtime_verison: "17",
+    },
+    {
+        runtime_name: "java",
+        runtime_verison: "21",
+    },
+    {
+        runtime_name: "node",
+        runtime_verison: "20",
+    },
+    {
+        runtime_name: "node",
+        runtime_verison: "22",
+    },
+    {
+        runtime_name: "powershell",
+        runtime_verison: "7.4",
+    },
+    {
+        runtime_name: "python",
+        runtime_verison: "3.10",
+    },
+    {
+        runtime_name: "python",
+        runtime_verison: "3.11",
+    },
+    {
+        runtime_name: "python",
+        runtime_verison: "3.12",
+    },
+];
 
 export {
     AZURE_INSTANCE_TYPES,

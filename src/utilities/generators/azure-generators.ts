@@ -1,5 +1,9 @@
 import { TerraformGenerator } from "terraform-generator";
-import { AZURE_INSTANCE_TYPES, AZURE_REGIONS } from "../../constants/azure.js";
+import {
+    AZURE_INSTANCE_TYPES,
+    AZURE_LAMBDA_RUNTIMES,
+    AZURE_REGIONS,
+} from "../../constants/azure.js";
 import type { ObjectValues } from "../../types/object-values.js";
 import type {
     FileGeneratorOptions,
@@ -9,6 +13,7 @@ import {
     randomEnvironmentTag,
     randomItem,
     randomMemorableSlug,
+    randomMemorySize,
     randomServiceTag,
 } from "./generator-utils.js";
 
@@ -39,6 +44,33 @@ const generateAzureInstance = (options: ResourceGeneratorOptions) => {
     });
 };
 
+const generateAzureLambdaFunction = (options: ResourceGeneratorOptions) => {
+    const {
+        tfg,
+        environment = randomEnvironmentTag(),
+        service = randomServiceTag(),
+    } = options;
+
+    const runtime = randomItem(AZURE_LAMBDA_RUNTIMES);
+    const name = randomMemorableSlug();
+    /**
+     * There's a lot of different configurations here, so just guessing here.
+     * @see https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale
+     */
+    const instanceMemoryInMb = randomMemorySize({
+        min: 128,
+        max: 4 * 1024,
+        step: 128,
+    });
+
+    tfg.resource(AzureResourceType.LambdaFunction, name, {
+        ...runtime,
+        name,
+        instance_memory_in_mb: instanceMemoryInMb,
+        labels: { name, environment, service },
+    });
+};
+
 interface GenerateAzureResourceByTypeOptions extends ResourceGeneratorOptions {
     type: AzureResourceType;
 }
@@ -48,6 +80,8 @@ const generateResourceByType = (
 ) => {
     const { type, ...rest } = options;
     switch (type) {
+        case AzureResourceType.LambdaFunction:
+            return generateAzureLambdaFunction(rest);
         default:
         case AzureResourceType.Instance: {
             return generateAzureInstance(rest);
