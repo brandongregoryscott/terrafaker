@@ -6,12 +6,10 @@ import {
     quietFlag,
     resourceCountFlag,
 } from "../../utilities/flags.js";
-import { success } from "../../utilities/string-utils.js";
+import { formatTfFileName, success } from "../../utilities/string-utils.js";
 import type { Provider } from "../../enums/providers.js";
-import {
-    generateFileByProvider,
-    randomProvider,
-} from "../../utilities/generators/generator-utils.js";
+import { randomProvider } from "../../utilities/generators/generator-utils.js";
+import { FileGenerator } from "../../utilities/generators/file-generator.js";
 
 class File extends BaseCommand {
     static description = "Generates a terraform file.";
@@ -35,18 +33,17 @@ class File extends BaseCommand {
         const { name, quiet, format, "resource-count": resourceCount } = flags;
         const provider =
             (flags.provider as Provider | undefined) ?? randomProvider();
+        const fileName = formatTfFileName(name ?? "main.tf");
 
-        let tfFilename = name ?? "main.tf";
-        if (!tfFilename.endsWith(".tf")) {
-            tfFilename = `${tfFilename}.tf`;
-        }
-
-        const tfg = generateFileByProvider({ provider, resourceCount });
-
-        tfg.write({ format, tfFilename });
+        FileGenerator.generateFileByProvider({
+            fileName,
+            provider,
+            resourceCount,
+            format,
+        });
 
         if (!quiet) {
-            this.log(success(`Successfully generated ${tfFilename}`));
+            this.log(success(`Successfully generated ${fileName}`));
         }
     }
 }

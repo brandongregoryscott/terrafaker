@@ -12,4 +12,13 @@ const success = (message: string) => `${ux.colorize("green", "✓")} ${message}`
 const stringifySingleLineArray = (values: string[]): string =>
     `[${values.map((value) => `"${value}"`).join(", ")}]`;
 
-export { slugify, snakeSlugify, stringifySingleLineArray, success };
+const formatTfFileName = (fileName: string): string =>
+    fileName.endsWith(".tf") ? fileName : `${fileName}.tf`;
+
+export {
+    formatTfFileName,
+    slugify,
+    snakeSlugify,
+    stringifySingleLineArray,
+    success,
+};

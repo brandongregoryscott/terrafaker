@@ -1,9 +1,5 @@
 import { Flags } from "@oclif/core";
 import path from "node:path";
-import {
-    generateRepo,
-    randomProvider,
-} from "../../utilities/generators/generator-utils.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     formatFlag,
@@ -14,6 +10,7 @@ import {
 import { $ } from "zx";
 import { HelpMessages } from "../../enums/help-messages.js";
 import type { Provider } from "../../enums/providers.js";
+import { RepoGenerator } from "../../utilities/generators/repo-generator.js";
 
 class Repo extends BaseCommand {
     static description = "Generates repo(s) with multiple terraform files.";
@@ -75,12 +72,12 @@ class Repo extends BaseCommand {
         const directory = path.resolve(process.cwd(), flags.directory);
 
         for (let i = 0; i < count; i++) {
-            const { name, path } = await generateRepo({
+            const { name, path } = await RepoGenerator.generateRepo({
                 directory,
                 fileCount,
                 format,
                 prefix,
-                provider: provider ?? randomProvider(),
+                provider,
                 resourceCount,
                 quiet,
             });
