@@ -2,12 +2,12 @@
     "compilerOptions": {
         "composite": true,
         "declaration": true,
-        "module": "esnext",
+        "module": "Node16",
         "outDir": "dist",
         "rootDir": "src",
         "strict": true,
         "target": "es2022",
-        "moduleResolution": "bundler"
+        "moduleResolution": "node16"
     },
     "include": ["./src/**/*"],
     "ts-node": {
