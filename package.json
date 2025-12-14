@@ -1,7 +1,7 @@
 {
     "author": "Brandon Scott",
     "bin": {
-        "terrafaker": "./bin/run.js"
+        "terrafaker": "bin/run.js"
     },
     "bugs": "https://github.com/brandongregoryscott/terrafaker/issues",
     "dependencies": {
@@ -58,7 +58,10 @@
         ],
         "topicSeparator": " "
     },
-    "repository": "brandongregoryscott/terrafaker",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/brandongregoryscott/terrafaker.git"
+    },
     "scripts": {
         "build": "npm run clean && tsc -b",
         "build:watch": "npm run clean && tsc --watch",
