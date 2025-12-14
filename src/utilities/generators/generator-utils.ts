@@ -6,6 +6,7 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { generateAwsFile } from "./aws-generators.js";
 import { $ } from "zx";
+import { range } from "lodash-es";
 
 const PROVIDERS = ["aws"] as const;
 
@@ -17,6 +18,11 @@ interface ResourceGeneratorOptions {
     tfg: TerraformGenerator;
     environment?: string;
     service?: string;
+}
+
+interface FileGeneratorOptions {
+    resourceCount?: number;
+    environment?: string;
 }
 
 /**
@@ -48,6 +54,24 @@ const randomId = unique(() => faker.internet.mac({ separator: "" }));
 const randomEnvironmentTag = () => randomItem(ENVIRONMENT_TAGS);
 
 const randomServiceTag = () => randomItem(SERVICE_TAGS);
+
+interface RandomIntOptions {
+    min?: number;
+    max?: number;
+}
+
+const randomInt = (options: RandomIntOptions): number => {
+    let { min = 0, max = 100 } = options;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+/**
+ * Returns true/false depending on the provided probability (0 to 1)
+ */
+const maybe = (probability: number): boolean => Math.random() < probability;
 
 interface GenerateFileByProviderOptions {
     provider: Provider;
@@ -147,7 +171,7 @@ const generateRepo = async (
     return { name: repoName, path: repoPath };
 };
 
-export type { ResourceGeneratorOptions, StringGenerator };
+export type { ResourceGeneratorOptions, StringGenerator, FileGeneratorOptions };
 export {
     generateRepo,
     randomEnvironmentTag,
@@ -155,5 +179,7 @@ export {
     randomItem,
     randomMemorableSlug,
     randomServiceTag,
+    randomInt,
+    maybe,
     unique,
 };

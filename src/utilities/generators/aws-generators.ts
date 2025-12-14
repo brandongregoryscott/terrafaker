@@ -1,5 +1,8 @@
 import { TerraformGenerator } from "terraform-generator";
-import type { ResourceGeneratorOptions } from "./generator-utils.js";
+import type {
+    FileGeneratorOptions,
+    ResourceGeneratorOptions,
+} from "./generator-utils.js";
 import {
     randomEnvironmentTag,
     randomId,
@@ -14,13 +17,14 @@ import {
     AWS_REGIONS,
 } from "../../constants/aws.js";
 import { range } from "lodash-es";
+import type { ObjectValues } from "../../types/object-values.js";
 
 const AwsResourceType = {
     Instance: "aws_instance",
     LambdaFunction: "aws_lambda_function",
 } as const;
 
-type AwsResourceType = (typeof AwsResourceType)[keyof typeof AwsResourceType];
+type AwsResourceType = ObjectValues<typeof AwsResourceType>;
 
 const randomRegion = () => randomItem(AWS_REGIONS);
 
@@ -83,9 +87,7 @@ interface GenerateAwsResourceByTypeOptions extends ResourceGeneratorOptions {
     type: AwsResourceType;
 }
 
-const generateAwsResourceByType = (
-    options: GenerateAwsResourceByTypeOptions
-) => {
+const generateResourceByType = (options: GenerateAwsResourceByTypeOptions) => {
     const { type, ...rest } = options;
     switch (type) {
         case AwsResourceType.LambdaFunction:
@@ -97,13 +99,8 @@ const generateAwsResourceByType = (
     }
 };
 
-interface GenerateAwsFileOptions {
-    resourceCount?: number;
-    environment?: string;
-}
-
 const generateAwsFile = (
-    options?: GenerateAwsFileOptions
+    options?: FileGeneratorOptions
 ): TerraformGenerator => {
     const { resourceCount = 3, environment = randomEnvironmentTag() } =
         options ?? {};
@@ -116,7 +113,7 @@ const generateAwsFile = (
 
     for (let i = 0; i < resourceCount; i++) {
         const type = randomResourceType();
-        generateAwsResourceByType({ type, tfg, environment });
+        generateResourceByType({ type, tfg, environment });
     }
 
     return tfg;

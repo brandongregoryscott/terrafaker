@@ -1,3 +1,5 @@
+import { flatten } from "lodash-es";
+
 /**
  * @see https://docs.cloud.google.com/compute/docs/regions-zones
  */
@@ -75,4 +77,41 @@ const GCP_INSTANCE_TYPES_BY_FAMILY = {
     "A4": ["a4-highgpu-8g"],
     "A3 ultra": ["a3-ultragpu-8g"],
     "A3 mega": ["a3-megagpu-8g"],
+    "A3 high": ["a3-highgpu-1g", "a3-highgpu-2g", "a3-highgpu-4g", "a3-highgpu-8g"],
+    "A3 edge": ["a3-edgegpu-8g"],
+    "A2 ultra": ["a2-ultragpu-1g", "a2-ultragpu-2g", "a2-ultragpu-4g", "a2-ultragpu-8g"],
+    "A2 standard": ["a2-highgpu-1g", "a2-highgpu-2g", "a2-highgpu-4g", "a2-highgpu-8g", "a2-megagpu-16g"],
+    "G4": ["g4-standard-48", "g4-standard-96", "g4-standard-192", "g4-standard-384"],
+    "G2": ["g2-standard-4", "g2-standard-8", "g2-standard-12", "g2-standard-16", "g2-standard-24", "g2-standard-32", "g2-standard-48", "g2-standard-96"],
+};
+
+const GCP_INSTANCE_TYPES = flatten(Object.values(GCP_INSTANCE_TYPES_BY_FAMILY));
+
+/**
+ * @see https://docs.cloud.google.com/compute/docs/gpus
+ */
+// prettier-ignore
+const GCP_GPU_MACHINE_TYPES_BY_FAMILY = {
+    "NVIDIA T4": ["nvidia-tesla-t4", "nvidia-tesla-t4-vws"],
+    "NVIDIA P4": ["nvidia-tesla-p4", "nvidia-tesla-p4-vws"],
+    "NVIDIA V100": ["nvidia-tesla-v100"],
+    "NVIDIA P100": ["nvidia-tesla-p100", "nvidia-tesla-p100-vws"],
+    "NVIDIA RTX PRO 6000": ["nvidia-rtx-pro-6000", "nvidia-rtx-pro-6000-vws"],
+    "NVIDIA L4": ["nvidia-l4", "nvidia-l4-vws"],
+    "NVIDIA GB200 Superchips": ["nvidia-gb200"],
+    "NVIDIA B200": ["nvidia-b200"],
+    "NVIDIA H200": ["nvidia-h200-141gb"],
+    "NVIDIA H100": ["nvidia-h100-mega-80gb", "nvidia-h100-80gb"],
+    "NVIDIA A100": ["nvidia-a100-80gb", "nvidia-a100-40gb"],
+};
+
+const GCP_GPU_MACHINE_TYPES = flatten(
+    Object.values(GCP_GPU_MACHINE_TYPES_BY_FAMILY)
+);
+
+export {
+    GCP_GPU_MACHINE_TYPES,
+    GCP_INSTANCE_TYPES,
+    GCP_INSTANCE_TYPES_BY_FAMILY,
+    GCP_REGIONS,
 };
