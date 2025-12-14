@@ -1,5 +1,4 @@
 import { Flags } from "@oclif/core";
-import { generateAwsFile } from "../../utilities/generators/aws-generators.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     formatFlag,
@@ -9,14 +8,14 @@ import {
 } from "../../utilities/flags.js";
 import { success } from "../../utilities/string-utils.js";
 import type { Provider } from "../../enums/providers.js";
-import { Providers } from "../../enums/providers.js";
 import {
     generateFileByProvider,
-    randomItem,
     randomProvider,
 } from "../../utilities/generators/generator-utils.js";
 
 class File extends BaseCommand {
+    static description = "Generates a terraform file.";
+
     static flags = {
         name: Flags.string({
             description: "Name for the generated file, which must end in .tf",
