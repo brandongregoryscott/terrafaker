@@ -119,6 +119,17 @@ const AZURE_INSTANCE_TYPES_BY_FAMILY = {
     "Mdsv3 Very High Memory": ["Standard_M896ixds_32_v3", "Standard_M896ixds_24_v3", "Standard_M1792ixds_32_v3"],
     "Mbsv3": ["Standard_M16bs_v3", "Standard_M32bs_v3", "Standard_M48bs_v3", "Standard_M64bs_v3", "Standard_M96bs_v3", "Standard_M128bs_v3", "Standard_M176bs_v3", "Standard_M416bs_v3"],
     "Mbdsv3": ["Standard_M16bds_v3", "Standard_M32bds_v3", "Standard_M48bds_v3", "Standard_M64bds_v3", "Standard_M96bds_v3", "Standard_M128bds_v3", "Standard_M176bds_v3", "Standard_M64bds_1_v3", "Standard_M96bds_2_v3", "Standard_M128bds_3_v3", "Standard_M176bds_4_v3"],
+    "Laosv4": ["Standard_L2aos_v4", "Standard_L4aos_v4", "Standard_L8aos_v4", "Standard_L12aos_v4", "Standard_L16aos_v4", "Standard_L24aos_v4", "Standard_L32aos_v4"],
+    "Lasv4": ["Standard_L2as_v4", "Standard_L4as_v4", "Standard_L8as_v4", "Standard_L16as_v4", "Standard_L32as_v4", "Standard_L48as_v4", "Standard_L64as_v4", "Standard_L80as_v4", "Standard_L96as_v4"],
+    "Lsv4": ["Standard_L2s_v4", "Standard_L4s_v4", "Standard_L8s_v4", "Standard_L16s_v4", "Standard_L32s_v4", "Standard_L48s_v4", "Standard_L64s_v4", "Standard_L80s_v4", "Standard_L96s_v4"],
+    "Lsv3": ["Standard_L8s_v3", "Standard_L16s_v3", "Standard_L32s_v3", "Standard_L48s_v3", "Standard_L64s_v3", "Standard_L80s_v3"],
+    "Lasv3": ["Standard_L8as_v3", "Standard_L16as_v3", "Standard_L32as_v3", "Standard_L48as_v3", "Standard_L64as_v3", "Standard_L80as_v3"],
+    "HBv2": ["Standard_HB120rs_v2", "Standard_HB120-96rs_v2", "Standard_HB120-64rs_v2", "Standard_HB120-32rs_v2", "Standard_HB120-16rs_v2"],
+    "HBv3": ["Standard_HB120rs_v3", "Standard_HB120-96rs_v3", "Standard_HB120-64rs_v3", "Standard_HB120-32rs_v3", "Standard_HB120-16rs_v3"],
+    "HBv4": ["Standard_HB176rs_v4", "Standard_HB176-144rs_v4", "Standard_HB176-96rs_v4", "Standard_HB176-48rs_v4", "Standard_HB176-24rs_v4"],
+    "HBv5": ["Standard_HB368rs_v5", "Standard_HB368-336rs_v5", "Standard_HB368-288rs_v5", "Standard_HB368-240rs_v5", "Standard_HB368-192rs_v5", "Standard_HB368-144rs_v5", "Standard_HB368-96rs_v5", "Standard_HB368-48rs_v5"],
+    "HC": ["Standard_HC44rs", "Standard_HC44-16rs", "Standard_HC44-32rs"],
+    "HX": ["Standard_HX176rs", "Standard_HX176-144rs", "Standard_HX176-96rs", "Standard_HX176-48rs", "Standard_HX176-24rs"],
 };
 
 const AZURE_INSTANCE_TYPES = flatten(
