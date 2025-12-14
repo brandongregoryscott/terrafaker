@@ -25,7 +25,7 @@ interface FileGeneratorOptions {
 /**
  * Wraps a generator function to ensure the values it returns are not reused within the program runtime
  */
-const unique = (generator: StringGenerator): StringGenerator => {
+function unique(generator: StringGenerator): StringGenerator {
     const used = new Set();
     return () => {
         let value = generator();
@@ -36,7 +36,7 @@ const unique = (generator: StringGenerator): StringGenerator => {
         used.add(value);
         return value;
     };
-};
+}
 
 const randomMemorableSlug = unique(() =>
     snakeSlugify(

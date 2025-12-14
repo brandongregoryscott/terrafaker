@@ -3,12 +3,12 @@ import {
     GCP_GPU_MACHINE_TYPES,
     GCP_INSTANCE_TYPES,
     GCP_REGIONS,
-} from "../../constants/gcp";
-import type { ObjectValues } from "../../types";
+} from "../../constants/gcp.js";
+import type { ObjectValues } from "../../types/object-values.js";
 import type {
     FileGeneratorOptions,
     ResourceGeneratorOptions,
-} from "./generator-utils";
+} from "./generator-utils.js";
 import {
     maybe,
     randomEnvironmentTag,
@@ -16,7 +16,7 @@ import {
     randomItem,
     randomMemorableSlug,
     randomServiceTag,
-} from "./generator-utils";
+} from "./generator-utils.js";
 
 const GcpResourceType = {
     Instance: "google_compute_instance",

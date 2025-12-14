@@ -1,5 +1,5 @@
 import { Flags } from "@oclif/core";
-import { Providers } from "../enums/providers";
+import { Providers } from "../enums/providers.js";
 
 const formatFlag = Flags.boolean({
     char: "f",
