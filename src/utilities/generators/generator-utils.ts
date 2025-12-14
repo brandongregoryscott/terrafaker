@@ -10,6 +10,7 @@ import { generateGcpFile } from "./gcp-generators.js";
 import type { Provider } from "../../enums/providers.js";
 import { Providers } from "../../enums/providers.js";
 import { range } from "lodash-es";
+import { generateAzureFile } from "./azure-generators.js";
 
 type StringGenerator = () => string;
 
@@ -93,6 +94,8 @@ const generateFileByProvider = (
 ): TerraformGenerator => {
     const { provider, ...rest } = options;
     switch (provider) {
+        case Providers.Azure:
+            return generateAzureFile(rest);
         case Providers.GCP:
             return generateGcpFile(rest);
         default:
