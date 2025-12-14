@@ -32,7 +32,9 @@ If the string is multiple lines (which it generally is), the specified column in
         const { tsv } = args;
 
         const lines = tsv.split("\n");
-        const values = lines.map((line) => splitTsv(line)[columnIndex]);
+        const values = compact(
+            lines.map((line) => splitTsv(line)[columnIndex])
+        );
 
         this.log(stringifySingleLineArray(values));
     }
