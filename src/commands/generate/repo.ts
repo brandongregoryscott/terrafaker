@@ -16,6 +16,8 @@ import { HelpMessages } from "../../enums/help-messages.js";
 import type { Provider } from "../../enums/providers.js";
 
 class Repo extends BaseCommand {
+    static description = "Generates repo(s) with multiple terraform files.";
+
     static flags = {
         directory: Flags.string({
             description: "Directory to generate the repo(s) in",

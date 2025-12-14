@@ -8,7 +8,7 @@ CLI for easily generating fake terraform files and repos
 
 ## Why this exists
 
-This tool mostly exists to quickly seed data for testing out infrastructure-as-code platforms, like [Infracost](https://www.infracost.io/). If you find it useful, or there's a feature you'd like to see, feel free to open up an [issue](https://github.com/brandongregoryscott/terrafaker/issues).
+This tool mostly exists to quickly seed data for testing out platforms that rely on infrastructure-as-code, like [Infracost](https://www.infracost.io/). If you find it useful, or there's a feature you'd like to see, feel free to open up an [issue](https://github.com/brandongregoryscott/terrafaker/issues).
 
 ## Features
 
@@ -21,7 +21,9 @@ This tool mostly exists to quickly seed data for testing out infrastructure-as-c
 - AWS
     - EC2 instances
     - Lambda functions
-- TODO: GCP
+- GCP
+    - Compute instances
+    - Functions
 - TODO: Azure
 
 <!-- prettier-ignore-start -->
@@ -58,6 +60,8 @@ USAGE
 
 ## `terrafaker generate file`
 
+Generates a terraform file.
+
 ```
 USAGE
   $ terrafaker generate file [--name <value>] [--provider aws|gcp] [--resource-count <value>] [-f] [-q]
@@ -69,11 +73,16 @@ FLAGS
       --provider=<option>       Cloud provider to generate resources for
                                 <options: aws|gcp>
       --resource-count=<value>  [default: 3] Number of resources per file to generate
+
+DESCRIPTION
+  Generates a terraform file.
 ```
 
 _See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/generate/file.ts)_
 
 ## `terrafaker generate repo`
+
+Generates repo(s) with multiple terraform files.
 
 ```
 USAGE
@@ -93,6 +102,9 @@ FLAGS
                                 <options: aws|gcp>
       --public                  Whether the remote repo(s) created are public.
       --resource-count=<value>  [default: 3] Number of resources per file to generate
+
+DESCRIPTION
+  Generates repo(s) with multiple terraform files.
 ```
 
 _See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/generate/repo.ts)_
