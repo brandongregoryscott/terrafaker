@@ -40,8 +40,10 @@ const generateGcpInstance = (options: ResourceGeneratorOptions) => {
     const name = randomMemorableSlug();
     const guestAccelerator = maybe(0.5)
         ? {
-              type: randomItem(GCP_GPU_MACHINE_TYPES),
-              count: randomInt({ min: 1, max: 4 }),
+              guest_accelerator: {
+                  type: randomItem(GCP_GPU_MACHINE_TYPES),
+                  count: randomInt({ min: 1, max: 4 }),
+              },
           }
         : {};
 
