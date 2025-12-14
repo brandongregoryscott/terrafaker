@@ -2,6 +2,7 @@ import { TerraformGenerator } from "terraform-generator";
 import {
     GCP_GPU_MACHINE_TYPES,
     GCP_INSTANCE_TYPES,
+    GCP_LAMBDA_RUNTIMES,
     GCP_REGIONS,
 } from "../../constants/gcp.js";
 import type { ObjectValues } from "../../types/object-values.js";
@@ -17,6 +18,7 @@ import {
     randomMemorableSlug,
     randomServiceTag,
 } from "./generator-utils.js";
+import { range } from "lodash-es";
 
 const GcpResourceType = {
     Instance: "google_compute_instance",
@@ -54,6 +56,28 @@ const generateGcpInstance = (options: ResourceGeneratorOptions) => {
     });
 };
 
+const generateGcpLambdaFunction = (options: ResourceGeneratorOptions) => {
+    const {
+        tfg,
+        environment = randomEnvironmentTag(),
+        service = randomServiceTag(),
+    } = options;
+
+    const runtime = randomItem(GCP_LAMBDA_RUNTIMES);
+    const name = randomMemorableSlug();
+    /** @see https://docs.cloud.google.com/run/docs/configuring/services/memory-limits */
+    const maxMemoryMb = 32 * 1024;
+    const step = 128;
+    const availableMemoryMb = randomItem(range(step, maxMemoryMb, step));
+
+    tfg.resource(GcpResourceType.LambdaFunction, name, {
+        runtime,
+        name,
+        available_memory_mb: availableMemoryMb,
+        labels: { name, environment, service },
+    });
+};
+
 interface GenerateGcpResourceByTypeOptions extends ResourceGeneratorOptions {
     type: GcpResourceType;
 }
@@ -61,6 +85,8 @@ interface GenerateGcpResourceByTypeOptions extends ResourceGeneratorOptions {
 const generateResourceByType = (options: GenerateGcpResourceByTypeOptions) => {
     const { type, ...rest } = options;
     switch (type) {
+        case GcpResourceType.LambdaFunction:
+            return generateGcpLambdaFunction(rest);
         default:
         case GcpResourceType.Instance: {
             return generateGcpInstance(rest);

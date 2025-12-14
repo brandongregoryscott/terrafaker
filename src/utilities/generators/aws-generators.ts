@@ -67,9 +67,10 @@ const generateAwsLambdaFunction = (options: ResourceGeneratorOptions) => {
     const runtime = randomItem(AWS_LAMBDA_RUNTIMES);
     const functionName = randomItem(["run", "test", "handler"]);
     const handler = `${randomItem(["exports", "index"])}.${functionName}`;
-    const memorySize = randomItem(
-        range(1, 81).map((multiplier) => 128 * multiplier)
-    );
+    /** @see https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html */
+    const maxMemoryMb = 10240;
+    const step = 128;
+    const memorySize = randomItem(range(step, maxMemoryMb, step));
     const role = randomRole();
 
     tfg.resource(AwsResourceType.LambdaFunction, name, {
