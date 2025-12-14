@@ -8,6 +8,7 @@ import { generateAwsFile } from "./aws-generators.js";
 import { $ } from "zx";
 import { generateGcpFile } from "./gcp-generators.js";
 import { Provider, Providers } from "../../enums/providers.js";
+import { range } from "lodash-es";
 
 type StringGenerator = () => string;
 
@@ -53,6 +54,16 @@ const randomId = unique(() => faker.internet.mac({ separator: "" }));
 const randomEnvironmentTag = () => randomItem(ENVIRONMENT_TAGS);
 
 const randomServiceTag = () => randomItem(SERVICE_TAGS);
+
+interface RandomMemorySizeOptions extends Required<RandomIntOptions> {
+    step: number;
+}
+
+const randomMemorySize = (options: RandomMemorySizeOptions): number => {
+    const { min, max, step } = options;
+    const values = range(min, max, step);
+    return randomItem(values);
+};
 
 interface RandomIntOptions {
     min?: number;
@@ -179,6 +190,7 @@ export {
     randomId,
     randomItem,
     randomMemorableSlug,
+    randomMemorySize,
     randomServiceTag,
     randomInt,
     maybe,

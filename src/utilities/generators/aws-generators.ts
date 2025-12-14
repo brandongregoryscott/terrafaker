@@ -4,14 +4,17 @@ import type {
     ResourceGeneratorOptions,
 } from "./generator-utils.js";
 import {
+    maybe,
     randomEnvironmentTag,
     randomId,
     randomItem,
     randomMemorableSlug,
+    randomMemorySize,
     randomServiceTag,
     unique,
 } from "./generator-utils.js";
 import {
+    AWS_EBS_VOLUME_TYPES,
     AWS_INSTANCE_TYPES,
     AWS_LAMBDA_RUNTIMES,
     AWS_REGIONS,
@@ -47,9 +50,23 @@ const generateAwsInstance = (options: ResourceGeneratorOptions) => {
     const instanceType = randomItem(AWS_INSTANCE_TYPES);
     const name = randomMemorableSlug();
 
+    const rootBlockDevice = maybe(0.5)
+        ? {
+              root_block_device: {
+                  volume_size: randomMemorySize({
+                      min: 1024,
+                      max: 64 * 1024 * 1024,
+                      step: 1024,
+                  }),
+                  volume_type: randomItem(AWS_EBS_VOLUME_TYPES),
+              },
+          }
+        : {};
+
     tfg.resource(AwsResourceType.Instance, name, {
         ami,
         instance_type: instanceType,
+        ...rootBlockDevice,
         tags: { name, environment, service },
     });
 };
@@ -68,9 +85,7 @@ const generateAwsLambdaFunction = (options: ResourceGeneratorOptions) => {
     const functionName = randomItem(["run", "test", "handler"]);
     const handler = `${randomItem(["exports", "index"])}.${functionName}`;
     /** @see https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html */
-    const maxMemoryMb = 10240;
-    const step = 128;
-    const memorySize = randomItem(range(step, maxMemoryMb, step));
+    const memorySize = randomMemorySize({ min: 128, max: 10240, step: 128 });
     const role = randomRole();
 
     tfg.resource(AwsResourceType.LambdaFunction, name, {

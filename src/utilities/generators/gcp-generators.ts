@@ -16,6 +16,7 @@ import {
     randomInt,
     randomItem,
     randomMemorableSlug,
+    randomMemorySize,
     randomServiceTag,
 } from "./generator-utils.js";
 import { range } from "lodash-es";
@@ -66,9 +67,11 @@ const generateGcpLambdaFunction = (options: ResourceGeneratorOptions) => {
     const runtime = randomItem(GCP_LAMBDA_RUNTIMES);
     const name = randomMemorableSlug();
     /** @see https://docs.cloud.google.com/run/docs/configuring/services/memory-limits */
-    const maxMemoryMb = 32 * 1024;
-    const step = 128;
-    const availableMemoryMb = randomItem(range(step, maxMemoryMb, step));
+    const availableMemoryMb = randomMemorySize({
+        min: 128,
+        max: 32 * 1024,
+        step: 128,
+    });
 
     tfg.resource(GcpResourceType.LambdaFunction, name, {
         runtime,
