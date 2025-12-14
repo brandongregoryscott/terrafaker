@@ -9,10 +9,11 @@ class FormatTsv extends BaseCommand {
     static hidden = true;
 
     static description =
-        "Utility command for formatting a TSV (tab-separated value) into an array or object with array values. Primarily used for parsing data from the GCP docs.";
+        "Utility command for formatting a TSV (tab-separated value) into an array. Primarily used for parsing data from the GCP docs.";
 
     static flags = {
-        "column-index": Flags.integer({
+        index: Flags.integer({
+            char: "i",
             description: "Column index to pull from each line.",
             default: 0,
         }),
@@ -28,13 +29,11 @@ If the string is multiple lines (which it generally is), the specified column in
 
     async run(): Promise<void> {
         const { args, flags } = await this.parse(FormatTsv);
-        const columnIndex = flags["column-index"];
+        const { index } = flags;
         const { tsv } = args;
 
         const lines = tsv.split("\n");
-        const values = compact(
-            lines.map((line) => splitTsv(line)[columnIndex])
-        );
+        const values = compact(lines.map((line) => splitTsv(line)[index]));
 
         this.log(stringifySingleLineArray(values));
     }
