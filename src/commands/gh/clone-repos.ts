@@ -4,11 +4,11 @@ import { confirm } from "@inquirer/prompts";
 import { isEmpty } from "lodash-es";
 import path from "node:path";
 import { listRepos, stringifyRepos } from "../../utilities/github.js";
-import { HELP_MESSAGES } from "../../constants/help-messages.js";
 import { BaseCommand } from "../../utilities/base-command.js";
+import { HelpMessages } from "../../enums/help-messages.js";
 
 class CloneRepos extends BaseCommand {
-    static description = `Clones repos from your Github account, useful for pulling down generated repos for manual modifications. ${HELP_MESSAGES.RequiresGhCli}`;
+    static description = `Clones repos from your Github account, useful for pulling down generated repos for manual modifications. ${HelpMessages.RequiresGhCli}`;
 
     static flags = {
         directory: Flags.string({

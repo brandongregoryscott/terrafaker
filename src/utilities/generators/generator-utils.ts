@@ -6,11 +6,8 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { generateAwsFile } from "./aws-generators.js";
 import { $ } from "zx";
-import { range } from "lodash-es";
-
-const PROVIDERS = ["aws"] as const;
-
-type Provider = (typeof PROVIDERS)[number];
+import { generateGcpFile } from "./gcp-generators.js";
+import { Provider, Providers } from "../../enums/providers.js";
 
 type StringGenerator = () => string;
 
@@ -49,6 +46,8 @@ const randomMemorableSlug = unique(() =>
 
 const randomItem = <T>(values: T[]): T => faker.helpers.arrayElement(values);
 
+const randomProvider = () => randomItem(Object.values(Providers));
+
 const randomId = unique(() => faker.internet.mac({ separator: "" }));
 
 const randomEnvironmentTag = () => randomItem(ENVIRONMENT_TAGS);
@@ -73,10 +72,8 @@ const randomInt = (options: RandomIntOptions): number => {
  */
 const maybe = (probability: number): boolean => Math.random() < probability;
 
-interface GenerateFileByProviderOptions {
+interface GenerateFileByProviderOptions extends FileGeneratorOptions {
     provider: Provider;
-    resourceCount?: number;
-    environment?: string;
 }
 
 const generateFileByProvider = (
@@ -84,8 +81,10 @@ const generateFileByProvider = (
 ): TerraformGenerator => {
     const { provider, ...rest } = options;
     switch (provider) {
+        case Providers.GCP:
+            return generateGcpFile(rest);
         default:
-        case "aws":
+        case Providers.AWS:
             return generateAwsFile(rest);
     }
 };
@@ -174,6 +173,8 @@ const generateRepo = async (
 export type { ResourceGeneratorOptions, StringGenerator, FileGeneratorOptions };
 export {
     generateRepo,
+    generateFileByProvider,
+    randomProvider,
     randomEnvironmentTag,
     randomId,
     randomItem,
