@@ -35,7 +35,7 @@ class File extends BaseCommand {
             (flags.provider as Provider | undefined) ?? randomProvider();
         const fileName = formatTfFileName(name ?? "main.tf");
 
-        FileGenerator.generateFileByProvider({
+        FileGenerator.generate({
             fileName,
             provider,
             resourceCount,

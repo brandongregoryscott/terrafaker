@@ -72,7 +72,7 @@ class Repo extends BaseCommand {
         const directory = path.resolve(process.cwd(), flags.directory);
 
         for (let i = 0; i < count; i++) {
-            const { name, path } = await RepoGenerator.generateRepo({
+            const { name, path } = await RepoGenerator.generate({
                 directory,
                 fileCount,
                 format,

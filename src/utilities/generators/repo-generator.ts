@@ -5,7 +5,7 @@ import { randomMemorableSlug, randomProvider } from "./generator-utils.js";
 import { $ } from "zx";
 import { mkdir } from "node:fs/promises";
 
-interface GenerateRepoOptions {
+interface GenerateOptions {
     /**
      * Provider to generate a terraform file for. If not provided, random providers will be used.
      */
@@ -42,15 +42,15 @@ interface GenerateRepoOptions {
     quiet?: boolean;
 }
 
-interface GenerateRepoResult {
+interface GenerateResult {
     name: string;
     path: string;
 }
 
 class RepoGenerator {
-    public static async generateRepo(
-        options: GenerateRepoOptions
-    ): Promise<GenerateRepoResult> {
+    public static async generate(
+        options: GenerateOptions
+    ): Promise<GenerateResult> {
         const {
             provider,
             prefix = "tf_",
@@ -71,9 +71,9 @@ class RepoGenerator {
         await sh`git init`;
 
         for (let i = 0; i < fileCount; i++) {
-            FileGenerator.generateFileByProvider({
+            FileGenerator.generate({
                 directory,
-                provider: provider ?? randomProvider(),
+                provider,
                 resourceCount,
                 format,
             });
