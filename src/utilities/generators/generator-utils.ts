@@ -6,6 +6,8 @@ import { range } from "lodash-es";
 
 type StringGenerator = () => string;
 
+const MAX_UNIQUE_GENERATOR_ATTEMPTS = 50;
+
 /**
  * Wraps a generator function to ensure the values it returns are not reused within the program runtime
  */
@@ -13,8 +15,15 @@ function unique(generator: StringGenerator): StringGenerator {
     const used = new Set();
     return () => {
         let value = generator();
-        while (used.has(value)) {
+        let attempts = 0;
+
+        while (used.has(value) && attempts < MAX_UNIQUE_GENERATOR_ATTEMPTS) {
+            attempts++;
             value = generator();
+        }
+
+        if (used.has(value)) {
+            value = `${value}${randomId()}`;
         }
 
         used.add(value);

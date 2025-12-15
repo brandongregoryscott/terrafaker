@@ -44,6 +44,11 @@ abstract class ProviderGenerator {
         return this.addResourceByType(type);
     }
 
+    public toString(): string {
+        const { tf } = this.tfg.generate();
+        return tf.trim();
+    }
+
     public writeToFile(options?: WriteToFileOptions): void {
         const { directory, format = true } = options ?? {};
         const fileName = formatTfFileName(

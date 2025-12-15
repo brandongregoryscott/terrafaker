@@ -6,9 +6,11 @@ CLI for easily generating fake terraform files and repos
 [![Version](https://img.shields.io/npm/v/terrafaker.svg)](https://npmjs.org/package/terrafaker)
 [![Downloads/week](https://img.shields.io/npm/dw/terrafaker.svg)](https://npmjs.org/package/terrafaker)
 
-## Why this exists
+## Goals
 
-This tool mostly exists to quickly seed data for testing out platforms that rely on infrastructure-as-code, like [Infracost](https://www.infracost.io/). If you find it useful, or there's a feature you'd like to see, feel free to open up an [issue](https://github.com/brandongregoryscott/terrafaker/issues).
+The primary goal of this tool is to quickly generate seed data for testing out platforms that use infrastructure-as-code, like [Infracost](https://www.infracost.io/). The data used to generate the infrastructure configurations is based on public cloud provider docs, but there is no guarantee that the configurations are valid. For example, only some Azure VMs support _accelerators_ or GPU add-ons, but this tool does not encode any of that logic.
+
+Obviously, you shouldn't use this tool to try to generate real production infrastructure.
 
 ## Features
 
@@ -19,12 +21,20 @@ This tool mostly exists to quickly seed data for testing out platforms that rely
 ### Supported providers and resources
 
 - AWS
-    - EC2 instances
-    - Lambda functions
+    - Compute instances
+    - Functions
 - GCP
     - Compute instances
     - Functions
-- TODO: Azure
+- Azure
+    - Compute instances
+    - Functions
+
+## Issues
+
+If you find a bug, feel free to [open up an issue](https://github.com/brandongregoryscott/terrafaker/issues/new) and try to describe it in detail with reproduction steps if possible.
+
+If you would like to see a feature, and it isn't [already documented](https://github.com/brandongregoryscott/terrafaker/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement), feel free to open up a new issue and describe the desired behavior.
 
 <!-- prettier-ignore-start -->
 <!-- toc -->
