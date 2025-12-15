@@ -1,4 +1,4 @@
-import { expect, it, describe } from "vitest";
+import { expect, it, describe, vi } from "vitest";
 import { ProviderGenerator } from "./provider-generator.js";
 
 describe("ProviderGenerator", () => {
@@ -35,10 +35,32 @@ describe("ProviderGenerator", () => {
         }
     }
 
+    describe("constructor", () => {
+        it("calls addProvider", () => {
+            const addProvider = vi.fn();
+            class TestGenerator extends ProviderGenerator {
+                public addProvider() {
+                    addProvider();
+                }
+
+                public addComputeInstance(): this {
+                    throw new Error("Method not implemented.");
+                }
+
+                public addLambdaFunction(): this {
+                    throw new Error("Method not implemented.");
+                }
+            }
+
+            new TestGenerator();
+
+            expect(addProvider).toHaveBeenCalledTimes(1);
+        });
+    });
+
     describe("toString", () => {
         it("returns stringified file", () => {
-            const generator = new TestGenerator();
-            generator.addComputeInstance();
+            const generator = new TestGenerator().addComputeInstance();
 
             const result = generator.toString();
 
