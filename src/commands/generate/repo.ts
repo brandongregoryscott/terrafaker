@@ -11,6 +11,7 @@ import { $ } from "zx";
 import { HelpMessages } from "../../enums/help-messages.js";
 import type { Provider } from "../../enums/providers.js";
 import { RepoGenerator } from "../../utilities/generators/repo-generator.js";
+import { success } from "../../utilities/string-utils.js";
 
 class Repo extends BaseCommand {
     static description = "Generates repo(s) with multiple terraform files.";
@@ -84,6 +85,10 @@ class Repo extends BaseCommand {
 
             if (createRemote) {
                 await $`gh repo create ${name} --source ${path} ${isPublic ? "--public" : "--private"} --push`;
+
+                if (!quiet) {
+                    this.log(success(`Successfully pushed '${name}'`));
+                }
             }
         }
     }

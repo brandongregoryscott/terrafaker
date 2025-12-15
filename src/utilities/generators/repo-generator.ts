@@ -4,6 +4,7 @@ import { FileGenerator } from "./file-generator.js";
 import { randomMemorableSlug, randomProvider } from "./generator-utils.js";
 import { $ } from "zx";
 import { mkdir } from "node:fs/promises";
+import { success } from "../string-utils.js";
 
 interface GenerateOptions {
     /**
@@ -59,7 +60,7 @@ class RepoGenerator {
             resourceCount,
             quiet,
         } = options;
-        options;
+
         const directory = path.resolve(process.cwd(), options.directory ?? ".");
 
         const repoName = `${prefix}${randomMemorableSlug()}`;
@@ -80,6 +81,10 @@ class RepoGenerator {
         }
 
         await sh`git add . && git commit -m "initial commit"`;
+
+        if (!quiet) {
+            console.log(success(`Successfully generated '${repoPath}'`));
+        }
 
         return { name: repoName, path: repoPath };
     }

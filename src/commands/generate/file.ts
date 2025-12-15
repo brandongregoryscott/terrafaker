@@ -43,7 +43,7 @@ class File extends BaseCommand {
         });
 
         if (!quiet) {
-            this.log(success(`Successfully generated ${fileName}`));
+            this.log(success(`Successfully generated '${fileName}'`));
         }
     }
 }
