@@ -41,7 +41,7 @@ $ npm install -g terrafaker
 $ terrafaker COMMAND
 running command...
 $ terrafaker (--version)
-terrafaker/0.0.0 darwin-arm64 node-v24.8.0
+terrafaker/0.0.1 darwin-arm64 node-v24.8.0
 $ terrafaker --help [COMMAND]
 USAGE
   $ terrafaker COMMAND
@@ -64,21 +64,21 @@ Generates a terraform file.
 
 ```
 USAGE
-  $ terrafaker generate file [--name <value>] [--provider aws|gcp] [--resource-count <value>] [-f] [-q]
+  $ terrafaker generate file [--name <value>] [--provider aws|gcp|azure] [--resource-count <value>] [-f] [-q]
 
 FLAGS
   -f, --[no-]format             Format the output terraform files. Requires `terraform` to be in your $PATH.
   -q, --quiet                   Suppress the logging output.
       --name=<value>            Name for the generated file, which must end in .tf
       --provider=<option>       Cloud provider to generate resources for
-                                <options: aws|gcp>
+                                <options: aws|gcp|azure>
       --resource-count=<value>  [default: 3] Number of resources per file to generate
 
 DESCRIPTION
   Generates a terraform file.
 ```
 
-_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/generate/file.ts)_
+_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.1/src/commands/generate/file.ts)_
 
 ## `terrafaker generate repo`
 
@@ -87,7 +87,7 @@ Generates repo(s) with multiple terraform files.
 ```
 USAGE
   $ terrafaker generate repo [--directory <value>] [--count <value>] [--file-count <value>] [--resource-count
-    <value>] [--prefix <value>] [--provider aws|gcp] [-f] [--create-remote] [--public] [-q]
+    <value>] [--prefix <value>] [--provider aws|gcp|azure] [-f] [--create-remote] [--public] [-q]
 
 FLAGS
   -f, --[no-]format             Format the output terraform files. Requires `terraform` to be in your $PATH.
@@ -99,7 +99,7 @@ FLAGS
       --file-count=<value>      [default: 3] Number of files per repo to generate
       --prefix=<value>          [default: tf_] Prefix for repo names, useful for quickly identifying generated content
       --provider=<option>       Cloud provider to generate resources for
-                                <options: aws|gcp>
+                                <options: aws|gcp|azure>
       --public                  Whether the remote repo(s) created are public.
       --resource-count=<value>  [default: 3] Number of resources per file to generate
 
@@ -107,7 +107,7 @@ DESCRIPTION
   Generates repo(s) with multiple terraform files.
 ```
 
-_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/generate/repo.ts)_
+_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.1/src/commands/generate/repo.ts)_
 
 ## `terrafaker gh clone-repos`
 
@@ -126,7 +126,7 @@ DESCRIPTION
   `gh` CLI to be installed. To install, run `brew install gh`.
 ```
 
-_See code: [src/commands/gh/clone-repos.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/gh/clone-repos.ts)_
+_See code: [src/commands/gh/clone-repos.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.1/src/commands/gh/clone-repos.ts)_
 
 ## `terrafaker gh delete-repos`
 
@@ -146,7 +146,7 @@ DESCRIPTION
   If the deletion fails, you may need to refresh your CLI permissions with `gh auth refresh -s delete_repo`
 ```
 
-_See code: [src/commands/gh/delete-repos.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.0/src/commands/gh/delete-repos.ts)_
+_See code: [src/commands/gh/delete-repos.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.1/src/commands/gh/delete-repos.ts)_
 
 ## `terrafaker help [COMMAND]`
 
