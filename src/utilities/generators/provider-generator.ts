@@ -3,11 +3,6 @@ import type { ResourceType } from "../../enums/resource-types.js";
 import { ResourceTypes } from "../../enums/resource-types.js";
 import { randomItem, randomMemorableSlug } from "./generator-utils.js";
 import { formatTfFileName } from "../string-utils.js";
-import type { Provider } from "../../enums/providers.js";
-import { Providers } from "../../enums/providers.js";
-import { AzureGenerator } from "./azure-generator.js";
-import { GcpGenerator } from "./gcp-generator.js";
-import { AwsGenerator } from "./aws-generator.js";
 
 interface WriteToFileOptions {
     directory?: string;
@@ -21,18 +16,6 @@ abstract class ProviderGenerator {
     public constructor() {
         this.tfg = new TerraformGenerator();
         this.addProvider();
-    }
-
-    public static get(provider: Provider) {
-        switch (provider) {
-            case Providers.Azure:
-                return new AzureGenerator();
-            case Providers.GCP:
-                return new GcpGenerator();
-            default:
-            case Providers.AWS:
-                return new AwsGenerator();
-        }
     }
 
     /**

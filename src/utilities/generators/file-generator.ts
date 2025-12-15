@@ -1,5 +1,5 @@
 import { type Provider } from "../../enums/providers.js";
-import { ProviderGenerator } from "./provider-generator.js";
+import { ProviderGeneratorFactory } from "./provider-generator-factory.js";
 
 interface GenerateFileByProviderOptions {
     provider: Provider;
@@ -20,7 +20,7 @@ class FileGenerator {
             directory,
             format,
         } = options;
-        const generator = ProviderGenerator.get(provider);
+        const generator = ProviderGeneratorFactory.get(provider);
 
         for (let i = 0; i < resourceCount; i++) {
             generator.addRandomResource();
