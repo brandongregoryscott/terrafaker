@@ -72,7 +72,7 @@ class RepoGenerator {
 
         for (let i = 0; i < fileCount; i++) {
             FileGenerator.generate({
-                directory,
+                directory: repoPath,
                 provider,
                 resourceCount,
                 format,
