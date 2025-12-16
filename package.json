@@ -70,14 +70,12 @@
         "generate:readme": "oclif readme && prettier README.md --write",
         "lint": "eslint",
         "lint:fix": "eslint --fix",
-        "postbuild": "npm run generate:manifest",
-        "postpack": "shx rm -f oclif.manifest.json",
-        "prepack": "npm run generate:manifest && npm run generate:readme",
-        "prepublish": "npm run build",
+        "postbuild": "npm run generate:manifest && npm run generate:readme",
+        "prepack": "npm run build",
         "test": "vitest",
         "version": "npm run generate:readme && git add README.md"
     },
     "type": "module",
     "types": "dist/index.d.ts",
-    "version": "0.0.1"
+    "version": "0.0.4"
 }
