@@ -1,5 +1,8 @@
-import { AWS_INSTANCE_TYPES } from "../../constants/aws.js";
-import { AZURE_LAMBDA_RUNTIMES, AZURE_REGIONS } from "../../constants/azure.js";
+import {
+    AZURE_INSTANCE_TYPES,
+    AZURE_LAMBDA_RUNTIMES,
+    AZURE_REGIONS,
+} from "../../constants/azure.js";
 import {
     randomEnvironmentTag,
     randomItem,
@@ -24,7 +27,7 @@ class AzureGenerator extends ProviderGenerator {
         const name = randomMemorableSlug();
         const environment = randomEnvironmentTag();
         const service = randomServiceTag();
-        const instanceType = randomItem(AWS_INSTANCE_TYPES);
+        const instanceType = randomItem(AZURE_INSTANCE_TYPES);
 
         this.tfg.resource(AzureResourceType.ComputeInstance, name, {
             size: instanceType,

@@ -143,51 +143,51 @@ const AZURE_INSTANCE_TYPES = flatten(
 const AZURE_LAMBDA_RUNTIMES = [
     {
         runtime_name: "dotnet-isolated",
-        runtime_verison: "8",
+        runtime_version: "8",
     },
     {
         runtime_name: "dotnet-isolated",
-        runtime_verison: "9",
+        runtime_version: "9",
     },
     {
         runtime_name: "dotnet-isolated",
-        runtime_verison: "10",
+        runtime_version: "10",
     },
     {
         runtime_name: "java",
-        runtime_verison: "11",
+        runtime_version: "11",
     },
     {
         runtime_name: "java",
-        runtime_verison: "17",
+        runtime_version: "17",
     },
     {
         runtime_name: "java",
-        runtime_verison: "21",
+        runtime_version: "21",
     },
     {
         runtime_name: "node",
-        runtime_verison: "20",
+        runtime_version: "20",
     },
     {
         runtime_name: "node",
-        runtime_verison: "22",
+        runtime_version: "22",
     },
     {
         runtime_name: "powershell",
-        runtime_verison: "7.4",
+        runtime_version: "7.4",
     },
     {
         runtime_name: "python",
-        runtime_verison: "3.10",
+        runtime_version: "3.10",
     },
     {
         runtime_name: "python",
-        runtime_verison: "3.11",
+        runtime_version: "3.11",
     },
     {
         runtime_name: "python",
-        runtime_verison: "3.12",
+        runtime_version: "3.12",
     },
 ];
 
