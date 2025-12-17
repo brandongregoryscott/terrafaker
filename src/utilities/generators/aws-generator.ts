@@ -23,8 +23,7 @@ const AwsResourceType = {
 
 class AwsGenerator extends ProviderGenerator {
     public addProvider(): void {
-        const region = randomItem(AWS_REGIONS);
-        this.tfg.provider("aws", { region });
+        this.tfg.provider("aws", { region: this.region });
     }
 
     public addComputeInstance(): this {
@@ -83,6 +82,10 @@ class AwsGenerator extends ProviderGenerator {
         });
 
         return this;
+    }
+
+    public randomRegion(): string {
+        return randomItem(AWS_REGIONS);
     }
 
     private randomAmi = unique(() => `ami-${randomId()}`);

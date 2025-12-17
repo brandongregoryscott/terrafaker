@@ -22,8 +22,7 @@ const GcpResourceType = {
 
 class GcpGenerator extends ProviderGenerator {
     public addProvider(): void {
-        const region = randomItem(GCP_REGIONS);
-        this.tfg.provider("google", { region });
+        this.tfg.provider("google", { region: this.region });
     }
 
     public addComputeInstance(): this {
@@ -41,6 +40,7 @@ class GcpGenerator extends ProviderGenerator {
             : {};
 
         this.tfg.resource(GcpResourceType.ComputeInstance, name, {
+            zone: this.region,
             machine_type: machineType,
             ...guestAccelerator,
             labels: { name, environment, service },
@@ -69,6 +69,10 @@ class GcpGenerator extends ProviderGenerator {
         });
 
         return this;
+    }
+
+    public randomRegion(): string {
+        return randomItem(GCP_REGIONS);
     }
 }
 
