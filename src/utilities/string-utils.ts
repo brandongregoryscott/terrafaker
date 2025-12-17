@@ -9,16 +9,9 @@ const snakeSlugify = (value: string): string =>
 
 const success = (message: string) => `${ux.colorize("green", "✓")} ${message}`;
 
-const stringifySingleLineArray = (values: string[]): string =>
-    `[${values.map((value) => `"${value}"`).join(", ")}]`;
+const warn = (message: string) => `${ux.colorize("yellow", "⚠")} ${message}`;
 
 const formatTfFileName = (fileName: string): string =>
     fileName.endsWith(".tf") ? fileName : `${fileName}.tf`;
 
-export {
-    formatTfFileName,
-    slugify,
-    snakeSlugify,
-    stringifySingleLineArray,
-    success,
-};
+export { formatTfFileName, slugify, snakeSlugify, success, warn };

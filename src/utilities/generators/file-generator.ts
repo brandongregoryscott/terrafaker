@@ -1,8 +1,9 @@
 import { type Provider } from "../../enums/providers.js";
 import { randomProvider } from "./generator-utils.js";
 import { ProviderGeneratorFactory } from "./provider-generator-factory.js";
+import type { ProviderGeneratorOptions } from "./provider-generator.js";
 
-interface GenerateOptions {
+interface GenerateOptions extends ProviderGeneratorOptions {
     provider?: Provider;
     directory?: string;
     fileName?: string;
@@ -18,8 +19,9 @@ class FileGenerator {
             fileName,
             directory,
             format,
+            tags,
         } = options;
-        const generator = ProviderGeneratorFactory.get(provider);
+        const generator = ProviderGeneratorFactory.get(provider, { tags });
 
         for (let i = 0; i < resourceCount; i++) {
             generator.addRandomResource();

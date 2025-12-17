@@ -6,12 +6,10 @@ import {
 } from "../../constants/aws.js";
 import {
     maybe,
-    randomEnvironmentTag,
     randomId,
     randomItem,
     randomMemorableSlug,
     randomMemorySize,
-    randomServiceTag,
     unique,
 } from "./generator-utils.js";
 import { ProviderGenerator } from "./provider-generator.js";
@@ -28,8 +26,6 @@ class AwsGenerator extends ProviderGenerator {
 
     public addComputeInstance(): this {
         const name = randomMemorableSlug();
-        const environment = randomEnvironmentTag();
-        const service = randomServiceTag();
         const ami = this.randomAmi();
         const instanceType = randomItem(AWS_INSTANCE_TYPES);
         const rootBlockDevice = maybe(0.5)
@@ -49,7 +45,7 @@ class AwsGenerator extends ProviderGenerator {
             ami,
             instance_type: instanceType,
             ...rootBlockDevice,
-            tags: { name, environment, service },
+            tags: this.getTags(),
         });
 
         return this;
@@ -57,8 +53,6 @@ class AwsGenerator extends ProviderGenerator {
 
     public addLambdaFunction(): this {
         const name = randomMemorableSlug();
-        const environment = randomEnvironmentTag();
-        const service = randomServiceTag();
         // https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html
         const memorySize = randomMemorySize({
             min: 128,
@@ -78,7 +72,7 @@ class AwsGenerator extends ProviderGenerator {
             function_name: functionName,
             memory_size: memorySize,
             role,
-            tags: { name, environment, service },
+            tags: this.getTags(),
         });
 
         return this;

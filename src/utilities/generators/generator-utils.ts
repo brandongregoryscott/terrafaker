@@ -1,6 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { snakeSlugify } from "../string-utils.js";
-import { ENVIRONMENT_TAGS, SERVICE_TAGS } from "../../constants/tags.js";
+import {
+    ENVIRONMENT_TAGS,
+    SERVICE_TAGS,
+    TAG_KEYS,
+} from "../../constants/tags.js";
 import { Providers } from "../../enums/providers.js";
 import { range } from "lodash-es";
 
@@ -39,6 +43,11 @@ const randomMemorableSlug = unique(() =>
 
 const randomItem = <T>(values: T[]): T => faker.helpers.arrayElement(values);
 
+const randomItems = <T>(
+    values: T[],
+    count?: number | Required<RandomIntOptions>
+): T[] => faker.helpers.arrayElements(values, count);
+
 const randomProvider = () => randomItem(Object.values(Providers));
 
 const randomId = unique(() => faker.internet.mac({ separator: "" }));
@@ -46,6 +55,21 @@ const randomId = unique(() => faker.internet.mac({ separator: "" }));
 const randomEnvironmentTag = () => randomItem(ENVIRONMENT_TAGS);
 
 const randomServiceTag = () => randomItem(SERVICE_TAGS);
+
+const randomTags = (
+    additionalTags?: Record<string, string>
+): Record<string, string> => {
+    const keys = randomItems(TAG_KEYS, { min: 1, max: 4 });
+    const tags = keys.reduce(
+        (accumulated, key) => {
+            accumulated[key] = randomMemorableSlug();
+            return accumulated;
+        },
+        {} as Record<string, string>
+    );
+
+    return { ...tags, ...additionalTags };
+};
 
 interface RandomMemorySizeOptions extends Required<RandomIntOptions> {
     step: number;
@@ -81,9 +105,11 @@ export {
     randomId,
     randomInt,
     randomItem,
+    randomItems,
     randomMemorableSlug,
     randomMemorySize,
     randomProvider,
     randomServiceTag,
+    randomTags,
     unique,
 };

@@ -4,11 +4,9 @@ import {
     AZURE_REGIONS,
 } from "../../constants/azure.js";
 import {
-    randomEnvironmentTag,
     randomItem,
     randomMemorableSlug,
     randomMemorySize,
-    randomServiceTag,
 } from "./generator-utils.js";
 import { ProviderGenerator } from "./provider-generator.js";
 
@@ -24,13 +22,11 @@ class AzureGenerator extends ProviderGenerator {
 
     public addComputeInstance(): this {
         const name = randomMemorableSlug();
-        const environment = randomEnvironmentTag();
-        const service = randomServiceTag();
         const instanceType = randomItem(AZURE_INSTANCE_TYPES);
 
         this.tfg.resource(AzureResourceType.ComputeInstance, name, {
             size: instanceType,
-            tags: { name, environment, service },
+            tags: this.getTags(),
         });
 
         return this;
@@ -38,8 +34,6 @@ class AzureGenerator extends ProviderGenerator {
 
     public addLambdaFunction(): this {
         const name = randomMemorableSlug();
-        const environment = randomEnvironmentTag();
-        const service = randomServiceTag();
         const runtime = randomItem(AZURE_LAMBDA_RUNTIMES);
         // There's a lot of different configurations listed, so just guessing here.
         // https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale
@@ -53,7 +47,7 @@ class AzureGenerator extends ProviderGenerator {
             ...runtime,
             name,
             instance_memory_in_mb: instanceMemoryInMb,
-            labels: { name, environment, service },
+            tags: this.getTags(),
         });
 
         return this;

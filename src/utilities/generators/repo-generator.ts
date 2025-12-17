@@ -1,10 +1,11 @@
 import path from "node:path";
 import type { Provider } from "../../enums/providers.js";
 import { FileGenerator } from "./file-generator.js";
-import { randomMemorableSlug, randomProvider } from "./generator-utils.js";
+import { randomMemorableSlug } from "./generator-utils.js";
 import { $ } from "zx";
 import { mkdir } from "node:fs/promises";
 import { success } from "../string-utils.js";
+import type { ProviderGeneratorTags } from "./provider-generator.js";
 
 interface GenerateOptions {
     /**
@@ -41,6 +42,11 @@ interface GenerateOptions {
      * Whether output from the commands should be silenced
      */
     quiet?: boolean;
+
+    /**
+     * Tag configuration to be generated with each generated resource
+     */
+    tags?: ProviderGeneratorTags;
 }
 
 interface GenerateResult {
@@ -59,6 +65,7 @@ class RepoGenerator {
             fileCount = 3,
             resourceCount,
             quiet,
+            tags,
         } = options;
 
         const directory = path.resolve(process.cwd(), options.directory ?? ".");
@@ -77,6 +84,7 @@ class RepoGenerator {
                 provider,
                 resourceCount,
                 format,
+                tags,
             });
         }
 
