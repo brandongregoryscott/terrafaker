@@ -19,8 +19,7 @@ const AzureResourceType = {
 
 class AzureGenerator extends ProviderGenerator {
     public addProvider(): void {
-        const region = randomItem(AZURE_REGIONS);
-        this.tfg.provider("azurerm", { region });
+        this.tfg.provider("azurerm", { region: this.region });
     }
 
     public addComputeInstance(): this {
@@ -58,6 +57,10 @@ class AzureGenerator extends ProviderGenerator {
         });
 
         return this;
+    }
+
+    public randomRegion(): string {
+        return randomItem(AZURE_REGIONS);
     }
 }
 

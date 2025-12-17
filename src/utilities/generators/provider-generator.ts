@@ -12,9 +12,11 @@ interface WriteToFileOptions {
 
 abstract class ProviderGenerator {
     public readonly tfg: TerraformGenerator;
+    public readonly region: string;
 
     public constructor() {
         this.tfg = new TerraformGenerator();
+        this.region = this.randomRegion();
         this.addProvider();
     }
 
@@ -27,6 +29,8 @@ abstract class ProviderGenerator {
     public abstract addComputeInstance(): this;
 
     public abstract addLambdaFunction(): this;
+
+    public abstract randomRegion(): string;
 
     public addResourceByType(type: ResourceType): this {
         switch (type) {
