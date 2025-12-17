@@ -33,6 +33,10 @@ describe("ProviderGenerator", () => {
 
             return this;
         }
+
+        public randomRegion(): string {
+            return "us-east-1";
+        }
     }
 
     describe("constructor", () => {
@@ -49,6 +53,10 @@ describe("ProviderGenerator", () => {
 
                 public addLambdaFunction(): this {
                     throw new Error("Method not implemented.");
+                }
+
+                public randomRegion(): string {
+                    return "us-east-1";
                 }
             }
 
