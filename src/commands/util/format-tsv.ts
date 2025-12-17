@@ -1,6 +1,6 @@
 import { Args, Flags } from "@oclif/core";
 import { BaseCommand } from "../../utilities/base-command.js";
-import { stringifySingleLineArray } from "../../utilities/string-utils.js";
+import { stringifySingleLineArray } from "../../utilities/collection-utils.js";
 import { compact } from "lodash-es";
 
 const EXAMPLE = `c4d-standard-2	2	7	No	Up to 10	N/A`;

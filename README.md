@@ -74,15 +74,48 @@ Generates a terraform file.
 
 ```
 USAGE
-  $ terrafaker generate file [--name <value>] [--provider aws|gcp|azure] [--resource-count <value>] [-f] [-q]
+  $ terrafaker generate file [--chaos-tags | --tags <value> | --no-tags] [-f] [--name <value>] [--provider
+    aws|gcp|azure] [-q] [--resource-count <value>]
 
 FLAGS
-  -f, --[no-]format             Format the output terraform files. Requires `terraform` to be in your $PATH.
-  -q, --quiet                   Suppress the logging output.
-      --name=<value>            Name for the generated file, which must end in .tf
-      --provider=<option>       Cloud provider to generate resources for
-                                <options: aws|gcp|azure>
-      --resource-count=<value>  [default: 3] Number of resources per file to generate
+  -f, --[no-]format
+      Format the output terraform files. Requires `terraform` to be in your $PATH.
+
+  -q, --quiet
+      Suppress the logging output.
+
+  --chaos-tags
+      Generate random tag keys & values
+
+  --name=<value>
+      Name for the generated file, which must end in .tf
+
+  --no-tags
+      Disable any tag generation
+
+  --provider=<option>
+      Cloud provider to generate resources for
+      <options: aws|gcp|azure>
+
+  --resource-count=<value>
+      [default: 3] Number of resources per file to generate
+
+  --tags=<value>
+      [default: Environment:Dev,Service:service] Custom tags to use for generated resources. Should be a comma-separated
+      list of tag names to generate random values for, or tag names with values delimited by a colon.
+
+      Examples:
+
+      Specify just tag keys to have a random value generated.
+      --tags Service,Team → {"Service":"(random value)","Team":"(random value)"}
+
+      Specify value for a key with the : delimiter. This can be mixed with just keys that are randomly generated.
+      --tags Service:web-app,Team → {"Service":"web-app","Team":"(random value)"}
+      --tags Service:web-app,Team:core → {"Service":"web-app","Team":"core"}
+
+      When specifying a key or value that has a space in it, the entire tag string needs to be quoted.
+      --tags "Service:my awesome web app,Team Name:The Core Team" → {"Service":"my awesome web app","Team Name":"The Core
+      Team"}
 
 DESCRIPTION
   Generates a terraform file.
@@ -96,22 +129,64 @@ Generates repo(s) with multiple terraform files.
 
 ```
 USAGE
-  $ terrafaker generate repo [--directory <value>] [--count <value>] [--file-count <value>] [--resource-count
-    <value>] [--prefix <value>] [--provider aws|gcp|azure] [-f] [--create-remote] [--public] [-q]
+  $ terrafaker generate repo [--chaos-tags | --tags <value> | --no-tags] [--count <value>] [--create-remote]
+    [--directory <value>] [--file-count <value>] [-f] [--prefix <value>] [--provider aws|gcp|azure] [--public] [-q]
+    [--resource-count <value>]
 
 FLAGS
-  -f, --[no-]format             Format the output terraform files. Requires `terraform` to be in your $PATH.
-  -q, --quiet                   Suppress the logging output.
-      --count=<value>           [default: 1] Number of repos to generate
-      --create-remote           Create and push a remote GitHub repo. Requires the `gh` CLI to be installed. To install,
-                                run `brew install gh`.
-      --directory=<value>       [default: .] Directory to generate the repo(s) in
-      --file-count=<value>      [default: 3] Number of files per repo to generate
-      --prefix=<value>          [default: tf_] Prefix for repo names, useful for quickly identifying generated content
-      --provider=<option>       Cloud provider to generate resources for
-                                <options: aws|gcp|azure>
-      --public                  Whether the remote repo(s) created are public.
-      --resource-count=<value>  [default: 3] Number of resources per file to generate
+  -f, --[no-]format
+      Format the output terraform files. Requires `terraform` to be in your $PATH.
+
+  -q, --quiet
+      Suppress the logging output.
+
+  --chaos-tags
+      Generate random tag keys & values
+
+  --count=<value>
+      [default: 1] Number of repos to generate
+
+  --create-remote
+      Create and push a remote GitHub repo. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
+
+  --directory=<value>
+      [default: .] Directory to generate the repo(s) in
+
+  --file-count=<value>
+      [default: 3] Number of files per repo to generate
+
+  --no-tags
+      Disable any tag generation
+
+  --prefix=<value>
+      [default: tf_] Prefix for repo names, useful for quickly identifying generated content
+
+  --provider=<option>
+      Cloud provider to generate resources for
+      <options: aws|gcp|azure>
+
+  --public
+      Whether the remote repo(s) created are public.
+
+  --resource-count=<value>
+      [default: 3] Number of resources per file to generate
+
+  --tags=<value>
+      [default: Environment:Dev,Service:service] Custom tags to use for generated resources. Should be a comma-separated
+      list of tag names to generate random values for, or tag names with values delimited by a colon.
+
+      Examples:
+
+      Specify just tag keys to have a random value generated.
+      --tags Service,Team → {"Service":"(random value)","Team":"(random value)"}
+
+      Specify value for a key with the : delimiter. This can be mixed with just keys that are randomly generated.
+      --tags Service:web-app,Team → {"Service":"web-app","Team":"(random value)"}
+      --tags Service:web-app,Team:core → {"Service":"web-app","Team":"core"}
+
+      When specifying a key or value that has a space in it, the entire tag string needs to be quoted.
+      --tags "Service:my awesome web app,Team Name:The Core Team" → {"Service":"my awesome web app","Team Name":"The Core
+      Team"}
 
 DESCRIPTION
   Generates repo(s) with multiple terraform files.

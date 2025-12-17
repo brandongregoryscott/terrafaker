@@ -6,12 +6,10 @@ import {
 } from "../../constants/gcp.js";
 import {
     maybe,
-    randomEnvironmentTag,
     randomInt,
     randomItem,
     randomMemorableSlug,
     randomMemorySize,
-    randomServiceTag,
 } from "./generator-utils.js";
 import { ProviderGenerator } from "./provider-generator.js";
 
@@ -27,8 +25,6 @@ class GcpGenerator extends ProviderGenerator {
 
     public addComputeInstance(): this {
         const name = randomMemorableSlug();
-        const environment = randomEnvironmentTag();
-        const service = randomServiceTag();
         const machineType = randomItem(GCP_INSTANCE_TYPES);
         const guestAccelerator = maybe(0.5)
             ? {
@@ -43,7 +39,7 @@ class GcpGenerator extends ProviderGenerator {
             zone: this.region,
             machine_type: machineType,
             ...guestAccelerator,
-            labels: { name, environment, service },
+            labels: this.getTags(),
         });
 
         return this;
@@ -51,8 +47,6 @@ class GcpGenerator extends ProviderGenerator {
 
     public addLambdaFunction(): this {
         const name = randomMemorableSlug();
-        const environment = randomEnvironmentTag();
-        const service = randomServiceTag();
         const runtime = randomItem(GCP_LAMBDA_RUNTIMES);
         // @see https://docs.cloud.google.com/run/docs/configuring/services/memory-limits
         const availableMemoryMb = randomMemorySize({
@@ -65,7 +59,7 @@ class GcpGenerator extends ProviderGenerator {
             runtime,
             name,
             available_memory_mb: availableMemoryMb,
-            labels: { name, environment, service },
+            labels: this.getTags(),
         });
 
         return this;

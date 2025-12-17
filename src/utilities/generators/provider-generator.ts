@@ -1,8 +1,27 @@
 import { TerraformGenerator } from "terraform-generator";
 import type { ResourceType } from "../../enums/resource-types.js";
 import { ResourceTypes } from "../../enums/resource-types.js";
-import { randomItem, randomMemorableSlug } from "./generator-utils.js";
+import {
+    randomItem,
+    randomMemorableSlug,
+    randomTags,
+} from "./generator-utils.js";
 import { formatTfFileName } from "../string-utils.js";
+
+interface ProviderGeneratorOptions {
+    tags?: ProviderGeneratorTags;
+}
+
+type ProviderGeneratorTags =
+    | Record<string, string>
+    /**
+     * Tags are randomly generated for each resource
+     */
+    | "chaos"
+    /**
+     * No tags will be added to any resource
+     */
+    | undefined;
 
 interface WriteToFileOptions {
     directory?: string;
@@ -13,11 +32,13 @@ interface WriteToFileOptions {
 abstract class ProviderGenerator {
     public readonly tfg: TerraformGenerator;
     public readonly region: string;
+    public readonly tags?: ProviderGeneratorTags;
 
-    public constructor() {
+    public constructor(options?: ProviderGeneratorOptions) {
         this.tfg = new TerraformGenerator();
         this.region = this.randomRegion();
         this.addProvider();
+        this.tags = options?.tags;
     }
 
     /**
@@ -48,6 +69,14 @@ abstract class ProviderGenerator {
         return this.addResourceByType(type);
     }
 
+    public getTags(): Record<string, string> | undefined {
+        if (this.tags === "chaos") {
+            return randomTags();
+        }
+
+        return this.tags;
+    }
+
     public toString(): string {
         const { tf } = this.tfg.generate();
         return tf.trim();
@@ -62,4 +91,5 @@ abstract class ProviderGenerator {
     }
 }
 
+export type { ProviderGeneratorOptions, ProviderGeneratorTags };
 export { ProviderGenerator };

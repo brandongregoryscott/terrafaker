@@ -1,7 +1,7 @@
 import { Args } from "@oclif/core";
 import { compact, first } from "lodash-es";
 import { BaseCommand } from "../../utilities/base-command.js";
-import { stringifySingleLineArray } from "../../utilities/string-utils.js";
+import { stringifySingleLineArray } from "../../utilities/collection-utils.js";
 
 const EXAMPLE_INSTANCE_TYPES = ["m5.large", "m5.xlarge", "m5.2xlarge"];
 

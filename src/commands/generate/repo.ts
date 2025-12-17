@@ -2,10 +2,14 @@ import { Flags } from "@oclif/core";
 import path from "node:path";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
+    chaosTagsFlag,
     formatFlag,
+    getTagsOption,
+    noTagsFlag,
     providerFlag,
     quietFlag,
     resourceCountFlag,
+    tagsFlag,
 } from "../../utilities/flags.js";
 import { $ } from "zx";
 import { HelpMessages } from "../../enums/help-messages.js";
@@ -17,43 +21,37 @@ class Repo extends BaseCommand {
     static description = "Generates repo(s) with multiple terraform files.";
 
     static flags = {
-        directory: Flags.string({
-            description: "Directory to generate the repo(s) in",
-            default: ".",
-        }),
-
+        "chaos-tags": chaosTagsFlag,
         count: Flags.integer({
             description: "Number of repos to generate",
             default: 1,
         }),
-
+        "create-remote": Flags.boolean({
+            description: `Create and push a remote GitHub repo. ${HelpMessages.RequiresGhCli}`,
+        }),
+        directory: Flags.string({
+            description: "Directory to generate the repo(s) in",
+            default: ".",
+        }),
         "file-count": Flags.integer({
             description: "Number of files per repo to generate",
             default: 3,
         }),
-
-        "resource-count": resourceCountFlag,
-
+        format: formatFlag,
+        "no-tags": noTagsFlag,
         prefix: Flags.string({
             description:
                 "Prefix for repo names, useful for quickly identifying generated content",
             default: "tf_",
         }),
-
         provider: providerFlag,
-
-        format: formatFlag,
-
-        "create-remote": Flags.boolean({
-            description: `Create and push a remote GitHub repo. ${HelpMessages.RequiresGhCli}`,
-        }),
-
         public: Flags.boolean({
             description: "Whether the remote repo(s) created are public.",
             default: false,
         }),
-
         quiet: quietFlag,
+        "resource-count": resourceCountFlag,
+        tags: tagsFlag(),
     };
 
     async run(): Promise<void> {
@@ -68,6 +66,7 @@ class Repo extends BaseCommand {
             "file-count": fileCount,
             "create-remote": createRemote,
         } = flags;
+        const tags = getTagsOption(flags);
         const provider = flags.provider as Provider | undefined;
 
         const directory = path.resolve(process.cwd(), flags.directory);
@@ -81,6 +80,7 @@ class Repo extends BaseCommand {
                 provider,
                 resourceCount,
                 quiet,
+                tags,
             });
 
             if (createRemote) {
