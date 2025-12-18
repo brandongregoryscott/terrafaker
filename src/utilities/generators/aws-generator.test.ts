@@ -19,6 +19,14 @@ describe("AwsGenerator", () => {
 
             expect(AWS_INSTANCE_TYPES).toContain(instanceType);
         });
+
+        it("adds tags block", () => {
+            const terraform = new AwsGenerator({ tags: { foo: "bar" } })
+                .addComputeInstance()
+                .toString();
+
+            expect(terraform).toContain("tags = {");
+        });
     });
 
     describe("addLambdaFunction", () => {
@@ -30,6 +38,14 @@ describe("AwsGenerator", () => {
             const runtime = getLambdaRuntime(terraform);
 
             expect(AWS_LAMBDA_RUNTIMES).toContainEqual(runtime);
+        });
+
+        it("adds tags block", () => {
+            const terraform = new AwsGenerator({ tags: { foo: "bar" } })
+                .addLambdaFunction()
+                .toString();
+
+            expect(terraform).toContain("tags = {");
         });
     });
 });

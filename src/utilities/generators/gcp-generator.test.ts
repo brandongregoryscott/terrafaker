@@ -19,6 +19,14 @@ describe("GcpGenerator", () => {
 
             expect(GCP_INSTANCE_TYPES).toContain(machineType);
         });
+
+        it("adds tags block", () => {
+            const terraform = new GcpGenerator({ tags: { foo: "bar" } })
+                .addComputeInstance()
+                .toString();
+
+            expect(terraform).toContain("labels = {");
+        });
     });
 
     describe("addLambdaFunction", () => {
@@ -30,6 +38,14 @@ describe("GcpGenerator", () => {
             const runtime = getLambdaRuntime(terraform);
 
             expect(GCP_LAMBDA_RUNTIMES).toContainEqual(runtime);
+        });
+
+        it("adds tags block", () => {
+            const terraform = new GcpGenerator({ tags: { foo: "bar" } })
+                .addLambdaFunction()
+                .toString();
+
+            expect(terraform).toContain("labels = {");
         });
     });
 });

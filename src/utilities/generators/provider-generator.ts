@@ -1,4 +1,5 @@
-import { TerraformGenerator } from "terraform-generator";
+import type { Map } from "terraform-generator";
+import { map, TerraformGenerator } from "terraform-generator";
 import type { ResourceType } from "../../enums/resource-types.js";
 import { ResourceTypes } from "../../enums/resource-types.js";
 import {
@@ -33,12 +34,18 @@ abstract class ProviderGenerator {
     public readonly tfg: TerraformGenerator;
     public readonly region: string;
     public readonly tags?: ProviderGeneratorTags;
+    /**
+     * Provider-specific key for `tags` objects.
+     * @default tags
+     */
+    public tagKey: string;
 
     public constructor(options?: ProviderGeneratorOptions) {
         this.tfg = new TerraformGenerator();
         this.region = this.randomRegion();
         this.addProvider();
         this.tags = options?.tags;
+        this.tagKey = "tags";
     }
 
     /**
@@ -75,6 +82,20 @@ abstract class ProviderGenerator {
         }
 
         return this.tags;
+    }
+
+    /**
+     * Constructs the tag object to spread onto a resource, where the key is provider specific
+     * (usually `tags` or `labels`) and the value is a `Map` constructed from the object returned from
+     * `getTags`.
+     */
+    public getTagsBlock(): Record<string, Map> | undefined {
+        const tags = this.getTags();
+        if (tags === undefined) {
+            return undefined;
+        }
+
+        return { [this.tagKey]: map(tags) };
     }
 
     public toString(): string {
