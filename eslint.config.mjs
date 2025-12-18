@@ -21,7 +21,7 @@ const config = defineConfig(
                 project: "./tsconfig.json",
             },
         },
-        files: ["**/*.ts"],
+        files: ["src/**/*.ts"],
         ignores: ["**/*.test.ts"],
         plugins: {
             "@stylistic": stylistic,

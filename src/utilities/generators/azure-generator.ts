@@ -26,7 +26,7 @@ class AzureGenerator extends ProviderGenerator {
 
         this.tfg.resource(AzureResourceType.ComputeInstance, name, {
             size: instanceType,
-            tags: this.getTags(),
+            ...this.getTagsBlock(),
         });
 
         return this;
@@ -47,7 +47,7 @@ class AzureGenerator extends ProviderGenerator {
             ...runtime,
             name,
             instance_memory_in_mb: instanceMemoryInMb,
-            tags: this.getTags(),
+            ...this.getTagsBlock(),
         });
 
         return this;

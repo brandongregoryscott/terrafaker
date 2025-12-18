@@ -19,6 +19,14 @@ describe("AzureGenerator", () => {
 
             expect(AZURE_INSTANCE_TYPES).toContain(machineType);
         });
+
+        it("adds tags block", () => {
+            const terraform = new AzureGenerator({ tags: { foo: "bar" } })
+                .addComputeInstance()
+                .toString();
+
+            expect(terraform).toContain("tags = {");
+        });
     });
 
     describe("addLambdaFunction", () => {
@@ -41,6 +49,14 @@ describe("AzureGenerator", () => {
             const runtime = getLambdaRuntime(terraform);
 
             expect(AZURE_LAMBDA_RUNTIMES).toContainEqual(runtime);
+        });
+
+        it("adds tags block", () => {
+            const terraform = new AzureGenerator({ tags: { foo: "bar" } })
+                .addLambdaFunction()
+                .toString();
+
+            expect(terraform).toContain("tags = {");
         });
     });
 });

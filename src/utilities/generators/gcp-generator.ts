@@ -11,6 +11,7 @@ import {
     randomMemorableSlug,
     randomMemorySize,
 } from "./generator-utils.js";
+import type { ProviderGeneratorOptions } from "./provider-generator.js";
 import { ProviderGenerator } from "./provider-generator.js";
 
 const GcpResourceType = {
@@ -19,6 +20,11 @@ const GcpResourceType = {
 } as const;
 
 class GcpGenerator extends ProviderGenerator {
+    constructor(options?: ProviderGeneratorOptions) {
+        super(options);
+        this.tagKey = "labels";
+    }
+
     public addProvider(): void {
         this.tfg.provider("google", { region: this.region });
     }
@@ -39,7 +45,7 @@ class GcpGenerator extends ProviderGenerator {
             zone: this.region,
             machine_type: machineType,
             ...guestAccelerator,
-            labels: this.getTags(),
+            ...this.getTagsBlock(),
         });
 
         return this;
@@ -59,7 +65,7 @@ class GcpGenerator extends ProviderGenerator {
             runtime,
             name,
             available_memory_mb: availableMemoryMb,
-            labels: this.getTags(),
+            ...this.getTagsBlock(),
         });
 
         return this;

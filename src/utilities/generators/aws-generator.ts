@@ -45,7 +45,7 @@ class AwsGenerator extends ProviderGenerator {
             ami,
             instance_type: instanceType,
             ...rootBlockDevice,
-            tags: this.getTags(),
+            ...this.getTagsBlock(),
         });
 
         return this;
@@ -72,7 +72,7 @@ class AwsGenerator extends ProviderGenerator {
             function_name: functionName,
             memory_size: memorySize,
             role,
-            tags: this.getTags(),
+            ...this.getTagsBlock(),
         });
 
         return this;
