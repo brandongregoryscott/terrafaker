@@ -1,7 +1,7 @@
 import { Flags } from "@oclif/core";
 import { Providers } from "../enums/providers.js";
 import { DEFAULT_TAGS } from "../constants/tags.js";
-import { parseTagString, stringifyTags } from "./tag-utils.js";
+import { parseTags, stringifyTags } from "./tag-utils.js";
 import type { ProviderGeneratorTags } from "./generators/provider-generator.js";
 
 const formatFlag = Flags.boolean({
@@ -53,7 +53,7 @@ When specifying a key or value that has a space in it, the entire tag string nee
     --tags "${stringifyTags(TAGS_WITH_SPACES)}" → ${JSON.stringify(TAGS_WITH_SPACES)}
 `,
     exclusive: ["chaos-tags", "no-tags"],
-    parse: async (input: string) => parseTagString(input),
+    parse: async (input: string) => parseTags(input),
 });
 
 const noTagsFlag = Flags.boolean({
