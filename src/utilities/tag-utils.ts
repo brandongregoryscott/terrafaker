@@ -1,7 +1,7 @@
 import { randomMemorableSlug } from "./generators/generator-utils.js";
 import { warn } from "./string-utils.js";
 
-const parseTagString = (tagString: string): Record<string, string> => {
+const parseTags = (tagString: string): Record<string, string> => {
     const csvTags = tagString.split(",").map((value) => value.trim());
     const tags = csvTags.reduce(
         (accumulated, csvTag) => {
@@ -29,4 +29,4 @@ const stringifyTags = (tags: Record<string, string>): string =>
         .map(([key, value]) => `${key}:${value}`)
         .join(",");
 
-export { parseTagString, stringifyTags };
+export { parseTags, stringifyTags };

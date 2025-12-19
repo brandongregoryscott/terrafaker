@@ -24,6 +24,7 @@
         "eslint": "9.39.1",
         "eslint-plugin-collation": "1.5.0",
         "eslint-plugin-vitest": "0.5.4",
+        "hcl2-parser": "1.0.3",
         "oclif": "4.22.54",
         "prettier": "3.6.1",
         "shx": "0.3.4",
@@ -42,7 +43,11 @@
     ],
     "homepage": "https://github.com/brandongregoryscott/terrafaker",
     "keywords": [
-        "oclif"
+        "terraform",
+        "infrastructure",
+        "infra",
+        "infrastructure-as-code",
+        "faker"
     ],
     "license": "Apache-2.0",
     "main": "dist/index.js",

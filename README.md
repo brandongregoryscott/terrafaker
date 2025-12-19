@@ -18,6 +18,36 @@ Obviously, you shouldn't use this tool to try to generate real production infras
 - Generate git repos with multiple files (and optionally push them to GitHub)
 - Bulk clone and delete generated repos by prefix
 
+`terrafaker` can be used to randomly generate a file or repo of files like this:
+
+```tf
+provider "aws" {
+  region = "ap-northeast-1"
+}
+
+resource "aws_instance" "awful_tan_squirrel" {
+  ami           = "ami-11060228d352"
+  instance_type = "m8a.metal-48xl"
+  tags = {
+    Environment = "Dev"
+    Service     = "service"
+  }
+}
+
+resource "aws_lambda_function" "irresponsible_lavender_elephant" {
+  ami           = "ami-3934ae468a90"
+  runtime       = "python3.13"
+  handler       = "exports.run"
+  function_name = "run"
+  memory_size   = 8960
+  role          = "arn:aws:iam::0c23f323cc2f:mfa/gummy_lavender_fox"
+  tags = {
+    Environment = "Dev"
+    Service     = "service"
+  }
+}
+```
+
 ### Supported providers and resources
 
 - AWS

@@ -4,48 +4,46 @@ import {
     AWS_INSTANCE_TYPES,
     AWS_LAMBDA_RUNTIMES,
 } from "../../constants/aws.js";
-import { getTerraformPropertyValue } from "../../test/test-utils.js";
+import { findFirstResourceOrThrow } from "../../test/test-utils.js";
 
 describe("AwsGenerator", () => {
     describe("addComputeInstance", () => {
-        const getInstanceType = (terraform: string) =>
-            getTerraformPropertyValue(terraform, "instance_type");
-
         it("returns an aws instance type", () => {
             const terraform = new AwsGenerator()
                 .addComputeInstance()
                 .toString();
-            const instanceType = getInstanceType(terraform);
 
-            expect(AWS_INSTANCE_TYPES).toContain(instanceType);
+            const resource = findFirstResourceOrThrow(terraform);
+            expect(AWS_INSTANCE_TYPES).toContain(resource.value.instance_type);
         });
 
         it("adds tags block", () => {
-            const terraform = new AwsGenerator({ tags: { foo: "bar" } })
+            const tags = { foo: "bar" };
+            const terraform = new AwsGenerator({ tags })
                 .addComputeInstance()
                 .toString();
 
-            expect(terraform).toContain("tags = {");
+            const resource = findFirstResourceOrThrow(terraform);
+            expect(resource.value.tags).toStrictEqual(tags);
         });
     });
 
     describe("addLambdaFunction", () => {
-        const getLambdaRuntime = (terraform: string) =>
-            getTerraformPropertyValue(terraform, "runtime");
-
         it("returns an aws lambda runtime", () => {
             const terraform = new AwsGenerator().addLambdaFunction().toString();
-            const runtime = getLambdaRuntime(terraform);
 
-            expect(AWS_LAMBDA_RUNTIMES).toContainEqual(runtime);
+            const resource = findFirstResourceOrThrow(terraform);
+            expect(AWS_LAMBDA_RUNTIMES).toContainEqual(resource.value.runtime);
         });
 
         it("adds tags block", () => {
-            const terraform = new AwsGenerator({ tags: { foo: "bar" } })
+            const tags = { foo: "bar" };
+            const terraform = new AwsGenerator({ tags })
                 .addLambdaFunction()
                 .toString();
 
-            expect(terraform).toContain("tags = {");
+            const resource = findFirstResourceOrThrow(terraform);
+            expect(resource.value.tags).toStrictEqual(tags);
         });
     });
 });
