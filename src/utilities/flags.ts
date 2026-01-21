@@ -1,15 +1,16 @@
 import { Flags } from "@oclif/core";
-import { Providers } from "../enums/providers.js";
-import { DEFAULT_TAGS } from "../constants/tags.js";
-import { parseTags, stringifyTags } from "./tag-utils.js";
 import type { ProviderGeneratorTags } from "./generators/provider-generator.js";
+import { DEFAULT_TAGS } from "../constants/tags.js";
+import { Providers } from "../enums/providers.js";
+import { VcsProviders } from "../enums/vcs-providers.js";
+import { parseTags, stringifyTags } from "./tag-utils.js";
 
 const formatFlag = Flags.boolean({
+    allowNo: true,
     char: "f",
+    default: true,
     description:
         "Format the output terraform files. Requires `terraform` to be in your $PATH.",
-    default: true,
-    allowNo: true,
 });
 
 const quietFlag = Flags.boolean({
@@ -18,13 +19,29 @@ const quietFlag = Flags.boolean({
 });
 
 const resourceCountFlag = Flags.integer({
-    description: "Number of resources per file to generate",
     default: 3,
+    description: "Number of resources per file to generate",
 });
 
 const providerFlag = Flags.string({
     description: "Cloud provider to generate resources for",
     options: Object.values(Providers),
+});
+
+const vcsProviderFlag = Flags.string({
+    default: VcsProviders.GitHub,
+    description: "Remote version control system to interact with",
+    options: Object.values(VcsProviders),
+});
+
+const requiredPrefixFlag = Flags.string({
+    description: "Prefix for the repos, such as 'tf_'",
+    required: true,
+});
+
+const directoryFlag = Flags.string({
+    default: ".",
+    description: "Directory to create the repo(s) in",
 });
 
 const TAGS_WITH_VALUES = {
@@ -67,9 +84,9 @@ const chaosTagsFlag = Flags.boolean({
 });
 
 interface TagsFlags {
-    tags: Record<string, string> | undefined;
-    "no-tags": boolean;
     "chaos-tags": boolean;
+    "no-tags": boolean;
+    tags: Record<string, string> | undefined;
 }
 
 /**
@@ -77,7 +94,7 @@ interface TagsFlags {
  * flag configurations.
  */
 const getTagsOption = (flags: TagsFlags): ProviderGeneratorTags => {
-    const { "no-tags": noTags, "chaos-tags": chaosTags } = flags;
+    const { "chaos-tags": chaosTags, "no-tags": noTags } = flags;
     let tags: ProviderGeneratorTags = flags.tags ?? DEFAULT_TAGS;
 
     if (chaosTags) {
@@ -93,11 +110,14 @@ const getTagsOption = (flags: TagsFlags): ProviderGeneratorTags => {
 
 export {
     chaosTagsFlag,
+    directoryFlag,
     formatFlag,
     getTagsOption,
     noTagsFlag,
     providerFlag,
     quietFlag,
+    requiredPrefixFlag,
     resourceCountFlag,
     tagsFlag,
+    vcsProviderFlag,
 };

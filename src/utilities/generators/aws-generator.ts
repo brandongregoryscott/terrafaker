@@ -20,9 +20,11 @@ const AwsResourceType = {
 } as const;
 
 class AwsGenerator extends ProviderGenerator {
-    public addProvider(): void {
-        this.tfg.provider("aws", { region: this.region });
-    }
+    private randomAmi = unique(() => `ami-${randomId()}`);
+
+    private randomRole = unique(
+        () => `arn:aws:iam::${randomId()}:mfa/${randomMemorableSlug()}`
+    );
 
     public addComputeInstance(): this {
         const name = randomMemorableSlug();
@@ -32,8 +34,8 @@ class AwsGenerator extends ProviderGenerator {
             ? {
                   root_block_device: {
                       volume_size: randomMemorySize({
-                          min: 1024,
                           max: 64 * 1024 * 1024,
+                          min: 1024,
                           step: 1024,
                       }),
                       volume_type: randomItem(AWS_EBS_VOLUME_TYPES),
@@ -55,8 +57,8 @@ class AwsGenerator extends ProviderGenerator {
         const name = randomMemorableSlug();
         // https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html
         const memorySize = randomMemorySize({
-            min: 128,
             max: 10240,
+            min: 128,
             step: 128,
         });
         const ami = this.randomAmi();
@@ -67,26 +69,24 @@ class AwsGenerator extends ProviderGenerator {
 
         this.tfg.resource(AwsResourceType.LambdaFunction, name, {
             ami,
-            runtime,
-            handler,
             function_name: functionName,
+            handler,
             memory_size: memorySize,
             role,
+            runtime,
             ...this.getTagsBlock(),
         });
 
         return this;
     }
 
+    public addProvider(): void {
+        this.tfg.provider("aws", { region: this.region });
+    }
+
     public randomRegion(): string {
         return randomItem(AWS_REGIONS);
     }
-
-    private randomAmi = unique(() => `ami-${randomId()}`);
-
-    private randomRole = unique(
-        () => `arn:aws:iam::${randomId()}:mfa/${randomMemorableSlug()}`
-    );
 }
 
 export { AwsGenerator };

@@ -1,5 +1,5 @@
-import { first, isEmpty } from "lodash-es";
 import { parseToObject } from "hcl2-parser";
+import { first, isEmpty } from "lodash-es";
 
 // Rough shape of the parsed object returned from `hcl2-parser`, may need to be adjusted for
 // more complex Terraform configurations.

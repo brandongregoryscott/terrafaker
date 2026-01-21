@@ -1,17 +1,22 @@
+import { mkdir } from "node:fs/promises";
 import path from "node:path";
+import { $ } from "zx";
 import type { Provider } from "../../enums/providers.js";
+import type { ProviderGeneratorTags } from "./provider-generator.js";
+import { success } from "../string-utils.js";
 import { FileGenerator } from "./file-generator.js";
 import { randomMemorableSlug } from "./generator-utils.js";
-import { $ } from "zx";
-import { mkdir } from "node:fs/promises";
-import { success } from "../string-utils.js";
-import type { ProviderGeneratorTags } from "./provider-generator.js";
 
 interface GenerateOptions {
     /**
-     * Provider to generate a terraform file for. If not provided, random providers will be used.
+     * Directory to generate the repo in
      */
-    provider?: Provider;
+    directory?: string;
+
+    /**
+     * Number of files to generate
+     */
+    fileCount?: number;
 
     /**
      * Whether the terraform files should be formatted. Requires `terraform` to be installed.
@@ -24,24 +29,19 @@ interface GenerateOptions {
     prefix?: string;
 
     /**
-     * Directory to generate the repo in
+     * Provider to generate a terraform file for. If not provided, random providers will be used.
      */
-    directory?: string;
-
-    /**
-     * Number of files to generate
-     */
-    fileCount?: number;
-
-    /**
-     * Number of resources per file to generate
-     */
-    resourceCount?: number;
+    provider?: Provider;
 
     /**
      * Whether output from the commands should be silenced
      */
     quiet?: boolean;
+
+    /**
+     * Number of resources per file to generate
+     */
+    resourceCount?: number;
 
     /**
      * Tag configuration to be generated with each generated resource
@@ -59,12 +59,12 @@ class RepoGenerator {
         options: GenerateOptions
     ): Promise<GenerateResult> {
         const {
-            provider,
-            prefix = "tf_",
-            format,
             fileCount = 3,
-            resourceCount,
+            format,
+            prefix = "tf_",
+            provider,
             quiet,
+            resourceCount,
             tags,
         } = options;
 
@@ -81,9 +81,9 @@ class RepoGenerator {
         for (let i = 0; i < fileCount; i++) {
             FileGenerator.generate({
                 directory: repoPath,
+                format,
                 provider,
                 resourceCount,
-                format,
                 tags,
             });
         }

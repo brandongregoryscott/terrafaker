@@ -1,4 +1,7 @@
 import { Flags } from "@oclif/core";
+import type { Provider } from "../../enums/providers.js";
+import type { ProviderGeneratorTags } from "../../utilities/generators/provider-generator.js";
+import { DEFAULT_TAGS } from "../../constants/tags.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     chaosTagsFlag,
@@ -10,12 +13,9 @@ import {
     resourceCountFlag,
     tagsFlag,
 } from "../../utilities/flags.js";
-import { formatTfFileName, success } from "../../utilities/string-utils.js";
-import type { Provider } from "../../enums/providers.js";
-import { randomProvider } from "../../utilities/generators/generator-utils.js";
 import { FileGenerator } from "../../utilities/generators/file-generator.js";
-import { DEFAULT_TAGS } from "../../constants/tags.js";
-import type { ProviderGeneratorTags } from "../../utilities/generators/provider-generator.js";
+import { randomProvider } from "../../utilities/generators/generator-utils.js";
+import { formatTfFileName, success } from "../../utilities/string-utils.js";
 
 class File extends BaseCommand {
     static description = "Generates a terraform file.";
@@ -35,7 +35,7 @@ class File extends BaseCommand {
 
     async run(): Promise<void> {
         const { flags } = await this.parse(File);
-        const { name, quiet, format, "resource-count": resourceCount } = flags;
+        const { format, name, quiet, "resource-count": resourceCount } = flags;
         const tags = getTagsOption(flags);
         const provider =
             (flags.provider as Provider | undefined) ?? randomProvider();
@@ -43,9 +43,9 @@ class File extends BaseCommand {
 
         FileGenerator.generate({
             fileName,
+            format,
             provider,
             resourceCount,
-            format,
             tags,
         });
 

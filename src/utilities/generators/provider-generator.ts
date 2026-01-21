@@ -2,23 +2,23 @@ import type { Map } from "terraform-generator";
 import { map, TerraformGenerator } from "terraform-generator";
 import type { ResourceType } from "../../enums/resource-types.js";
 import { ResourceTypes } from "../../enums/resource-types.js";
+import { formatTfFileName } from "../string-utils.js";
 import {
     randomItem,
     randomMemorableSlug,
     randomTags,
 } from "./generator-utils.js";
-import { formatTfFileName } from "../string-utils.js";
 
 interface ProviderGeneratorOptions {
     tags?: ProviderGeneratorTags;
 }
 
 type ProviderGeneratorTags =
-    | Record<string, string>
+    | "chaos"
     /**
      * Tags are randomly generated for each resource
      */
-    | "chaos"
+    | Record<string, string>
     /**
      * No tags will be added to any resource
      */
@@ -31,9 +31,9 @@ interface WriteToFileOptions {
 }
 
 abstract class ProviderGenerator {
-    public readonly tfg: TerraformGenerator;
     public readonly region: string;
     public readonly tags?: ProviderGeneratorTags;
+    public readonly tfg: TerraformGenerator;
     /**
      * Provider-specific key for `tags` objects.
      * @default tags
@@ -48,17 +48,22 @@ abstract class ProviderGenerator {
         this.tagKey = "tags";
     }
 
+    public abstract addComputeInstance(): this;
+
+    public abstract addLambdaFunction(): this;
+
     /**
      * Adds a block for the provider, and typically the region to be used.
      * This is called automatically by the constructor, so it shouldn't need to be called manually.
      */
     public abstract addProvider(): void;
 
-    public abstract addComputeInstance(): this;
-
-    public abstract addLambdaFunction(): this;
-
     public abstract randomRegion(): string;
+
+    public addRandomResource(): this {
+        const type = randomItem(Object.values(ResourceTypes));
+        return this.addResourceByType(type);
+    }
 
     public addResourceByType(type: ResourceType): this {
         switch (type) {
@@ -69,11 +74,6 @@ abstract class ProviderGenerator {
                 return this.addComputeInstance();
             }
         }
-    }
-
-    public addRandomResource(): this {
-        const type = randomItem(Object.values(ResourceTypes));
-        return this.addResourceByType(type);
     }
 
     public getTags(): Record<string, string> | undefined {
@@ -108,7 +108,7 @@ abstract class ProviderGenerator {
         const fileName = formatTfFileName(
             options?.fileName ?? randomMemorableSlug()
         );
-        this.tfg.write({ format, dir: directory, tfFilename: fileName });
+        this.tfg.write({ dir: directory, format, tfFilename: fileName });
     }
 }
 

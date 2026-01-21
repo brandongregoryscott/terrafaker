@@ -16,10 +16,6 @@ const AzureResourceType = {
 } as const;
 
 class AzureGenerator extends ProviderGenerator {
-    public addProvider(): void {
-        this.tfg.provider("azurerm", { region: this.region });
-    }
-
     public addComputeInstance(): this {
         const name = randomMemorableSlug();
         const instanceType = randomItem(AZURE_INSTANCE_TYPES);
@@ -38,19 +34,23 @@ class AzureGenerator extends ProviderGenerator {
         // There's a lot of different configurations listed, so just guessing here.
         // https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale
         const instanceMemoryInMb = randomMemorySize({
-            min: 128,
             max: 4 * 1024,
+            min: 128,
             step: 128,
         });
 
         this.tfg.resource(AzureResourceType.LambdaFunction, name, {
             ...runtime,
-            name,
             instance_memory_in_mb: instanceMemoryInMb,
+            name,
             ...this.getTagsBlock(),
         });
 
         return this;
+    }
+
+    public addProvider(): void {
+        this.tfg.provider("azurerm", { region: this.region });
     }
 
     public randomRegion(): string {
