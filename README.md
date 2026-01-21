@@ -85,7 +85,7 @@ $ npm install -g terrafaker
 $ terrafaker COMMAND
 running command...
 $ terrafaker (--version)
-terrafaker/0.0.7 darwin-arm64 node-v24.8.0
+terrafaker/0.0.8 darwin-arm64 node-v24.8.0
 $ terrafaker --help [COMMAND]
 USAGE
   $ terrafaker COMMAND

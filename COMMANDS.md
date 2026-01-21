@@ -63,7 +63,7 @@ DESCRIPTION
   Generates a terraform file.
 ```
 
-_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/generate/file.ts)_
+_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.8/src/commands/generate/file.ts)_
 
 ## `terrafaker generate repo`
 
@@ -139,7 +139,7 @@ DESCRIPTION
   Generates repo(s) with multiple terraform files.
 ```
 
-_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/generate/repo.ts)_
+_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.8/src/commands/generate/repo.ts)_
 
 ## `terrafaker gh repo clone`
 
@@ -158,7 +158,7 @@ DESCRIPTION
   `gh` CLI to be installed. To install, run `brew install gh`.
 ```
 
-_See code: [src/commands/gh/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/gh/repo/clone.ts)_
+_See code: [src/commands/gh/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.8/src/commands/gh/repo/clone.ts)_
 
 ## `terrafaker gh repo delete`
 
@@ -178,7 +178,7 @@ DESCRIPTION
   If the deletion fails, you may need to refresh your CLI permissions with `gh auth refresh -s delete_repo`
 ```
 
-_See code: [src/commands/gh/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/gh/repo/delete.ts)_
+_See code: [src/commands/gh/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.8/src/commands/gh/repo/delete.ts)_
 
 ## `terrafaker glab repo clone`
 
@@ -197,11 +197,11 @@ DESCRIPTION
   `glab` CLI to be installed. To install, run `brew install glab`.
 ```
 
-_See code: [src/commands/glab/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/glab/repo/clone.ts)_
+_See code: [src/commands/glab/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.8/src/commands/glab/repo/clone.ts)_
 
 ## `terrafaker glab repo delete`
 
-Deletes repos from your GitHub account, useful for cleaning up generated test data. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
+Deletes repos from your GitLab account, useful for cleaning up generated test data. Requires the `glab` CLI to be installed. To install, run `brew install glab`.
 
 ```
 USAGE
@@ -211,13 +211,11 @@ FLAGS
   --prefix=<value>  (required) Prefix for the repos, such as 'tf_'
 
 DESCRIPTION
-  Deletes repos from your GitHub account, useful for cleaning up generated test data. Requires the `gh` CLI to be
-  installed. To install, run `brew install gh`.
-
-  If the deletion fails, you may need to refresh your CLI permissions with `gh auth refresh -s delete_repo`
+  Deletes repos from your GitLab account, useful for cleaning up generated test data. Requires the `glab` CLI to be
+  installed. To install, run `brew install glab`.
 ```
 
-_See code: [src/commands/glab/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/glab/repo/delete.ts)_
+_See code: [src/commands/glab/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.8/src/commands/glab/repo/delete.ts)_
 
 ## `terrafaker help [COMMAND]`
 
