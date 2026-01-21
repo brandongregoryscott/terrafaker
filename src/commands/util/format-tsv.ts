@@ -1,12 +1,18 @@
 import { Args, Flags } from "@oclif/core";
+import { compact } from "lodash-es";
 import { BaseCommand } from "../../utilities/base-command.js";
 import { stringifySingleLineArray } from "../../utilities/collection-utils.js";
-import { compact } from "lodash-es";
 
 const EXAMPLE = `c4d-standard-2	2	7	No	Up to 10	N/A`;
 
 class FormatTsv extends BaseCommand {
-    static hidden = true;
+    static args = {
+        tsv: Args.string({
+            description: `Tab-separated value to format into a string array, i.e. '${EXAMPLE}'.
+If the string is multiple lines (which it generally is), the specified column index from each line will be placed in the array.`,
+            required: true,
+        }),
+    };
 
     static description =
         "Utility command for formatting a TSV (tab-separated value) into an array. Primarily used for parsing data from the GCP docs.";
@@ -14,18 +20,12 @@ class FormatTsv extends BaseCommand {
     static flags = {
         index: Flags.integer({
             char: "i",
-            description: "Column index to pull from each line.",
             default: 0,
+            description: "Column index to pull from each line.",
         }),
     };
 
-    static args = {
-        tsv: Args.string({
-            required: true,
-            description: `Tab-separated value to format into a string array, i.e. '${EXAMPLE}'.
-If the string is multiple lines (which it generally is), the specified column index from each line will be placed in the array.`,
-        }),
-    };
+    static hidden = true;
 
     async run(): Promise<void> {
         const { args, flags } = await this.parse(FormatTsv);

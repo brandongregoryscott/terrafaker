@@ -23,6 +23,7 @@
         "@types/node": "24.10.3",
         "eslint": "9.39.1",
         "eslint-plugin-collation": "1.5.0",
+        "eslint-plugin-perfectionist": "5.3.1",
         "eslint-plugin-vitest": "0.5.4",
         "hcl2-parser": "1.0.3",
         "oclif": "4.22.54",
@@ -68,17 +69,17 @@
     "scripts": {
         "build": "npm run clean && tsc --project tsconfig.build.json",
         "build:watch": "npm run clean && tsc --watch",
-        "clean": "shx rm -rf dist tsconfig.tsbuildinfo",
+        "clean": "shx rm -rf dist tsconfig.tsbuildinfo oclif.manifest.json",
         "format": "prettier . --check",
         "format:fix": "prettier . --write",
         "generate:manifest": "oclif manifest",
-        "generate:readme": "oclif readme && prettier README.md --write",
+        "generate:readme": "oclif readme && oclif readme --readme-path COMMANDS.md && prettier {README,COMMANDS}.md --write",
         "lint": "eslint",
         "lint:fix": "eslint --fix",
         "postbuild": "npm run generate:manifest && npm run generate:readme",
         "prepack": "npm run build",
         "test": "vitest",
-        "version": "npm run generate:readme && git add README.md"
+        "version": "npm run generate:readme && git add {README,COMMANDS}.md"
     },
     "type": "module",
     "types": "dist/index.d.ts",

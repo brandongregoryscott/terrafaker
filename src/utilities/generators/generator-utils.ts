@@ -1,12 +1,12 @@
 import { faker } from "@faker-js/faker";
-import { snakeSlugify } from "../string-utils.js";
+import { range } from "lodash-es";
 import {
     ENVIRONMENT_TAGS,
     SERVICE_TAGS,
     TAG_KEYS,
 } from "../../constants/tags.js";
 import { Providers } from "../../enums/providers.js";
-import { range } from "lodash-es";
+import { snakeSlugify } from "../string-utils.js";
 
 type StringGenerator = () => string;
 
@@ -59,7 +59,7 @@ const randomServiceTag = () => randomItem(SERVICE_TAGS);
 const randomTags = (
     additionalTags?: Record<string, string>
 ): Record<string, string> => {
-    const keys = randomItems(TAG_KEYS, { min: 1, max: 4 });
+    const keys = randomItems(TAG_KEYS, { max: 4, min: 1 });
     const tags = keys.reduce(
         (accumulated, key) => {
             accumulated[key] = randomMemorableSlug();
@@ -76,18 +76,18 @@ interface RandomMemorySizeOptions extends Required<RandomIntOptions> {
 }
 
 const randomMemorySize = (options: RandomMemorySizeOptions): number => {
-    const { min, max, step } = options;
+    const { max, min, step } = options;
     const values = range(min, max, step);
     return randomItem(values);
 };
 
 interface RandomIntOptions {
-    min?: number;
     max?: number;
+    min?: number;
 }
 
 const randomInt = (options: RandomIntOptions): number => {
-    let { min = 0, max = 100 } = options;
+    let { max = 100, min = 0 } = options;
     min = Math.ceil(min);
     max = Math.floor(max);
 

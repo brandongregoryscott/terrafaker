@@ -1,3 +1,4 @@
+import type { ProviderGeneratorOptions } from "./provider-generator.js";
 import {
     GCP_GPU_MACHINE_TYPES,
     GCP_INSTANCE_TYPES,
@@ -11,7 +12,6 @@ import {
     randomMemorableSlug,
     randomMemorySize,
 } from "./generator-utils.js";
-import type { ProviderGeneratorOptions } from "./provider-generator.js";
 import { ProviderGenerator } from "./provider-generator.js";
 
 const GcpResourceType = {
@@ -25,25 +25,21 @@ class GcpGenerator extends ProviderGenerator {
         this.tagKey = "labels";
     }
 
-    public addProvider(): void {
-        this.tfg.provider("google", { region: this.region });
-    }
-
     public addComputeInstance(): this {
         const name = randomMemorableSlug();
         const machineType = randomItem(GCP_INSTANCE_TYPES);
         const guestAccelerator = maybe(0.5)
             ? {
                   guest_accelerator: {
+                      count: randomInt({ max: 4, min: 1 }),
                       type: randomItem(GCP_GPU_MACHINE_TYPES),
-                      count: randomInt({ min: 1, max: 4 }),
                   },
               }
             : {};
 
         this.tfg.resource(GcpResourceType.ComputeInstance, name, {
-            zone: this.region,
             machine_type: machineType,
+            zone: this.region,
             ...guestAccelerator,
             ...this.getTagsBlock(),
         });
@@ -56,19 +52,23 @@ class GcpGenerator extends ProviderGenerator {
         const runtime = randomItem(GCP_LAMBDA_RUNTIMES);
         // @see https://docs.cloud.google.com/run/docs/configuring/services/memory-limits
         const availableMemoryMb = randomMemorySize({
-            min: 128,
             max: 32 * 1024,
+            min: 128,
             step: 128,
         });
 
         this.tfg.resource(GcpResourceType.LambdaFunction, name, {
-            runtime,
-            name,
             available_memory_mb: availableMemoryMb,
+            name,
+            runtime,
             ...this.getTagsBlock(),
         });
 
         return this;
+    }
+
+    public addProvider(): void {
+        this.tfg.provider("google", { region: this.region });
     }
 
     public randomRegion(): string {

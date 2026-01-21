@@ -1,8 +1,12 @@
 import { Flags } from "@oclif/core";
 import path from "node:path";
+import type { Provider } from "../../enums/providers.js";
+import { HelpMessages } from "../../enums/help-messages.js";
+import { VcsProviders } from "../../enums/vcs-providers.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     chaosTagsFlag,
+    directoryFlag,
     formatFlag,
     getTagsOption,
     noTagsFlag,
@@ -10,11 +14,11 @@ import {
     quietFlag,
     resourceCountFlag,
     tagsFlag,
+    vcsProviderFlag,
 } from "../../utilities/flags.js";
-import { $ } from "zx";
-import { HelpMessages } from "../../enums/help-messages.js";
-import type { Provider } from "../../enums/providers.js";
 import { RepoGenerator } from "../../utilities/generators/repo-generator.js";
+import { GitHub } from "../../utilities/github.js";
+import { GitLab } from "../../utilities/gitlab.js";
 import { success } from "../../utilities/string-utils.js";
 
 class Repo extends BaseCommand {
@@ -23,48 +27,47 @@ class Repo extends BaseCommand {
     static flags = {
         "chaos-tags": chaosTagsFlag,
         count: Flags.integer({
-            description: "Number of repos to generate",
             default: 1,
+            description: "Number of repos to generate",
         }),
         "create-remote": Flags.boolean({
-            description: `Create and push a remote GitHub repo. ${HelpMessages.RequiresGhCli}`,
+            description: `Create and push a remote repo. ${HelpMessages.RequiresVcsCLI}`,
         }),
-        directory: Flags.string({
-            description: "Directory to generate the repo(s) in",
-            default: ".",
-        }),
+        directory: directoryFlag,
         "file-count": Flags.integer({
-            description: "Number of files per repo to generate",
             default: 3,
+            description: "Number of files per repo to generate",
         }),
         format: formatFlag,
         "no-tags": noTagsFlag,
         prefix: Flags.string({
+            default: "tf_",
             description:
                 "Prefix for repo names, useful for quickly identifying generated content",
-            default: "tf_",
         }),
         provider: providerFlag,
         public: Flags.boolean({
-            description: "Whether the remote repo(s) created are public.",
             default: false,
+            description: "Whether the remote repo(s) created are public.",
         }),
         quiet: quietFlag,
         "resource-count": resourceCountFlag,
         tags: tagsFlag(),
+        "vcs-provider": vcsProviderFlag,
     };
 
     async run(): Promise<void> {
         const { flags } = await this.parse(Repo);
         const {
+            count,
+            "create-remote": createRemote,
+            "file-count": fileCount,
             format,
             prefix,
-            count,
             public: isPublic,
             quiet,
             "resource-count": resourceCount,
-            "file-count": fileCount,
-            "create-remote": createRemote,
+            "vcs-provider": vcsProvider,
         } = flags;
         const tags = getTagsOption(flags);
         const provider = flags.provider as Provider | undefined;
@@ -78,13 +81,20 @@ class Repo extends BaseCommand {
                 format,
                 prefix,
                 provider,
-                resourceCount,
                 quiet,
+                resourceCount,
                 tags,
             });
 
             if (createRemote) {
-                await $`gh repo create ${name} --source ${path} ${isPublic ? "--public" : "--private"} --push`;
+                switch (vcsProvider) {
+                    case VcsProviders.GitHub:
+                        await GitHub.pushRepo({ isPublic, path });
+                        break;
+                    case VcsProviders.GitLab:
+                        await GitLab.pushRepo({ isPublic, path });
+                        break;
+                }
 
                 if (!quiet) {
                     this.log(success(`Successfully pushed '${name}'`));

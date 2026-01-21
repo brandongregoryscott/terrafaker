@@ -6,18 +6,18 @@ import { stringifySingleLineArray } from "../../utilities/collection-utils.js";
 const EXAMPLE_INSTANCE_TYPES = ["m5.large", "m5.xlarge", "m5.2xlarge"];
 
 class FormatPsv extends BaseCommand {
-    static hidden = true;
+    static args = {
+        psv: Args.string({
+            description: `Pipe-separated value to format into a string array, i.e. '${EXAMPLE_INSTANCE_TYPES.join(" | ")}'.
+If the string is multiple lines, it will be formatted into an object where the key is the first column before a tab, i.e. 'M5\t${EXAMPLE_INSTANCE_TYPES.join(" | ")}'`,
+            required: true,
+        }),
+    };
 
     static description =
         "Utility command for formatting a PSV (pipe-separated value) into an array or object with array values. Primarily used for parsing data from the AWS docs.";
 
-    static args = {
-        psv: Args.string({
-            required: true,
-            description: `Pipe-separated value to format into a string array, i.e. '${EXAMPLE_INSTANCE_TYPES.join(" | ")}'.
-If the string is multiple lines, it will be formatted into an object where the key is the first column before a tab, i.e. 'M5\t${EXAMPLE_INSTANCE_TYPES.join(" | ")}'`,
-        }),
-    };
+    static hidden = true;
 
     async run(): Promise<void> {
         const { args } = await this.parse(FormatPsv);

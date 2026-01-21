@@ -1,9 +1,9 @@
 import type { Provider } from "../../enums/providers.js";
+import type { ProviderGeneratorOptions } from "./provider-generator.js";
 import { Providers } from "../../enums/providers.js";
 import { AwsGenerator } from "./aws-generator.js";
 import { AzureGenerator } from "./azure-generator.js";
 import { GcpGenerator } from "./gcp-generator.js";
-import type { ProviderGeneratorOptions } from "./provider-generator.js";
 
 class ProviderGeneratorFactory {
     public static get(provider: Provider, options?: ProviderGeneratorOptions) {

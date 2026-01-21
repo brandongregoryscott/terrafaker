@@ -48,17 +48,23 @@ resource "aws_lambda_function" "irresponsible_lavender_elephant" {
 }
 ```
 
-### Supported providers and resources
+### Supported IAC providers and resources
 
-- AWS
-    - Compute instances
-    - Functions
-- GCP
-    - Compute instances
-    - Functions
-- Azure
-    - Compute instances
-    - Functions
+- Terraform
+    - AWS
+        - Compute instances
+        - Functions
+    - GCP
+        - Compute instances
+        - Functions
+    - Azure
+        - Compute instances
+        - Functions
+
+### Supported VCS providers
+
+- GitHub ([`brew install gh`](https://cli.github.com/))
+- GitLab ([`brew install glab`](https://docs.gitlab.com/cli/))
 
 ## Issues
 
@@ -66,16 +72,14 @@ If you find a bug, feel free to [open up an issue](https://github.com/brandongre
 
 If you would like to see a feature, and it isn't [already documented](https://github.com/brandongregoryscott/terrafaker/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement), feel free to open up a new issue and describe the desired behavior.
 
-<!-- prettier-ignore-start -->
-<!-- toc -->
-* [terrafaker](#terrafaker)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
+- [terrafaker](#terrafaker)
+- [Usage](#usage)
+- [Commands](./COMMANDS.md)
 
 # Usage
 
 <!-- usage -->
+
 ```sh-session
 $ npm install -g terrafaker
 $ terrafaker COMMAND
@@ -87,200 +91,5 @@ USAGE
   $ terrafaker COMMAND
 ...
 ```
+
 <!-- usagestop -->
-
-# Commands
-
-<!-- commands -->
-* [`terrafaker generate file`](#terrafaker-generate-file)
-* [`terrafaker generate repo`](#terrafaker-generate-repo)
-* [`terrafaker gh clone-repos`](#terrafaker-gh-clone-repos)
-* [`terrafaker gh delete-repos`](#terrafaker-gh-delete-repos)
-* [`terrafaker help [COMMAND]`](#terrafaker-help-command)
-
-## `terrafaker generate file`
-
-Generates a terraform file.
-
-```
-USAGE
-  $ terrafaker generate file [--chaos-tags | --tags <value> | --no-tags] [-f] [--name <value>] [--provider
-    aws|gcp|azure] [-q] [--resource-count <value>]
-
-FLAGS
-  -f, --[no-]format
-      Format the output terraform files. Requires `terraform` to be in your $PATH.
-
-  -q, --quiet
-      Suppress the logging output.
-
-  --chaos-tags
-      Generate random tag keys & values
-
-  --name=<value>
-      Name for the generated file, which must end in .tf
-
-  --no-tags
-      Disable any tag generation
-
-  --provider=<option>
-      Cloud provider to generate resources for
-      <options: aws|gcp|azure>
-
-  --resource-count=<value>
-      [default: 3] Number of resources per file to generate
-
-  --tags=<value>
-      [default: Environment:Dev,Service:service] Custom tags to use for generated resources. Should be a comma-separated
-      list of tag names to generate random values for, or tag names with values delimited by a colon.
-
-      Examples:
-
-      Specify just tag keys to have a random value generated.
-      --tags Service,Team → {"Service":"(random value)","Team":"(random value)"}
-
-      Specify value for a key with the : delimiter. This can be mixed with just keys that are randomly generated.
-      --tags Service:web-app,Team → {"Service":"web-app","Team":"(random value)"}
-      --tags Service:web-app,Team:core → {"Service":"web-app","Team":"core"}
-
-      When specifying a key or value that has a space in it, the entire tag string needs to be quoted.
-      --tags "Service:my awesome web app,Team Name:The Core Team" → {"Service":"my awesome web app","Team Name":"The Core
-      Team"}
-
-DESCRIPTION
-  Generates a terraform file.
-```
-
-_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/generate/file.ts)_
-
-## `terrafaker generate repo`
-
-Generates repo(s) with multiple terraform files.
-
-```
-USAGE
-  $ terrafaker generate repo [--chaos-tags | --tags <value> | --no-tags] [--count <value>] [--create-remote]
-    [--directory <value>] [--file-count <value>] [-f] [--prefix <value>] [--provider aws|gcp|azure] [--public] [-q]
-    [--resource-count <value>]
-
-FLAGS
-  -f, --[no-]format
-      Format the output terraform files. Requires `terraform` to be in your $PATH.
-
-  -q, --quiet
-      Suppress the logging output.
-
-  --chaos-tags
-      Generate random tag keys & values
-
-  --count=<value>
-      [default: 1] Number of repos to generate
-
-  --create-remote
-      Create and push a remote GitHub repo. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
-
-  --directory=<value>
-      [default: .] Directory to generate the repo(s) in
-
-  --file-count=<value>
-      [default: 3] Number of files per repo to generate
-
-  --no-tags
-      Disable any tag generation
-
-  --prefix=<value>
-      [default: tf_] Prefix for repo names, useful for quickly identifying generated content
-
-  --provider=<option>
-      Cloud provider to generate resources for
-      <options: aws|gcp|azure>
-
-  --public
-      Whether the remote repo(s) created are public.
-
-  --resource-count=<value>
-      [default: 3] Number of resources per file to generate
-
-  --tags=<value>
-      [default: Environment:Dev,Service:service] Custom tags to use for generated resources. Should be a comma-separated
-      list of tag names to generate random values for, or tag names with values delimited by a colon.
-
-      Examples:
-
-      Specify just tag keys to have a random value generated.
-      --tags Service,Team → {"Service":"(random value)","Team":"(random value)"}
-
-      Specify value for a key with the : delimiter. This can be mixed with just keys that are randomly generated.
-      --tags Service:web-app,Team → {"Service":"web-app","Team":"(random value)"}
-      --tags Service:web-app,Team:core → {"Service":"web-app","Team":"core"}
-
-      When specifying a key or value that has a space in it, the entire tag string needs to be quoted.
-      --tags "Service:my awesome web app,Team Name:The Core Team" → {"Service":"my awesome web app","Team Name":"The Core
-      Team"}
-
-DESCRIPTION
-  Generates repo(s) with multiple terraform files.
-```
-
-_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/generate/repo.ts)_
-
-## `terrafaker gh clone-repos`
-
-Clones repos from your Github account, useful for pulling down generated repos for manual modifications. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
-
-```
-USAGE
-  $ terrafaker gh clone-repos --prefix <value> [--directory <value>]
-
-FLAGS
-  --directory=<value>  [default: .] Directory to clone the repo(s) in
-  --prefix=<value>     (required) Prefix for the repos to clone, such as 'tf_'
-
-DESCRIPTION
-  Clones repos from your Github account, useful for pulling down generated repos for manual modifications. Requires the
-  `gh` CLI to be installed. To install, run `brew install gh`.
-```
-
-_See code: [src/commands/gh/clone-repos.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/gh/clone-repos.ts)_
-
-## `terrafaker gh delete-repos`
-
-Deletes repos from your Github account, useful for cleaning up generated test data. Requires the `gh` CLI to be installed. To install, run `brew install gh`.
-
-```
-USAGE
-  $ terrafaker gh delete-repos --prefix <value>
-
-FLAGS
-  --prefix=<value>  (required) Prefix for the repos to delete, such as 'tf_'
-
-DESCRIPTION
-  Deletes repos from your Github account, useful for cleaning up generated test data. Requires the `gh` CLI to be
-  installed. To install, run `brew install gh`.
-
-  If the deletion fails, you may need to refresh your CLI permissions with `gh auth refresh -s delete_repo`
-```
-
-_See code: [src/commands/gh/delete-repos.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.7/src/commands/gh/delete-repos.ts)_
-
-## `terrafaker help [COMMAND]`
-
-Display help for terrafaker.
-
-```
-USAGE
-  $ terrafaker help [COMMAND...] [-n]
-
-ARGUMENTS
-  [COMMAND...]  Command to show help for.
-
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
-
-DESCRIPTION
-  Display help for terrafaker.
-```
-
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.36/src/commands/help.ts)_
-<!-- commandsstop -->
-<!-- prettier-ignore-end -->
