@@ -2,7 +2,7 @@ import type { Map } from "terraform-generator";
 import { map, TerraformGenerator } from "terraform-generator";
 import type { ResourceType } from "../../enums/resource-types.js";
 import { ResourceTypes } from "../../enums/resource-types.js";
-import { formatTfFileName } from "../string-utils.js";
+import { StringUtils } from "../string-utils.js";
 import {
     randomItem,
     randomMemorableSlug,
@@ -105,7 +105,7 @@ abstract class ProviderGenerator {
 
     public writeToFile(options?: WriteToFileOptions): void {
         const { directory, format = true } = options ?? {};
-        const fileName = formatTfFileName(
+        const fileName = StringUtils.formatTfFileName(
             options?.fileName ?? randomMemorableSlug()
         );
         this.tfg.write({ dir: directory, format, tfFilename: fileName });

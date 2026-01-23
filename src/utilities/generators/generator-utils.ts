@@ -6,7 +6,7 @@ import {
     TAG_KEYS,
 } from "../../constants/tags.js";
 import { Providers } from "../../enums/providers.js";
-import { snakeSlugify } from "../string-utils.js";
+import { StringUtils } from "../string-utils.js";
 
 type StringGenerator = () => string;
 
@@ -36,7 +36,7 @@ function unique(generator: StringGenerator): StringGenerator {
 }
 
 const randomMemorableSlug = unique(() =>
-    snakeSlugify(
+    StringUtils.snakeSlugify(
         `${faker.word.adjective()}_${faker.color.human()}_${faker.animal.type()}`
     )
 );

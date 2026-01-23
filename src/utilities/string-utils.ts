@@ -1,17 +1,32 @@
 import { faker } from "@faker-js/faker";
 import { ux } from "@oclif/core";
 
-const slugify = (value: string): string =>
-    faker.helpers.slugify(value).toLowerCase();
+class StringUtils {
+    static formatInstructions(...instructions: string[]): string {
+        return instructions
+            .map((instruction) => `  • ${instruction}`)
+            .join("\n");
+    }
 
-const snakeSlugify = (value: string): string =>
-    slugify(value).replaceAll("-", "_");
+    static formatTfFileName(fileName: string): string {
+        return fileName.endsWith(".tf") ? fileName : `${fileName}.tf`;
+    }
 
-const success = (message: string) => `${ux.colorize("green", "✓")} ${message}`;
+    static slugify(value: string): string {
+        return faker.helpers.slugify(value).toLowerCase();
+    }
 
-const warn = (message: string) => `${ux.colorize("yellow", "⚠")} ${message}`;
+    static snakeSlugify(value: string): string {
+        return StringUtils.slugify(value).replaceAll("-", "_");
+    }
 
-const formatTfFileName = (fileName: string): string =>
-    fileName.endsWith(".tf") ? fileName : `${fileName}.tf`;
+    static success(message: string): string {
+        return `${ux.colorize("green", "✓")} ${message}`;
+    }
 
-export { formatTfFileName, slugify, snakeSlugify, success, warn };
+    static warn(message: string): string {
+        return `${ux.colorize("yellow", "⚠")} ${message}`;
+    }
+}
+
+export { StringUtils };

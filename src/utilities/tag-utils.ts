@@ -1,5 +1,5 @@
 import { randomMemorableSlug } from "./generators/generator-utils.js";
-import { warn } from "./string-utils.js";
+import { StringUtils } from "./string-utils.js";
 
 const parseTags = (tagString: string): Record<string, string> => {
     const csvTags = tagString.split(",").map((value) => value.trim());
@@ -9,7 +9,7 @@ const parseTags = (tagString: string): Record<string, string> => {
 
             if (tag in accumulated) {
                 console.warn(
-                    warn(
+                    StringUtils.warn(
                         `tag '${tag}' specified more than once, earlier value will be overwritten.`
                     )
                 );

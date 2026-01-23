@@ -29,7 +29,7 @@ const providerFlag = Flags.string({
 });
 
 const vcsProviderFlag = Flags.string({
-    default: VcsProviders.GitHub,
+    default: VcsProviders.Github,
     description: "Remote version control system to interact with",
     options: Object.values(VcsProviders),
 });

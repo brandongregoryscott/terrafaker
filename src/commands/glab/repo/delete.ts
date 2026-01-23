@@ -1,10 +1,10 @@
-import { HelpMessages } from "../../../enums/help-messages.js";
+import { VcsProviderNames } from "../../../enums/vcs-providers.js";
 import { BaseCommand } from "../../../utilities/base-command.js";
 import { requiredPrefixFlag } from "../../../utilities/flags.js";
-import { GitLab } from "../../../utilities/gitlab.js";
+import { Gitlab } from "../../../utilities/gitlab.js";
 
 class Delete extends BaseCommand {
-    static description = `Deletes repos from your GitLab account, useful for cleaning up generated test data. ${HelpMessages.RequiresGlabCli}`;
+    static description = `Deletes repos from your ${VcsProviderNames.Gitlab} account, useful for cleaning up generated test data.`;
 
     static flags = {
         prefix: requiredPrefixFlag,
@@ -15,8 +15,8 @@ class Delete extends BaseCommand {
         const { prefix } = flags;
 
         await this.deleteRepos({
-            deleteRepo: GitLab.deleteRepo,
-            listRepos: GitLab.listRepos,
+            deleteRepo: Gitlab.deleteRepo,
+            listRepos: Gitlab.listRepos,
             prefix,
         });
     }

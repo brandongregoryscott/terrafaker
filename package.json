@@ -10,6 +10,7 @@
         "@oclif/core": "4.8.0",
         "@oclif/plugin-help": "6.2.36",
         "lodash-es": "4.17.21",
+        "ora": "9.1.0",
         "terraform-generator": "6.4.4",
         "zx": "8.8.5"
     },
@@ -60,6 +61,20 @@
         "plugins": [
             "@oclif/plugin-help"
         ],
+        "topics": {
+            "generate": {
+                "description": "Commands for generating terraform files."
+            },
+            "az": {
+                "description": "Utility commands that wrap the `az` CLI."
+            },
+            "gh": {
+                "description": "Utility commands that wrap the `gh` CLI."
+            },
+            "glab": {
+                "description": "Utility commands that wrap the `glab` CLI."
+            }
+        },
         "topicSeparator": " "
     },
     "repository": {

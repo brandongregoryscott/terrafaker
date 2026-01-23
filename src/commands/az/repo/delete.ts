@@ -1,12 +1,10 @@
 import { VcsProviderNames } from "../../../enums/vcs-providers.js";
+import { Azure } from "../../../utilities/azure.js";
 import { BaseCommand } from "../../../utilities/base-command.js";
 import { requiredPrefixFlag } from "../../../utilities/flags.js";
-import { Github } from "../../../utilities/github.js";
 
 class Delete extends BaseCommand {
-    static description = `Deletes repos from your ${VcsProviderNames.Github} account, useful for cleaning up generated test data.
-
-If the deletion fails, you may need to refresh your CLI permissions with \`gh auth refresh -s delete_repo\``;
+    static description = `Deletes repos from your ${VcsProviderNames.Azure} account, useful for cleaning up generated test data.`;
 
     static flags = {
         prefix: requiredPrefixFlag,
@@ -17,8 +15,8 @@ If the deletion fails, you may need to refresh your CLI permissions with \`gh au
         const { prefix } = flags;
 
         await this.deleteRepos({
-            deleteRepo: Github.deleteRepo,
-            listRepos: Github.listRepos,
+            deleteRepo: Azure.deleteRepo,
+            listRepos: Azure.listRepos,
             prefix,
         });
     }

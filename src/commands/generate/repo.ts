@@ -3,6 +3,7 @@ import path from "node:path";
 import type { Provider } from "../../enums/providers.js";
 import { HelpMessages } from "../../enums/help-messages.js";
 import { VcsProviders } from "../../enums/vcs-providers.js";
+import { Azure } from "../../utilities/azure.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     chaosTagsFlag,
@@ -17,9 +18,9 @@ import {
     vcsProviderFlag,
 } from "../../utilities/flags.js";
 import { RepoGenerator } from "../../utilities/generators/repo-generator.js";
-import { GitHub } from "../../utilities/github.js";
-import { GitLab } from "../../utilities/gitlab.js";
-import { success } from "../../utilities/string-utils.js";
+import { Github } from "../../utilities/github.js";
+import { Gitlab } from "../../utilities/gitlab.js";
+import { StringUtils } from "../../utilities/string-utils.js";
 
 class Repo extends BaseCommand {
     static description = "Generates repo(s) with multiple terraform files.";
@@ -88,16 +89,21 @@ class Repo extends BaseCommand {
 
             if (createRemote) {
                 switch (vcsProvider) {
-                    case VcsProviders.GitHub:
-                        await GitHub.pushRepo({ isPublic, path });
+                    case VcsProviders.Azure:
+                        await Azure.pushRepo({ path });
                         break;
-                    case VcsProviders.GitLab:
-                        await GitLab.pushRepo({ isPublic, path });
+                    case VcsProviders.Github:
+                        await Github.pushRepo({ isPublic, path });
+                        break;
+                    case VcsProviders.Gitlab:
+                        await Gitlab.pushRepo({ isPublic, path });
                         break;
                 }
 
                 if (!quiet) {
-                    this.log(success(`Successfully pushed '${name}'`));
+                    this.log(
+                        StringUtils.success(`Successfully pushed '${name}'`)
+                    );
                 }
             }
         }

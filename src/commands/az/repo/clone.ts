@@ -1,10 +1,10 @@
 import { VcsProviderNames } from "../../../enums/vcs-providers.js";
+import { Azure } from "../../../utilities/azure.js";
 import { BaseCommand } from "../../../utilities/base-command.js";
 import { directoryFlag, requiredPrefixFlag } from "../../../utilities/flags.js";
-import { Github } from "../../../utilities/github.js";
 
 class Clone extends BaseCommand {
-    static description = `Clones repos from your ${VcsProviderNames.Github} account, useful for pulling down generated repos for manual modifications.`;
+    static description = `Clones repos from your ${VcsProviderNames.Azure} account, useful for pulling down generated repos for manual modifications.`;
 
     static flags = {
         directory: directoryFlag,
@@ -17,9 +17,9 @@ class Clone extends BaseCommand {
         const { directory, prefix } = flags;
 
         await this.cloneRepos({
-            cloneRepo: Github.cloneRepo,
+            cloneRepo: Azure.cloneRepo,
             directory,
-            listRepos: Github.listRepos,
+            listRepos: Azure.listRepos,
             prefix,
         });
     }
