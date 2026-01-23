@@ -69,7 +69,7 @@ resource "aws_lambda_function" "irresponsible_lavender_elephant" {
 
 ## Usage
 
-See [`COMMANDS.MD`] for documentation on available commands.
+See [`COMMANDS.MD`](./COMMANDS.md) for documentation on available commands.
 
 <!-- usage -->
 
@@ -78,7 +78,7 @@ $ npm install -g terrafaker
 $ terrafaker COMMAND
 running command...
 $ terrafaker (--version)
-terrafaker/0.0.8 darwin-arm64 node-v24.8.0
+terrafaker/0.0.9 darwin-arm64 node-v24.8.0
 $ terrafaker --help [COMMAND]
 USAGE
   $ terrafaker COMMAND
