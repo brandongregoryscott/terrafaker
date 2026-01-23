@@ -1,11 +1,20 @@
 import type { ObjectValues } from "../types/object-values.js";
 
 const VcsProviders = {
-    GitHub: "github",
-    GitLab: "gitlab",
+    Azure: "azure",
+    Github: "github",
+    Gitlab: "gitlab",
+} as const;
+
+const VcsProviderNames = {
+    Azure: "Azure",
+    Github: "GitHub",
+    Gitlab: "GitLab",
 } as const;
 
 type VcsProvider = ObjectValues<typeof VcsProviders>;
 
-export type { VcsProvider };
-export { VcsProviders };
+type VcsProviderName = ObjectValues<typeof VcsProviderNames>;
+
+export type { VcsProvider, VcsProviderName };
+export { VcsProviderNames, VcsProviders };

@@ -1,7 +1,5 @@
 import { Flags } from "@oclif/core";
 import type { Provider } from "../../enums/providers.js";
-import type { ProviderGeneratorTags } from "../../utilities/generators/provider-generator.js";
-import { DEFAULT_TAGS } from "../../constants/tags.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     chaosTagsFlag,
@@ -15,11 +13,10 @@ import {
 } from "../../utilities/flags.js";
 import { FileGenerator } from "../../utilities/generators/file-generator.js";
 import { randomProvider } from "../../utilities/generators/generator-utils.js";
-import { formatTfFileName, success } from "../../utilities/string-utils.js";
+import { StringUtils } from "../../utilities/string-utils.js";
 
 class File extends BaseCommand {
     static description = "Generates a terraform file.";
-
     static flags = {
         "chaos-tags": chaosTagsFlag,
         format: formatFlag,
@@ -39,7 +36,7 @@ class File extends BaseCommand {
         const tags = getTagsOption(flags);
         const provider =
             (flags.provider as Provider | undefined) ?? randomProvider();
-        const fileName = formatTfFileName(name ?? "main.tf");
+        const fileName = StringUtils.formatTfFileName(name ?? "main.tf");
 
         FileGenerator.generate({
             fileName,
@@ -50,7 +47,9 @@ class File extends BaseCommand {
         });
 
         if (!quiet) {
-            this.log(success(`Successfully generated '${fileName}'`));
+            this.log(
+                StringUtils.success(`Successfully generated '${fileName}'`)
+            );
         }
     }
 }

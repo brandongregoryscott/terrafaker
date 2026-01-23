@@ -3,7 +3,7 @@ import path from "node:path";
 import { $ } from "zx";
 import type { Provider } from "../../enums/providers.js";
 import type { ProviderGeneratorTags } from "./provider-generator.js";
-import { success } from "../string-utils.js";
+import { StringUtils } from "../string-utils.js";
 import { FileGenerator } from "./file-generator.js";
 import { randomMemorableSlug } from "./generator-utils.js";
 
@@ -91,7 +91,9 @@ class RepoGenerator {
         await sh`git add . && git commit -m "initial commit"`;
 
         if (!quiet) {
-            console.log(success(`Successfully generated '${repoPath}'`));
+            console.log(
+                StringUtils.success(`Successfully generated '${repoPath}'`)
+            );
         }
 
         return { name: repoName, path: repoPath };

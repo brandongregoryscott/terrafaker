@@ -1,10 +1,12 @@
 import { $ } from "zx";
 import type { Repo } from "../types/repo.js";
 
-interface GitLabRepo {
+interface GitlabRepo {
+    id: number;
     marked_for_deletion_on: null | string;
     name: string;
     path_with_namespace: string;
+    ssh_url_to_repo: string;
 }
 
 interface PushRepoOptions {
@@ -21,7 +23,7 @@ interface DeleteRepoOptions {
     repo: Repo;
 }
 
-class GitLab {
+class Gitlab {
     static async cloneRepo(options: CloneRepoOptions): Promise<void> {
         const { directory, repo } = options;
         await $`glab repo clone ${repo.fullName} ${directory}`;
@@ -34,7 +36,7 @@ class GitLab {
 
     static async listRepos(): Promise<Repo[]> {
         const response = await $`glab repo list --output json`;
-        const repos = JSON.parse(response.toString()) as GitLabRepo[];
+        const repos = JSON.parse(response.toString()) as GitlabRepo[];
         return normalizeRepos(repos);
     }
 
@@ -44,14 +46,19 @@ class GitLab {
     }
 }
 
-function normalizeRepos(repos: GitLabRepo[]): Repo[] {
+function normalizeRepos(repos: GitlabRepo[]): Repo[] {
     return repos
         .filter((repo) => repo.marked_for_deletion_on == null)
-        .map((repo) => ({
-            fullName: repo.path_with_namespace,
-            name: repo.name,
-        }));
+        .map(normalizeRepo);
 }
 
-export type { GitLabRepo };
-export { GitLab };
+function normalizeRepo(repo: GitlabRepo): Repo {
+    return {
+        fullName: repo.path_with_namespace,
+        id: repo.id.toString(),
+        name: repo.name,
+        sshUrl: repo.ssh_url_to_repo,
+    };
+}
+
+export { Gitlab };

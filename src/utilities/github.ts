@@ -1,9 +1,11 @@
 import { $ } from "zx";
 import type { Repo } from "../types/repo.js";
 
-interface GitHubRepo {
+interface GithubRepo {
+    id: string;
     name: string;
     nameWithOwner: string;
+    sshUrl: string;
 }
 
 interface PushRepoOptions {
@@ -20,7 +22,7 @@ interface DeleteRepoOptions {
     repo: Repo;
 }
 
-class GitHub {
+class Github {
     static async cloneRepo(options: CloneRepoOptions): Promise<void> {
         const { directory, repo } = options;
         await $`gh repo clone ${repo.fullName} ${directory}`;
@@ -32,8 +34,9 @@ class GitHub {
     }
 
     static async listRepos(): Promise<Repo[]> {
-        const response = await $`gh repo list --json name,nameWithOwner`;
-        const repos = JSON.parse(response.toString()) as GitHubRepo[];
+        const response =
+            await $`gh repo list --json id,name,nameWithOwner,sshUrl`;
+        const repos = JSON.parse(response.toString()) as GithubRepo[];
         return normalizeRepos(repos);
     }
 
@@ -43,12 +46,17 @@ class GitHub {
     }
 }
 
-function normalizeRepos(repos: GitHubRepo[]): Repo[] {
-    return repos.map((repo) => ({
-        fullName: repo.nameWithOwner,
-        name: repo.name,
-    }));
+function normalizeRepos(repos: GithubRepo[]): Repo[] {
+    return repos.map(normalizeRepo);
 }
 
-export type { GitHubRepo };
-export { GitHub };
+function normalizeRepo(repo: GithubRepo): Repo {
+    return {
+        fullName: repo.nameWithOwner,
+        id: repo.id,
+        name: repo.name,
+        sshUrl: repo.sshUrl,
+    };
+}
+
+export { Github };

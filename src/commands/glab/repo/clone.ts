@@ -1,10 +1,10 @@
-import { HelpMessages } from "../../../enums/help-messages.js";
+import { VcsProviderNames } from "../../../enums/vcs-providers.js";
 import { BaseCommand } from "../../../utilities/base-command.js";
 import { directoryFlag, requiredPrefixFlag } from "../../../utilities/flags.js";
-import { GitLab } from "../../../utilities/gitlab.js";
+import { Gitlab } from "../../../utilities/gitlab.js";
 
 class Clone extends BaseCommand {
-    static description = `Clones repos from your GitLab account, useful for pulling down generated repos for manual modifications. ${HelpMessages.RequiresGlabCli}`;
+    static description = `Clones repos from your ${VcsProviderNames.Gitlab} account, useful for pulling down generated repos for manual modifications.`;
 
     static flags = {
         directory: directoryFlag,
@@ -17,9 +17,9 @@ class Clone extends BaseCommand {
         const { directory, prefix } = flags;
 
         await this.cloneRepos({
-            cloneRepo: GitLab.cloneRepo,
+            cloneRepo: Gitlab.cloneRepo,
             directory,
-            listRepos: GitLab.listRepos,
+            listRepos: Gitlab.listRepos,
             prefix,
         });
     }

@@ -15,8 +15,8 @@ Obviously, you shouldn't use this tool to try to generate real production infras
 ## Features
 
 - Generate individual files
-- Generate git repos with multiple files (and optionally push them to GitHub)
-- Bulk clone and delete generated repos by prefix
+- Generate git repos with multiple files (and optionally push them to a remote VCS)
+- Bulk clone and delete generated repos on a remote VCS by prefix
 
 `terrafaker` can be used to randomly generate a file or repo of files like this:
 
@@ -65,18 +65,11 @@ resource "aws_lambda_function" "irresponsible_lavender_elephant" {
 
 - GitHub ([`brew install gh`](https://cli.github.com/))
 - GitLab ([`brew install glab`](https://docs.gitlab.com/cli/))
+- Azure ([`brew install azure-cli`](https://learn.microsoft.com/en-us/cli/azure)[`&& az extension add --name azure-devops`](https://learn.microsoft.com/en-us/cli/azure/repos))
 
-## Issues
+## Usage
 
-If you find a bug, feel free to [open up an issue](https://github.com/brandongregoryscott/terrafaker/issues/new) and try to describe it in detail with reproduction steps if possible.
-
-If you would like to see a feature, and it isn't [already documented](https://github.com/brandongregoryscott/terrafaker/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement), feel free to open up a new issue and describe the desired behavior.
-
-- [terrafaker](#terrafaker)
-- [Usage](#usage)
-- [Commands](./COMMANDS.md)
-
-# Usage
+See [`COMMANDS.MD`] for documentation on available commands.
 
 <!-- usage -->
 
@@ -93,3 +86,9 @@ USAGE
 ```
 
 <!-- usagestop -->
+
+## Issues
+
+If you find a bug, feel free to [open up an issue](https://github.com/brandongregoryscott/terrafaker/issues/new) and try to describe it in detail with reproduction steps if possible.
+
+If you would like to see a feature, and it isn't [already documented](https://github.com/brandongregoryscott/terrafaker/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement), feel free to open up a new issue and describe the desired behavior.
