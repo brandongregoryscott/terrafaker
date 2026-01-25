@@ -1,6 +1,9 @@
 import { VcsProviderNames } from "../../../enums/vcs-providers.js";
 import { BaseCommand } from "../../../utilities/base-command.js";
-import { requiredPrefixFlag } from "../../../utilities/flags.js";
+import {
+    requiredPrefixFlag,
+    toCamelCaseFlags,
+} from "../../../utilities/flags.js";
 import { Github } from "../../../utilities/github.js";
 
 class Delete extends BaseCommand {
@@ -14,7 +17,7 @@ If the deletion fails, you may need to refresh your CLI permissions with \`gh au
 
     async run(): Promise<void> {
         const { flags } = await this.parse(Delete);
-        const { prefix } = flags;
+        const { prefix } = toCamelCaseFlags(flags);
 
         await this.deleteRepos({
             deleteRepo: Github.deleteRepo,

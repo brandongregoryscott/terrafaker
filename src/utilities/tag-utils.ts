@@ -1,32 +1,35 @@
-import { randomMemorableSlug } from "./generators/generator-utils.js";
+import { Random } from "./random.js";
 import { StringUtils } from "./string-utils.js";
 
-const parseTags = (tagString: string): Record<string, string> => {
-    const csvTags = tagString.split(",").map((value) => value.trim());
-    const tags = csvTags.reduce(
-        (accumulated, csvTag) => {
-            const [tag, value] = csvTag.split(":");
+class TagUtils {
+    static parse(tagString: string): Record<string, string> {
+        const csvTags = tagString.split(",").map((value) => value.trim());
+        const tags = csvTags.reduce(
+            (accumulated, csvTag) => {
+                const [tag, value] = csvTag.split(":");
 
-            if (tag in accumulated) {
-                console.warn(
-                    StringUtils.warn(
-                        `tag '${tag}' specified more than once, earlier value will be overwritten.`
-                    )
-                );
-            }
+                if (tag in accumulated) {
+                    console.warn(
+                        StringUtils.warn(
+                            `tag '${tag}' specified more than once, earlier value will be overwritten.`
+                        )
+                    );
+                }
 
-            accumulated[tag] = value ?? randomMemorableSlug();
-            return accumulated;
-        },
-        {} as Record<string, string>
-    );
+                accumulated[tag] = value ?? Random.snakeSlug();
+                return accumulated;
+            },
+            {} as Record<string, string>
+        );
 
-    return tags;
-};
+        return tags;
+    }
 
-const stringifyTags = (tags: Record<string, string>): string =>
-    Object.entries(tags)
-        .map(([key, value]) => `${key}:${value}`)
-        .join(",");
+    static stringify(tags: Record<string, string>): string {
+        return Object.entries(tags)
+            .map(([key, value]) => `${key}:${value}`)
+            .join(",");
+    }
+}
 
-export { parseTags, stringifyTags };
+export { TagUtils };

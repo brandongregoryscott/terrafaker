@@ -1,21 +1,15 @@
 import { expect, it, describe, vi } from "vitest";
-import { ProviderGenerator } from "./provider-generator.js";
+import { TerraformGenerator } from "./terraform-generator.js";
 
-describe("ProviderGenerator", () => {
-    class TestGenerator extends ProviderGenerator {
-        private computeInstanceCount = 0;
-        private lambdaFunctionCount = 0;
+describe("TerraformGenerator", () => {
+    class TestGenerator extends TerraformGenerator {
+        #computeInstanceCount = 0;
+        #lambdaFunctionCount = 0;
 
-        public addProvider(): void {
-            this.tfg.provider("test", {
-                region: "us-east",
-            });
-        }
-
-        public addComputeInstance(): this {
+        addComputeInstance(): this {
             this.tfg.resource(
                 "compute-instance",
-                `instance-${++this.computeInstanceCount}`,
+                `instance-${++this.#computeInstanceCount}`,
                 {
                     machine: "machine-xl",
                 }
@@ -24,17 +18,23 @@ describe("ProviderGenerator", () => {
             return this;
         }
 
-        public addLambdaFunction(): this {
+        addLambdaFunction(): this {
             this.tfg.resource(
                 "lambda-function",
-                `function-${++this.lambdaFunctionCount}`,
+                `function-${++this.#lambdaFunctionCount}`,
                 {}
             );
 
             return this;
         }
 
-        public randomRegion(): string {
+        addProvider(): void {
+            this.tfg.provider("test", {
+                region: "us-east",
+            });
+        }
+
+        randomRegion(): string {
             return "us-east-1";
         }
     }
@@ -42,20 +42,20 @@ describe("ProviderGenerator", () => {
     describe("constructor", () => {
         it("calls addProvider", () => {
             const addProvider = vi.fn();
-            class TestGenerator extends ProviderGenerator {
-                public addProvider() {
+            class TestGenerator extends TerraformGenerator {
+                addComputeInstance(): this {
+                    throw new Error("Method not implemented.");
+                }
+
+                addLambdaFunction(): this {
+                    throw new Error("Method not implemented.");
+                }
+
+                addProvider() {
                     addProvider();
                 }
 
-                public addComputeInstance(): this {
-                    throw new Error("Method not implemented.");
-                }
-
-                public addLambdaFunction(): this {
-                    throw new Error("Method not implemented.");
-                }
-
-                public randomRegion(): string {
+                randomRegion(): string {
                     return "us-east-1";
                 }
             }

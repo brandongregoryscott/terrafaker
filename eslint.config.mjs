@@ -7,6 +7,7 @@ import { defineConfig } from "eslint/config";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import typescriptEslint from "typescript-eslint";
+import localRules from "./eslint-local-rules/index.mjs";
 
 const gitignorePath = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
@@ -75,6 +76,18 @@ const config = defineConfig(
             "@typescript-eslint/consistent-type-definitions": "error",
             "@typescript-eslint/consistent-type-exports": "error",
             "@typescript-eslint/consistent-type-imports": "error",
+            "@typescript-eslint/explicit-member-accessibility": [
+                "error",
+                { accessibility: "no-public" },
+            ],
+        },
+    },
+    {
+        plugins: {
+            "local-rules": localRules,
+        },
+        rules: {
+            "local-rules/prefer-private-class-members": "error",
         },
     },
     {
@@ -153,7 +166,7 @@ const config = defineConfig(
         },
     },
     {
-        ignores: ["**/*.test.ts", "eslint.config.mjs", "bin"],
+        ignores: ["eslint.config.mjs", "bin", "eslint-local-rules/"],
     },
     [includeIgnoreFile(gitignorePath)]
 );

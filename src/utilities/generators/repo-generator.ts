@@ -1,27 +1,17 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { $ } from "zx";
-import type { Provider } from "../../enums/providers.js";
-import type { ProviderGeneratorTags } from "./provider-generator.js";
+import type { FileGeneratorOptions } from "./file-generator.js";
+import { IacTypes } from "../../enums/iac-types.js";
+import { Random } from "../random.js";
 import { StringUtils } from "../string-utils.js";
 import { FileGenerator } from "./file-generator.js";
-import { randomMemorableSlug } from "./generator-utils.js";
 
-interface GenerateOptions {
-    /**
-     * Directory to generate the repo in
-     */
-    directory?: string;
-
+interface RepoGeneratorOptions extends Omit<FileGeneratorOptions, "fileName"> {
     /**
      * Number of files to generate
      */
     fileCount?: number;
-
-    /**
-     * Whether the terraform files should be formatted. Requires `terraform` to be installed.
-     */
-    format?: boolean;
 
     /**
      * Prefix for the repo
@@ -29,48 +19,38 @@ interface GenerateOptions {
     prefix?: string;
 
     /**
-     * Provider to generate a terraform file for. If not provided, random providers will be used.
-     */
-    provider?: Provider;
-
-    /**
      * Whether output from the commands should be silenced
      */
     quiet?: boolean;
-
-    /**
-     * Number of resources per file to generate
-     */
-    resourceCount?: number;
-
-    /**
-     * Tag configuration to be generated with each generated resource
-     */
-    tags?: ProviderGeneratorTags;
 }
 
-interface GenerateResult {
+interface GenerateRepoResult {
     name: string;
     path: string;
 }
 
 class RepoGenerator {
-    public static async generate(
-        options: GenerateOptions
-    ): Promise<GenerateResult> {
+    static async generate(
+        options: RepoGeneratorOptions
+    ): Promise<GenerateRepoResult> {
         const {
+            cloudProvider,
             fileCount = 3,
             format,
-            prefix = "tf_",
-            provider,
+            iacType = IacTypes.Terraform,
             quiet,
             resourceCount,
             tags,
         } = options;
 
+        // Use appropriate default prefix based on IAC type
+        const defaultPrefix =
+            iacType === IacTypes.CloudFormation ? "cf_" : "tf_";
+        const prefix = options.prefix ?? defaultPrefix;
+
         const directory = path.resolve(process.cwd(), options.directory ?? ".");
 
-        const repoName = `${prefix}${randomMemorableSlug()}`;
+        const repoName = `${prefix}${Random.snakeSlug()}`;
         const repoPath = path.join(directory, repoName);
         const sh = $({ cwd: repoPath, stdio: quiet ? "ignore" : "inherit" });
 
@@ -80,9 +60,10 @@ class RepoGenerator {
 
         for (let i = 0; i < fileCount; i++) {
             FileGenerator.generate({
+                cloudProvider,
                 directory: repoPath,
                 format,
-                provider,
+                iacType,
                 resourceCount,
                 tags,
             });

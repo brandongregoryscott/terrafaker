@@ -1,7 +1,10 @@
 import { VcsProviderNames } from "../../../enums/vcs-providers.js";
 import { Azure } from "../../../utilities/azure.js";
 import { BaseCommand } from "../../../utilities/base-command.js";
-import { requiredPrefixFlag } from "../../../utilities/flags.js";
+import {
+    requiredPrefixFlag,
+    toCamelCaseFlags,
+} from "../../../utilities/flags.js";
 
 class Delete extends BaseCommand {
     static description = `Deletes repos from your ${VcsProviderNames.Azure} account, useful for cleaning up generated test data.`;
@@ -12,7 +15,7 @@ class Delete extends BaseCommand {
 
     async run(): Promise<void> {
         const { flags } = await this.parse(Delete);
-        const { prefix } = flags;
+        const { prefix } = toCamelCaseFlags(flags);
 
         await this.deleteRepos({
             deleteRepo: Azure.deleteRepo,

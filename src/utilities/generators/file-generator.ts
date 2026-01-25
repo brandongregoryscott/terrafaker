@@ -1,34 +1,63 @@
+import type { CloudProvider } from "../../enums/cloud-providers.js";
+import type { IacType } from "../../enums/iac-types.js";
 import type { ProviderGeneratorOptions } from "./provider-generator.js";
-import { type Provider } from "../../enums/providers.js";
-import { randomProvider } from "./generator-utils.js";
-import { ProviderGeneratorFactory } from "./provider-generator-factory.js";
+import { IacTypes } from "../../enums/iac-types.js";
+import { Random } from "../random.js";
+import { GeneratorFactory } from "./generator-factory.js";
 
-interface GenerateOptions extends ProviderGeneratorOptions {
+interface FileGeneratorOptions extends ProviderGeneratorOptions {
+    /**
+     * Provider to generate a file for. If not provided, a random provider will be used.
+     */
+    cloudProvider?: CloudProvider;
+
+    /**
+     * Directory to generate the file(s) in
+     */
     directory?: string;
+
+    /**
+     * Name of the generated file. A valid file extension for the iacType will be appended if not provided.
+     */
     fileName?: string;
+
+    /**
+     * Whether the file(s) should be formatted. Requires the `terraform` CLI to be installed for formatting Terraform files.
+     */
     format?: boolean;
-    provider?: Provider;
+
+    /**
+     * Infrastructure-as-code type to generate
+     */
+    iacType?: IacType;
+
+    /**
+     * Number of resources per file to generate
+     */
     resourceCount?: number;
 }
 
 class FileGenerator {
-    public static generate(options: GenerateOptions) {
+    static generate(options: FileGeneratorOptions) {
         const {
+            cloudProvider = Random.cloudProvider(),
             directory,
             fileName,
             format,
-            provider = randomProvider(),
+            iacType = IacTypes.Terraform,
             resourceCount = 3,
             tags,
         } = options;
-        const generator = ProviderGeneratorFactory.get(provider, { tags });
 
-        for (let i = 0; i < resourceCount; i++) {
-            generator.addRandomResource();
-        }
-
-        generator.writeToFile({ directory, fileName, format });
+        GeneratorFactory.get({
+            cloudProvider,
+            iacType,
+            tags,
+        })
+            .addRandomResources(resourceCount)
+            .writeToFile({ directory, fileName, format });
     }
 }
 
+export type { FileGeneratorOptions };
 export { FileGenerator };

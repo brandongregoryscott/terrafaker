@@ -1,56 +1,62 @@
 import { Flags } from "@oclif/core";
-import type { Provider } from "../../enums/providers.js";
+import { FlagNames } from "../../enums/flag-names.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     chaosTagsFlag,
+    cloudProviderFlag,
     formatFlag,
     getTagsOption,
+    iacTypeFlag,
     noTagsFlag,
-    providerFlag,
     quietFlag,
     resourceCountFlag,
     tagsFlag,
+    toCamelCaseFlags,
 } from "../../utilities/flags.js";
 import { FileGenerator } from "../../utilities/generators/file-generator.js";
-import { randomProvider } from "../../utilities/generators/generator-utils.js";
 import { StringUtils } from "../../utilities/string-utils.js";
 
 class File extends BaseCommand {
-    static description = "Generates a terraform file.";
+    static description = "Generates an infrastructure-as-code file.";
     static flags = {
-        "chaos-tags": chaosTagsFlag,
-        format: formatFlag,
-        name: Flags.string({
-            description: "Name for the generated file, which must end in .tf",
+        [FlagNames.ChaosTags]: chaosTagsFlag,
+        [FlagNames.CloudProvider]: cloudProviderFlag(),
+        [FlagNames.Format]: formatFlag,
+        [FlagNames.IacType]: iacTypeFlag(),
+        [FlagNames.Name]: Flags.string({
+            description: `Name for the generated file (extension added automatically based on ${FlagNames.IacType})`,
         }),
-        "no-tags": noTagsFlag,
-        provider: providerFlag,
-        quiet: quietFlag,
-        "resource-count": resourceCountFlag,
-        tags: tagsFlag(),
+        [FlagNames.NoTags]: noTagsFlag,
+        [FlagNames.Quiet]: quietFlag,
+        [FlagNames.ResourceCount]: resourceCountFlag,
+        [FlagNames.Tags]: tagsFlag(),
     };
 
     async run(): Promise<void> {
         const { flags } = await this.parse(File);
-        const { format, name, quiet, "resource-count": resourceCount } = flags;
+        const { cloudProvider, format, iacType, name, quiet, resourceCount } =
+            toCamelCaseFlags(flags);
         const tags = getTagsOption(flags);
-        const provider =
-            (flags.provider as Provider | undefined) ?? randomProvider();
-        const fileName = StringUtils.formatTfFileName(name ?? "main.tf");
+
+        const fileName = StringUtils.formatFileName({
+            fileName: name,
+            iacType,
+        });
 
         FileGenerator.generate({
+            cloudProvider,
             fileName,
             format,
-            provider,
+            iacType,
             resourceCount,
             tags,
         });
 
-        if (!quiet) {
-            this.log(
-                StringUtils.success(`Successfully generated '${fileName}'`)
-            );
+        if (quiet) {
+            return;
         }
+
+        this.log(StringUtils.success(`Successfully generated '${fileName}'`));
     }
 }
 

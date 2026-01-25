@@ -1,25 +1,25 @@
 import { describe, expect, it } from "vitest";
-import { AwsGenerator } from "./aws-generator.js";
 import {
-    AWS_INSTANCE_TYPES,
-    AWS_LAMBDA_RUNTIMES,
-} from "../../constants/aws.js";
+    AZURE_INSTANCE_TYPES,
+    AZURE_LAMBDA_RUNTIMES,
+} from "../../constants/azure.js";
 import { findFirstResourceOrThrow } from "../../test/test-utils.js";
+import { AzureTerraformGenerator } from "./azure-terraform-generator.js";
 
-describe("AwsGenerator", () => {
+describe("AzureTerraformGenerator", () => {
     describe("addComputeInstance", () => {
-        it("returns an aws instance type", () => {
-            const terraform = new AwsGenerator()
+        it("returns an azure instance type", () => {
+            const terraform = new AzureTerraformGenerator()
                 .addComputeInstance()
                 .toString();
 
             const resource = findFirstResourceOrThrow(terraform);
-            expect(AWS_INSTANCE_TYPES).toContain(resource.value.instance_type);
+            expect(AZURE_INSTANCE_TYPES).toContain(resource.value.size);
         });
 
         it("adds tags block", () => {
             const tags = { foo: "bar" };
-            const terraform = new AwsGenerator({ tags })
+            const terraform = new AzureTerraformGenerator({ tags })
                 .addComputeInstance()
                 .toString();
 
@@ -29,16 +29,21 @@ describe("AwsGenerator", () => {
     });
 
     describe("addLambdaFunction", () => {
-        it("returns an aws lambda runtime", () => {
-            const terraform = new AwsGenerator().addLambdaFunction().toString();
+        it("returns an azure lambda runtime", () => {
+            const terraform = new AzureTerraformGenerator()
+                .addLambdaFunction()
+                .toString();
 
             const resource = findFirstResourceOrThrow(terraform);
-            expect(AWS_LAMBDA_RUNTIMES).toContainEqual(resource.value.runtime);
+            expect(AZURE_LAMBDA_RUNTIMES).toContainEqual({
+                runtime_name: resource.value.runtime_name,
+                runtime_version: resource.value.runtime_version,
+            });
         });
 
         it("adds tags block", () => {
             const tags = { foo: "bar" };
-            const terraform = new AwsGenerator({ tags })
+            const terraform = new AzureTerraformGenerator({ tags })
                 .addLambdaFunction()
                 .toString();
 
