@@ -48,24 +48,30 @@ resource "aws_lambda_function" "irresponsible_lavender_elephant" {
 }
 ```
 
-### Supported IAC providers and resources
-
-- Terraform
-    - AWS
-        - Compute instances
-        - Functions
-    - GCP
-        - Compute instances
-        - Functions
-    - Azure
-        - Compute instances
-        - Functions
-
 ### Supported VCS providers
 
-- GitHub ([`brew install gh`](https://cli.github.com/))
-- GitLab ([`brew install glab`](https://docs.gitlab.com/cli/))
-- Azure ([`brew install azure-cli`](https://learn.microsoft.com/en-us/cli/azure)[`&& az extension add --name azure-devops`](https://learn.microsoft.com/en-us/cli/azure/repos))
+| VCS Provider | Supported | Dependency                                                                                                                                                            |
+| ------------ | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub       | ✅        | [`brew install gh`](https://cli.github.com/)                                                                                                                          |
+| GitLab       | ✅        | [`brew install glab`](https://docs.gitlab.com/cli/)                                                                                                                   |
+| Azure        | ✅        | [`brew install azure-cli`](https://learn.microsoft.com/en-us/cli/azure)[`&& az extension add --name azure-devops`](https://learn.microsoft.com/en-us/cli/azure/repos) |
+
+### Supported cloud providers and IAC tooling
+
+| Cloud Provider | Terraform | CloudFormation | CDK | Pulumi |
+| -------------- | --------- | -------------- | --- | ------ |
+| AWS            | ✅        | ✅             | ❌  | ❌     |
+| GCP            | ✅        | ⛔️            | ⛔️ | ❌     |
+| Azure          | ✅        | ⛔️            | ⛔️ | ❌     |
+
+### Supported resources
+
+| Resource Type     | AWS | GCP | Azure |
+| ----------------- | --- | --- | ----- |
+| Compute Instances | ✅  | ✅  | ✅    |
+| Functions         | ✅  | ✅  | ✅    |
+| Object Storage    | ❌  | ❌  | ❌    |
+| Managed Databases | ❌  | ❌  | ❌    |
 
 ## Usage
 

@@ -31,7 +31,7 @@ interface DeleteReposOptions {
 const $ = _$({ nothrow: true, quiet: true });
 
 abstract class BaseCommand extends Command {
-    public async cloneRepos(options: CloneReposOptions): Promise<void> {
+    async cloneRepos(options: CloneReposOptions): Promise<void> {
         const {
             cloneRepo,
             directory: directoryOption,
@@ -68,7 +68,7 @@ abstract class BaseCommand extends Command {
         }
     }
 
-    public async deleteRepos(options: DeleteReposOptions): Promise<void> {
+    async deleteRepos(options: DeleteReposOptions): Promise<void> {
         const { deleteRepo, listRepos, prefix } = options;
         const allRepos = await listRepos();
 
@@ -95,12 +95,12 @@ abstract class BaseCommand extends Command {
         }
     }
 
-    public async isAzureCliAuthenticated(): Promise<boolean> {
+    async isAzureCliAuthenticated(): Promise<boolean> {
         const { ok } = await $`az account get-access-token`;
         return ok;
     }
 
-    public async isAzureCliDefaultOrganizationConfigured(): Promise<boolean> {
+    async isAzureCliDefaultOrganizationConfigured(): Promise<boolean> {
         const { ok, stdout } = await $`az devops configure --list`;
         if (!ok) {
             return false;
@@ -116,7 +116,7 @@ abstract class BaseCommand extends Command {
         return !isEmpty(organizationName);
     }
 
-    public async isAzureCliDefaultProjectConfigured(): Promise<boolean> {
+    async isAzureCliDefaultProjectConfigured(): Promise<boolean> {
         const { ok, stdout } = await $`az devops configure --list`;
         if (!ok) {
             return false;
@@ -129,7 +129,7 @@ abstract class BaseCommand extends Command {
         return !isEmpty(projectName);
     }
 
-    public async isAzureCliDevopsExtensionInstalled(): Promise<boolean> {
+    async isAzureCliDevopsExtensionInstalled(): Promise<boolean> {
         const { ok, stdout } = await $`az extension list`;
 
         if (!ok) {
@@ -150,32 +150,32 @@ abstract class BaseCommand extends Command {
         );
     }
 
-    public async isAzureCliInstalled(): Promise<boolean> {
+    async isAzureCliInstalled(): Promise<boolean> {
         const { ok } = await $`which az`;
         return ok;
     }
 
-    public async isGithubCliAuthenticated(): Promise<boolean> {
+    async isGithubCliAuthenticated(): Promise<boolean> {
         const { ok } = await $`gh auth status`;
         return ok;
     }
 
-    public async isGithubCliInstalled(): Promise<boolean> {
+    async isGithubCliInstalled(): Promise<boolean> {
         const { ok } = await $`which gh`;
         return ok;
     }
 
-    public async isGitlabCliAuthenticated(): Promise<boolean> {
+    async isGitlabCliAuthenticated(): Promise<boolean> {
         const { ok } = await $`glab auth status`;
         return ok;
     }
 
-    public async isGitlabCliInstalled(): Promise<boolean> {
+    async isGitlabCliInstalled(): Promise<boolean> {
         const { ok } = await $`which glab`;
         return ok;
     }
 
-    public async showHelp(): Promise<void> {
+    async showHelp(): Promise<void> {
         const HelpClass = await loadHelpClass(this.config);
         const help = new HelpClass(this.config);
         await help.showHelp([this.id ?? ""]);

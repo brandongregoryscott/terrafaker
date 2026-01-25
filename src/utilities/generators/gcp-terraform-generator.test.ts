@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { GcpGenerator } from "./gcp-generator.js";
 import {
     GCP_INSTANCE_TYPES,
     GCP_LAMBDA_RUNTIMES,
 } from "../../constants/gcp.js";
 import { findFirstResourceOrThrow } from "../../test/test-utils.js";
+import { GcpTerraformGenerator } from "./gcp-terraform-generator.js";
 
-describe("GcpGenerator", () => {
+describe("GcpTerraformGenerator", () => {
     describe("addComputeInstance", () => {
         it("returns a gcp instance type", () => {
-            const terraform = new GcpGenerator()
+            const terraform = new GcpTerraformGenerator()
                 .addComputeInstance()
                 .toString();
 
@@ -19,7 +19,7 @@ describe("GcpGenerator", () => {
 
         it("adds tags block", () => {
             const tags = { foo: "bar" };
-            const terraform = new GcpGenerator({ tags })
+            const terraform = new GcpTerraformGenerator({ tags })
                 .addComputeInstance()
                 .toString();
 
@@ -30,7 +30,9 @@ describe("GcpGenerator", () => {
 
     describe("addLambdaFunction", () => {
         it("returns a gcp lambda runtime", () => {
-            const terraform = new GcpGenerator().addLambdaFunction().toString();
+            const terraform = new GcpTerraformGenerator()
+                .addLambdaFunction()
+                .toString();
 
             const resource = findFirstResourceOrThrow(terraform);
             expect(GCP_LAMBDA_RUNTIMES).toContainEqual(resource.value.runtime);
@@ -38,7 +40,7 @@ describe("GcpGenerator", () => {
 
         it("adds tags block", () => {
             const tags = { foo: "bar" };
-            const terraform = new GcpGenerator({ tags })
+            const terraform = new GcpTerraformGenerator({ tags })
                 .addLambdaFunction()
                 .toString();
 

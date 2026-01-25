@@ -3,22 +3,18 @@ import {
     AZURE_LAMBDA_RUNTIMES,
     AZURE_REGIONS,
 } from "../../constants/azure.js";
-import {
-    randomItem,
-    randomMemorableSlug,
-    randomMemorySize,
-} from "./generator-utils.js";
-import { ProviderGenerator } from "./provider-generator.js";
+import { Random } from "../random.js";
+import { TerraformGenerator } from "./terraform-generator.js";
 
 const AzureResourceType = {
     ComputeInstance: "azurerm_linux_virtual_machine",
     LambdaFunction: "azurerm_linux_function_app",
 } as const;
 
-class AzureGenerator extends ProviderGenerator {
-    public addComputeInstance(): this {
-        const name = randomMemorableSlug();
-        const instanceType = randomItem(AZURE_INSTANCE_TYPES);
+class AzureTerraformGenerator extends TerraformGenerator {
+    addComputeInstance(): this {
+        const name = Random.snakeSlug();
+        const instanceType = Random.item(AZURE_INSTANCE_TYPES);
 
         this.tfg.resource(AzureResourceType.ComputeInstance, name, {
             size: instanceType,
@@ -28,12 +24,12 @@ class AzureGenerator extends ProviderGenerator {
         return this;
     }
 
-    public addLambdaFunction(): this {
-        const name = randomMemorableSlug();
-        const runtime = randomItem(AZURE_LAMBDA_RUNTIMES);
+    addLambdaFunction(): this {
+        const name = Random.snakeSlug();
+        const runtime = Random.item(AZURE_LAMBDA_RUNTIMES);
         // There's a lot of different configurations listed, so just guessing here.
         // https://learn.microsoft.com/en-us/azure/azure-functions/functions-scale
-        const instanceMemoryInMb = randomMemorySize({
+        const instanceMemoryInMb = Random.memorySize({
             max: 4 * 1024,
             min: 128,
             step: 128,
@@ -49,13 +45,13 @@ class AzureGenerator extends ProviderGenerator {
         return this;
     }
 
-    public addProvider(): void {
+    addProvider(): void {
         this.tfg.provider("azurerm", { region: this.region });
     }
 
-    public randomRegion(): string {
-        return randomItem(AZURE_REGIONS);
+    randomRegion(): string {
+        return Random.item(AZURE_REGIONS);
     }
 }
 
-export { AzureGenerator };
+export { AzureTerraformGenerator };

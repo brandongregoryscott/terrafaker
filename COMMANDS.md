@@ -67,12 +67,12 @@ _See code: [src/commands/az/repo/list.ts](https://github.com/brandongregoryscott
 
 ## `terrafaker generate file`
 
-Generates a terraform file.
+Generates an infrastructure-as-code file.
 
 ```
 USAGE
-  $ terrafaker generate file [--chaos-tags | --tags <value> | --no-tags] [-f] [--name <value>] [--provider
-    aws|azure|gcp] [-q] [--resource-count <value>]
+  $ terrafaker generate file [--chaos-tags | --tags <value> | --no-tags] [--cloud-provider aws|azure|gcp] [-f]
+    [--iac-type cloudformation|terraform] [--name <value>] [-q] [--resource-count <value>]
 
 FLAGS
   -f, --[no-]format
@@ -84,15 +84,19 @@ FLAGS
   --chaos-tags
       Generate random tag keys & values
 
+  --cloud-provider=<option>
+      Cloud provider to generate resources for
+      <options: aws|azure|gcp>
+
+  --iac-type=<option>
+      [default: terraform] Infrastructure-as-code to generate. CloudFormation is only valid when cloud-provider is 'aws'.
+      <options: cloudformation|terraform>
+
   --name=<value>
-      Name for the generated file, which must end in .tf
+      Name for the generated file (extension added automatically based on iac-type)
 
   --no-tags
       Disable any tag generation
-
-  --provider=<option>
-      Cloud provider to generate resources for
-      <options: aws|azure|gcp>
 
   --resource-count=<value>
       [default: 3] Number of resources per file to generate
@@ -115,20 +119,20 @@ FLAGS
       Team"}
 
 DESCRIPTION
-  Generates a terraform file.
+  Generates an infrastructure-as-code file.
 ```
 
 _See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.9/src/commands/generate/file.ts)_
 
 ## `terrafaker generate repo`
 
-Generates repo(s) with multiple terraform files.
+Generates repo(s) with multiple infrastructure-as-code files.
 
 ```
 USAGE
-  $ terrafaker generate repo [--chaos-tags | --tags <value> | --no-tags] [--count <value>] [--create-remote]
-    [--directory <value>] [--file-count <value>] [-f] [--prefix <value>] [--provider aws|azure|gcp] [--public] [-q]
-    [--resource-count <value>] [--vcs-provider azure|github|gitlab]
+  $ terrafaker generate repo [--chaos-tags | --tags <value> | --no-tags] [--cloud-provider aws|azure|gcp] [--count
+    <value>] [--create-remote] [--directory <value>] [--file-count <value>] [-f] [--iac-type cloudformation|terraform]
+    [--prefix <value>] [--public] [-q] [--resource-count <value>] [--vcs-provider azure|github|gitlab]
 
 FLAGS
   -f, --[no-]format
@@ -139,6 +143,10 @@ FLAGS
 
   --chaos-tags
       Generate random tag keys & values
+
+  --cloud-provider=<option>
+      Cloud provider to generate resources for
+      <options: aws|azure|gcp>
 
   --count=<value>
       [default: 1] Number of repos to generate
@@ -152,15 +160,16 @@ FLAGS
   --file-count=<value>
       [default: 3] Number of files per repo to generate
 
+  --iac-type=<option>
+      [default: terraform] Infrastructure-as-code to generate. CloudFormation is only valid when cloud-provider is 'aws'.
+      <options: cloudformation|terraform>
+
   --no-tags
       Disable any tag generation
 
   --prefix=<value>
-      [default: tf_] Prefix for repo names, useful for quickly identifying generated content
-
-  --provider=<option>
-      Cloud provider to generate resources for
-      <options: aws|azure|gcp>
+      Prefix for repo names, useful for quickly identifying generated content. Defaults to 'tf_' for Terraform or 'cf_'
+      for CloudFormation.
 
   --public
       Whether the remote repo(s) created are public.
@@ -190,7 +199,7 @@ FLAGS
       <options: azure|github|gitlab>
 
 DESCRIPTION
-  Generates repo(s) with multiple terraform files.
+  Generates repo(s) with multiple infrastructure-as-code files.
 ```
 
 _See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.9/src/commands/generate/repo.ts)_

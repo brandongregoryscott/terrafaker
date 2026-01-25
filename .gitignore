@@ -13,3 +13,5 @@ pnpm-lock.yaml
 *.tsbuildinfo
 *.tf
 tf_*
+cf_*
+template.json

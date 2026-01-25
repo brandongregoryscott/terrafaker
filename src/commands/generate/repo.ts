@@ -1,20 +1,22 @@
 import { Flags } from "@oclif/core";
 import path from "node:path";
-import type { Provider } from "../../enums/providers.js";
+import { FlagNames } from "../../enums/flag-names.js";
 import { HelpMessages } from "../../enums/help-messages.js";
 import { VcsProviders } from "../../enums/vcs-providers.js";
 import { Azure } from "../../utilities/azure.js";
 import { BaseCommand } from "../../utilities/base-command.js";
 import {
     chaosTagsFlag,
+    cloudProviderFlag,
     directoryFlag,
     formatFlag,
     getTagsOption,
+    iacTypeFlag,
     noTagsFlag,
-    providerFlag,
     quietFlag,
     resourceCountFlag,
     tagsFlag,
+    toCamelCaseFlags,
     vcsProviderFlag,
 } from "../../utilities/flags.js";
 import { RepoGenerator } from "../../utilities/generators/repo-generator.js";
@@ -23,89 +25,94 @@ import { Gitlab } from "../../utilities/gitlab.js";
 import { StringUtils } from "../../utilities/string-utils.js";
 
 class Repo extends BaseCommand {
-    static description = "Generates repo(s) with multiple terraform files.";
+    static description =
+        "Generates repo(s) with multiple infrastructure-as-code files.";
 
     static flags = {
-        "chaos-tags": chaosTagsFlag,
-        count: Flags.integer({
+        [FlagNames.ChaosTags]: chaosTagsFlag,
+        [FlagNames.CloudProvider]: cloudProviderFlag(),
+        [FlagNames.Count]: Flags.integer({
             default: 1,
             description: "Number of repos to generate",
         }),
-        "create-remote": Flags.boolean({
+        [FlagNames.CreateRemote]: Flags.boolean({
             description: `Create and push a remote repo. ${HelpMessages.RequiresVcsCLI}`,
         }),
-        directory: directoryFlag,
-        "file-count": Flags.integer({
+        [FlagNames.Directory]: directoryFlag,
+        [FlagNames.FileCount]: Flags.integer({
             default: 3,
             description: "Number of files per repo to generate",
         }),
-        format: formatFlag,
-        "no-tags": noTagsFlag,
-        prefix: Flags.string({
-            default: "tf_",
+        [FlagNames.Format]: formatFlag,
+        [FlagNames.IacType]: iacTypeFlag(),
+        [FlagNames.NoTags]: noTagsFlag,
+        [FlagNames.Prefix]: Flags.string({
             description:
-                "Prefix for repo names, useful for quickly identifying generated content",
+                "Prefix for repo names, useful for quickly identifying generated content. Defaults to 'tf_' for Terraform or 'cf_' for CloudFormation.",
         }),
-        provider: providerFlag,
-        public: Flags.boolean({
+        [FlagNames.Public]: Flags.boolean({
             default: false,
             description: "Whether the remote repo(s) created are public.",
         }),
-        quiet: quietFlag,
-        "resource-count": resourceCountFlag,
-        tags: tagsFlag(),
-        "vcs-provider": vcsProviderFlag,
+        [FlagNames.Quiet]: quietFlag,
+        [FlagNames.ResourceCount]: resourceCountFlag,
+        [FlagNames.Tags]: tagsFlag(),
+        [FlagNames.VcsProvider]: vcsProviderFlag(),
     };
 
     async run(): Promise<void> {
         const { flags } = await this.parse(Repo);
         const {
+            cloudProvider,
             count,
-            "create-remote": createRemote,
-            "file-count": fileCount,
+            createRemote,
+            fileCount,
             format,
+            iacType,
             prefix,
             public: isPublic,
             quiet,
-            "resource-count": resourceCount,
-            "vcs-provider": vcsProvider,
-        } = flags;
+            resourceCount,
+            vcsProvider,
+        } = toCamelCaseFlags(flags);
         const tags = getTagsOption(flags);
-        const provider = flags.provider as Provider | undefined;
 
         const directory = path.resolve(process.cwd(), flags.directory);
 
         for (let i = 0; i < count; i++) {
             const { name, path } = await RepoGenerator.generate({
+                cloudProvider,
                 directory,
                 fileCount,
                 format,
+                iacType,
                 prefix,
-                provider,
                 quiet,
                 resourceCount,
                 tags,
             });
 
-            if (createRemote) {
-                switch (vcsProvider) {
-                    case VcsProviders.Azure:
-                        await Azure.pushRepo({ path });
-                        break;
-                    case VcsProviders.Github:
-                        await Github.pushRepo({ isPublic, path });
-                        break;
-                    case VcsProviders.Gitlab:
-                        await Gitlab.pushRepo({ isPublic, path });
-                        break;
-                }
-
-                if (!quiet) {
-                    this.log(
-                        StringUtils.success(`Successfully pushed '${name}'`)
-                    );
-                }
+            if (!createRemote) {
+                return;
             }
+
+            switch (vcsProvider) {
+                case VcsProviders.Azure:
+                    await Azure.pushRepo({ path });
+                    break;
+                case VcsProviders.Github:
+                    await Github.pushRepo({ isPublic, path });
+                    break;
+                case VcsProviders.Gitlab:
+                    await Gitlab.pushRepo({ isPublic, path });
+                    break;
+            }
+
+            if (quiet) {
+                return;
+            }
+
+            this.log(StringUtils.success(`Successfully pushed '${name}'`));
         }
     }
 }
