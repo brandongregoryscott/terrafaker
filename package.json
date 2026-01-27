@@ -30,7 +30,6 @@
         "eslint-plugin-vitest": "0.5.4",
         "hcl2-parser": "1.0.3",
         "oclif": "4.22.54",
-        "patch-package": "8.0.1",
         "prettier": "3.6.1",
         "shx": "0.3.4",
         "ts-node": "10.9.2",
@@ -86,7 +85,6 @@
     },
     "scripts": {
         "build": "npm run clean && tsc --project tsconfig.build.json",
-        "postinstall": "patch-package",
         "build:watch": "npm run clean && tsc --watch",
         "clean": "shx rm -rf dist tsconfig.tsbuildinfo oclif.manifest.json",
         "format": "prettier . --check",
