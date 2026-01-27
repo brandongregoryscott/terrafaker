@@ -32,7 +32,7 @@ DESCRIPTION
   Clones repos from your Azure account, useful for pulling down generated repos for manual modifications.
 ```
 
-_See code: [src/commands/az/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/az/repo/clone.ts)_
+_See code: [src/commands/az/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/az/repo/clone.ts)_
 
 ## `terrafaker az repo delete`
 
@@ -49,7 +49,7 @@ DESCRIPTION
   Deletes repos from your Azure account, useful for cleaning up generated test data.
 ```
 
-_See code: [src/commands/az/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/az/repo/delete.ts)_
+_See code: [src/commands/az/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/az/repo/delete.ts)_
 
 ## `terrafaker az repo list`
 
@@ -63,7 +63,7 @@ DESCRIPTION
   Lists repos from your Azure account, useful for debugging.
 ```
 
-_See code: [src/commands/az/repo/list.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/az/repo/list.ts)_
+_See code: [src/commands/az/repo/list.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/az/repo/list.ts)_
 
 ## `terrafaker generate file`
 
@@ -122,7 +122,7 @@ DESCRIPTION
   Generates an infrastructure-as-code file.
 ```
 
-_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/generate/file.ts)_
+_See code: [src/commands/generate/file.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/generate/file.ts)_
 
 ## `terrafaker generate repo`
 
@@ -202,7 +202,7 @@ DESCRIPTION
   Generates repo(s) with multiple infrastructure-as-code files.
 ```
 
-_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/generate/repo.ts)_
+_See code: [src/commands/generate/repo.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/generate/repo.ts)_
 
 ## `terrafaker gh repo clone`
 
@@ -220,7 +220,7 @@ DESCRIPTION
   Clones repos from your GitHub account, useful for pulling down generated repos for manual modifications.
 ```
 
-_See code: [src/commands/gh/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/gh/repo/clone.ts)_
+_See code: [src/commands/gh/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/gh/repo/clone.ts)_
 
 ## `terrafaker gh repo delete`
 
@@ -239,7 +239,7 @@ DESCRIPTION
   If the deletion fails, you may need to refresh your CLI permissions with `gh auth refresh -s delete_repo`
 ```
 
-_See code: [src/commands/gh/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/gh/repo/delete.ts)_
+_See code: [src/commands/gh/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/gh/repo/delete.ts)_
 
 ## `terrafaker gh repo list`
 
@@ -253,7 +253,7 @@ DESCRIPTION
   Lists repos from your GitHub account, useful for debugging.
 ```
 
-_See code: [src/commands/gh/repo/list.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/gh/repo/list.ts)_
+_See code: [src/commands/gh/repo/list.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/gh/repo/list.ts)_
 
 ## `terrafaker glab repo clone`
 
@@ -271,7 +271,7 @@ DESCRIPTION
   Clones repos from your GitLab account, useful for pulling down generated repos for manual modifications.
 ```
 
-_See code: [src/commands/glab/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/glab/repo/clone.ts)_
+_See code: [src/commands/glab/repo/clone.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/glab/repo/clone.ts)_
 
 ## `terrafaker glab repo delete`
 
@@ -288,7 +288,7 @@ DESCRIPTION
   Deletes repos from your GitLab account, useful for cleaning up generated test data.
 ```
 
-_See code: [src/commands/glab/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/glab/repo/delete.ts)_
+_See code: [src/commands/glab/repo/delete.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/glab/repo/delete.ts)_
 
 ## `terrafaker glab repo list`
 
@@ -302,7 +302,7 @@ DESCRIPTION
   Lists repos from your GitLab account, useful for debugging.
 ```
 
-_See code: [src/commands/glab/repo/list.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/glab/repo/list.ts)_
+_See code: [src/commands/glab/repo/list.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/glab/repo/list.ts)_
 
 ## `terrafaker health`
 
@@ -316,7 +316,7 @@ DESCRIPTION
   Utility command for checking overall CLI status.
 ```
 
-_See code: [src/commands/health.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.10/src/commands/health.ts)_
+_See code: [src/commands/health.ts](https://github.com/brandongregoryscott/terrafaker/blob/v0.0.11/src/commands/health.ts)_
 
 ## `terrafaker help [COMMAND]`
 
