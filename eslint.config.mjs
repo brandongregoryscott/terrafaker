@@ -19,6 +19,14 @@ const config = defineConfig(
     {
         rules: {
             curly: "error",
+            eqeqeq: [
+                "error",
+                "always",
+                {
+                    null: "ignore",
+                },
+            ],
+            "no-useless-rename": "error",
             "no-var": "error",
         },
     },
@@ -86,9 +94,7 @@ const config = defineConfig(
         plugins: {
             "local-rules": localRules,
         },
-        rules: {
-            "local-rules/prefer-private-class-members": "error",
-        },
+        rules: {},
     },
     {
         plugins: {
@@ -98,6 +104,7 @@ const config = defineConfig(
             "collation/group-exports": "error",
             "collation/no-default-export": "error",
             "collation/no-inline-export": "error",
+            "collation/prefer-native-private-syntax": "error",
             "collation/sort-exports": "error",
         },
     },
