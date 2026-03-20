@@ -35,7 +35,7 @@ class Github {
 
     static async listRepos(): Promise<Repo[]> {
         const response =
-            await $`gh repo list --json id,name,nameWithOwner,sshUrl`;
+            await $`gh repo list --limit 250 --json id,name,nameWithOwner,sshUrl`;
         const repos = JSON.parse(response.toString()) as GithubRepo[];
         return normalizeRepos(repos);
     }
