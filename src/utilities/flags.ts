@@ -68,6 +68,12 @@ const requiredPrefixFlag = Flags.string({
     required: true,
 });
 
+const branchPrefixFlag = Flags.string({
+    default: "terrafaker-",
+    description:
+        "Prefix for generated branches, useful for distinguishing automated PRs.",
+});
+
 const directoryFlag = Flags.string({
     default: ".",
     description: "Directory to create the repo(s) in",
@@ -180,6 +186,7 @@ function toCamelCaseFlags<T extends Record<string, unknown>>(
 }
 
 export {
+    branchPrefixFlag,
     chaosTagsFlag,
     cloudProviderFlag,
     directoryFlag,
